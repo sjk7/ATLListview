@@ -1,0 +1,26 @@
+HKCR
+{
+	ATLListView.ColumnHeader.1 = s 'ColumnHeader Class'
+	{
+		CLSID = s '{FFFA7381-5EA4-4BD7-AE57-09AC6A731F32}'
+	}
+	ATLListView.ColumnHeader = s 'ColumnHeader Class'
+	{
+		CLSID = s '{FFFA7381-5EA4-4BD7-AE57-09AC6A731F32}'
+		CurVer = s 'ATLListView.ColumnHeader.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {FFFA7381-5EA4-4BD7-AE57-09AC6A731F32} = s 'ColumnHeader Class'
+		{
+			ProgID = s 'ATLListView.ColumnHeader.1'
+			VersionIndependentProgID = s 'ATLListView.ColumnHeader'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}

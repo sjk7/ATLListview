@@ -1,0 +1,26 @@
+HKCR
+{
+	ATLListView.RedrawLock.1 = s 'RedrawLock Class'
+	{
+		CLSID = s '{FE6B69DD-D7F0-4D48-82BD-73E347EF7FD0}'
+	}
+	ATLListView.RedrawLock = s 'RedrawLock Class'
+	{
+		CLSID = s '{FE6B69DD-D7F0-4D48-82BD-73E347EF7FD0}'
+		CurVer = s 'ATLListView.RedrawLock.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {FE6B69DD-D7F0-4D48-82BD-73E347EF7FD0} = s 'RedrawLock Class'
+		{
+			ProgID = s 'ATLListView.RedrawLock.1'
+			VersionIndependentProgID = s 'ATLListView.RedrawLock'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}

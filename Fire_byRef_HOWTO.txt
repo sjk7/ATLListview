@@ -1,0 +1,44 @@
+	HRESULT Fire_ColumnRightClick(VARIANT_BOOL * DoDefault, SHORT * Shift, FLOAT * x, FLOAT * y, IColumnHeader ** columnHeader)
+	{
+		CComVariant varResult;
+		T* pT = static_cast<T*>(this);
+		int nConnectionIndex;
+		CComVariant* pvars = new CComVariant[5];
+		int nConnections = m_vec.GetSize();
+			HRESULT hr = S_OK;
+
+		for (nConnectionIndex = 0; nConnectionIndex < nConnections; nConnectionIndex++)
+		{
+			pT->Lock();
+			CComPtr<IUnknown> sp = m_vec.GetAt(nConnectionIndex);
+			pT->Unlock();
+		
+			IDispatch* pDispatch = reinterpret_cast<IDispatch*>(sp.p);
+			
+			if (pDispatch != NULL)
+			{
+				VariantClear(&varResult);
+				pvars[4].byref = DoDefault;
+				pvars[4].vt = VT_BOOL | VT_BYREF;
+
+				pvars[3].byref = Shift;
+				pvars[3].vt = VT_I2 | VT_BYREF;
+
+				pvars[2].byref = x;
+				pvars[2].vt = VT_R4 | VT_BYREF;
+
+				pvars[1].byref = y;
+				pvars[1].vt = VT_R4 | VT_BYREF;
+
+				pvars[0].byref = columnHeader;
+				pvars[0].vt = VT_DISPATCH|VT_BYREF;
+
+				//pvars[0] = columnHeader;
+				DISPPARAMS disp = { pvars, NULL, 5, 0 };
+				hr = pDispatch->Invoke(0x2, IID_NULL, LOCALE_USER_DEFAULT, DISPATCH_METHOD, &disp, &varResult, NULL, NULL);
+			}
+		}
+		delete[] pvars;
+		return hr;
+	
+	}

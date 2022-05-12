@@ -1,0 +1,2 @@
+C:\Users\DevNVME\Desktop\BASE\BASE\ATLListView\ReleaseMinSize\ATLListView.dll
+C:\Users\DevNVME\Desktop\ListviewATL\ReleaseMinSize\ATLListView.dll

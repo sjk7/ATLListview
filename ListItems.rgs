@@ -1,0 +1,52 @@
+HKCR
+{
+	ATLListView.ListItems.1 = s 'ListItems Class'
+	{
+		CLSID = s '{BDD6F10C-4AE9-430C-9B08-911D392CD6DF}'
+	}
+	ATLListView.ListItems = s 'ListItems Class'
+	{
+		CLSID = s '{BDD6F10C-4AE9-430C-9B08-911D392CD6DF}'
+		CurVer = s 'ATLListView.ListItems.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {BDD6F10C-4AE9-430C-9B08-911D392CD6DF} = s 'ListItems Class'
+		{
+			ProgID = s 'ATLListView.ListItems.1'
+			VersionIndependentProgID = s 'ATLListView.ListItems'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}
+HKCR
+{
+	ATLListView.ListItems.1 = s 'ListItems Class'
+	{
+		CLSID = s '{1F457B00-05C9-44FC-A3FB-DFFC776620F2}'
+	}
+	ATLListView.ListItems = s 'ListItems Class'
+	{
+		CLSID = s '{1F457B00-05C9-44FC-A3FB-DFFC776620F2}'
+		CurVer = s 'ATLListView.ListItems.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {1F457B00-05C9-44FC-A3FB-DFFC776620F2} = s 'ListItems Class'
+		{
+			ProgID = s 'ATLListView.ListItems.1'
+			VersionIndependentProgID = s 'ATLListView.ListItems'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}

@@ -1,0 +1,34 @@
+HKCR
+{
+	ATLListView.ListControl.1 = s 'ListControl Class'
+	{
+		CLSID = s '{720AF342-0D90-4580-BB75-5696CA3B0F51}'
+	}
+	ATLListView.ListControl = s 'ListControl Class'
+	{
+		CLSID = s '{720AF342-0D90-4580-BB75-5696CA3B0F51}'
+		CurVer = s 'ATLListView.ListControl.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {720AF342-0D90-4580-BB75-5696CA3B0F51} = s 'ListControl Class'
+		{
+			ProgID = s 'ATLListView.ListControl.1'
+			VersionIndependentProgID = s 'ATLListView.ListControl'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ForceRemove 'Control'
+			ForceRemove 'Insertable'
+			ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 102'
+			'MiscStatus' = s '0'
+			{
+			    '1' = s '131473'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+			'Version' = s '1.0'
+		}
+	}
+}

@@ -1,0 +1,362 @@
+// ATLListView.idl : IDL source for ATLListView.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ATLListView.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+#include "olectl.h"
+
+
+
+interface IColumnHeaders;
+interface IColumnHeader;
+interface IListItem;
+interface IListSubItem;
+interface IListItems;
+interface ColumnHeader;
+	
+
+
+
+[
+	uuid(C73B7301-0087-43FF-97F1-456B1090BF45),
+	version(1.0),
+	helpstring("ATLListView 1.0 Type Library")
+]
+library ATLLISTVIEWLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+		[
+        object, uuid(A59BF564-6FE7-4802-81E7-7E057338BA9F), dual,
+        helpstring("IInterfaceCollection Interface"), pointer_default(unique),
+        nonextensible
+    ] interface IInterfaceCollection : IDispatch {
+        [
+            propget,
+            id(1), helpstring("Returns the number of members in a collection")
+        ] HRESULT Count([ out, retval ] long* pRetVal);
+
+        [
+            propget, id(DISPID_VALUE),
+            helpstring("Returns a specific member of a collection")
+        ] HRESULT
+        Item([in] LONG vIndex, [ out, retval ] IDispatch * *pvItem);
+
+        [
+            propget, restricted, id(DISPID_NEWENUM),
+            helpstring("Method _NewEnum")
+        ] HRESULT _NewEnum([ out, retval ] IUnknown * *ppUnk);
+    }
+
+	[
+		object,
+		uuid(211C9B08-575E-4626-8E25-6A29D1DE7471),
+		dual,
+		helpstring("IListControl Interface"),
+		pointer_default(unique),
+		nonextensible
+	]
+	interface IListControl : IDispatch
+	{
+		#include "my_flags.h"
+		#include "my_disp_ids.h"
+
+		[propput, id(DISPID_BACKCOLOR), bindable, requestedit]
+		HRESULT BackColor([in]OLE_COLOR clr);
+        [ propget, id(DISPID_BACKCOLOR), bindable,
+            requestedit ]
+		HRESULT BackColor([out, retval]OLE_COLOR* pclr);
+
+		[ propput, id(DISPID_APPEARANCE) ] HRESULT
+        Appearance([in] AppearanceConstants appearance);
+        [ propget, id(DISPID_APPEARANCE) ] HRESULT Appearance(
+            [ out, retval ] AppearanceConstants* pappearance);
+
+		
+		[propput, id(DISPID_FORECOLOR)]
+		HRESULT ForeColor([in]OLE_COLOR clr);
+		[propget, id(DISPID_FORECOLOR)]
+		HRESULT ForeColor([out, retval]OLE_COLOR* pclr);
+		[propput, id(DISPID_ENABLED)]
+		HRESULT Enabled([in]VARIANT_BOOL vbool);
+		[propget, id(DISPID_ENABLED)]
+		HRESULT Enabled([out, retval]VARIANT_BOOL* pbool);
+
+		[propput, id(DISPID_TABSTOP)]
+		HRESULT TabStop([in]VARIANT_BOOL vbool);
+		[propget, id(DISPID_TABSTOP)]
+		HRESULT TabStop([out, retval]VARIANT_BOOL* pbool);
+		[propget, id(DISPID_HWND), helpstring("property hWnd")] HRESULT hWnd([out, retval] OLE_HANDLE *pVal);
+		
+		[propput, id(DISPID_BORDERSTYLE)]
+		HRESULT BorderStyle([in]BorderStyleConstants style);
+		[propget, id(DISPID_BORDERSTYLE)]
+		HRESULT BorderStyle([out, retval]BorderStyleConstants* pstyle);
+        [id(DISPID_REFRESH) ] HRESULT Refresh();
+
+		
+		[propget, id(2), helpstring("property ColumnHeaders")] HRESULT ColumnHeaders([out, retval] IColumnHeaders **pVal);
+		[propget, id(3), helpstring("property ListItems")] HRESULT ListItems([out, retval] IListItems* *pVal);
+		
+		[propget, id(MY_FONT_DISP_ID), helpstring("property Font")] HRESULT Font([out, retval] IFontDisp* *pVal);
+		[propput, id(MY_FONT_DISP_ID), helpstring("property Font")] HRESULT Font([in] IFontDisp* newVal);
+		[propputref, id(MY_FONT_DISP_ID), helpstring("property Font")] HRESULT Font([in] IFontDisp* newVal);
+		[id(5), helpstring("method SetRedraw")] HRESULT SetRedraw(VARIANT_BOOL ShouldRedraw);
+		[propget, id(6), helpstring("ActiveX hWnd where the listview is sited")] HRESULT AxHWnd([out, retval] OLE_HANDLE *pVal);
+		[propget, id(7), helpstring("VBcontainer hWnd(likely form or usercontrol")] HRESULT ContainerhWnd([out, retval] OLE_HANDLE *pVal);
+		[propget, id(8), helpstring("property RedrawEnabled")] HRESULT RedrawEnabled([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(8), helpstring("property RedrawEnabled")] HRESULT RedrawEnabled([in] VARIANT_BOOL newVal);
+		[propget, id(9), helpstring("property LayoutSuspended")] HRESULT LayoutSuspended([out, retval] VARIANT_BOOL *pVal);
+		[id(10), helpstring("method SuspendLayout")] HRESULT SuspendLayout();
+		[id(11), helpstring("method ResumeLayout")] HRESULT ResumeLayout();
+		[propget, id(12), helpstring("property VirtualMode")] HRESULT VirtualMode([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(12), helpstring("property VirtualMode")] HRESULT VirtualMode([in] VARIANT_BOOL newVal);
+		[propget, id(13)] HRESULT Sorted([out, retval] VARIANT_BOOL* pVal);
+		[propput, id(13)] HRESULT Sorted([in] VARIANT_BOOL newVal);
+		[propget, id(14)] HRESULT SortKey([out, retval] short* pVal);
+		[propput, id(14)] HRESULT SortKey([in] short newVal);
+		[propget, id(15)] HRESULT SortOrder([out, retval] ListSortOrderFlags* pVal);
+		[propput, id(15)] HRESULT SortOrder([in] ListSortOrderFlags newVal);
+		[propget, id(16)] HRESULT MultiSelect([out, retval] VARIANT_BOOL* pVal);
+		[propput, id(16)] HRESULT MultiSelect([in] VARIANT_BOOL newVal);
+		[propget, id(17)] HRESULT SelectedItems([out, retval] IListItems** pVal);
+		[propget, id(18)] HRESULT SelectedItemCount([out, retval] LONG* pVal);
+	};
+	
+	
+
+	[
+		uuid(A674700A-9B7B-4F42-A5D5-0DBD19A6F59D),
+		helpstring("_IListControlEvents Interface")
+	]
+	dispinterface _IListControlEvents
+	{
+		properties:
+		methods:
+
+		[id(1), helpstring("method ColumnClick")] HRESULT ColumnClick(IColumnHeader* columnHeader);
+		[id(2), helpstring("method ColumnRightClick")] 
+		HRESULT ColumnRightClick(VARIANT_BOOL* DoDefault, 
+			SHORT Shift, FLOAT x, FLOAT y, IColumnHeader* columnHeader);
+		[id(3)] HRESULT ColumnAdded([out] ColumnHeader* colAdded);
+		[id(4)] HRESULT ColumnRemoved([out] ColumnHeader* colRemoved);
+		[id(5), helpstring("method ItemSelectionChanged")] 
+		HRESULT ItemSelectionChanged(IListItem* item, VARIANT_BOOL SelState);
+	};
+	[
+		object,
+		uuid(D78DC907-B60F-4E2E-AE9D-4F0ADCDBB92F),
+		dual,
+		helpstring("IColumnHeaders Interface"),
+		pointer_default(unique),
+		nonextensible
+	]
+	interface IColumnHeaders : IDispatch
+	{
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] LONG *pVal);
+		[propget, id(DISPID_VALUE), helpstring("property Item")] HRESULT Item(LONG index, [out, retval] IColumnHeader* *pVal);
+		[id(3), helpstring("method Add")] HRESULT Add( [in, optional] VARIANT* Index, 
+			[in, optional] VARIANT* Key, [in, optional] VARIANT* Text,
+			[in, optional] VARIANT* Width,[in, optional] VARIANT* Alignment,
+			[in, optional] VARIANT* Icon, [out, retval] IColumnHeader** out);
+		[propget, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
+		[propget, id(4)] HRESULT HeightInPixels([out, retval] long* pVal);
+		[propput, id(4)] HRESULT HeightInPixels([in] long newVal);
+		[id(5)] HRESULT Clear();
+		[id(6)] HRESULT Remove([in] LONG indexToRemove);
+	};
+
+
+
+	[
+		uuid(720AF342-0D90-4580-BB75-5696CA3B0F51),
+		helpstring("ListControl Class")
+	]
+	coclass ListControl
+	{
+		[default] interface IListControl;
+		[default, source] dispinterface _IListControlEvents;
+	};
+	[
+		uuid(D30B41C0-DBE6-405A-A826-02FBFF6C7C64),
+		helpstring("ColumnHeaders Class"),
+		noncreatable
+	]
+	coclass ColumnHeaders
+	{
+		[default] interface IColumnHeaders;
+	};
+
+	[
+		object,
+		uuid(ED03F8D1-440F-493F-8136-DF3B365190DE),
+		dual,
+		helpstring("IColumnHeader Interface"),
+		pointer_default(unique),
+		nonextensible
+	]
+	interface IColumnHeader : IDispatch
+	{
+
+		[propget, id(2), helpstring("property Text")] HRESULT Text([out, retval] BSTR *pVal);
+		[propput, id(2), helpstring("property Text")] HRESULT Text([in] BSTR* newVal);
+		[propget, id(3), helpstring("property Index")] HRESULT Index([out, retval] LONG *pVal);
+		[propget, id(4), helpstring("property Width")] HRESULT Width([out, retval] LONG *pVal);
+		[propput, id(4), helpstring("property Width")] HRESULT Width([in] LONG newVal);
+		[propget, id(5), helpstring("property ResizeMode")] HRESULT ResizeMode([out, retval] ListColumnResizeMode *pVal);
+		[propput, id(5), helpstring("property ResizeMode")] HRESULT ResizeMode([in] ListColumnResizeMode newVal);
+		[propget, id(6), helpstring("The type of column for use when sorting")] HRESULT ColumnContentKind([out, retval] ColumnContentType *pVal);
+		[propput, id(6), helpstring("The type of column for use when sorting")] HRESULT ColumnContentKind([in] ColumnContentType newVal);
+		[id(7), helpstring("method EnsureVisible")] HRESULT EnsureVisible();
+		[propget, id(8), helpstring("property LeftInPixels")] HRESULT LeftInPixels([out, retval] LONG *pVal);
+		[propget, id(9), helpstring("property Alignment")] HRESULT Alignment([out, retval] ListColumnAlignmentConstants *pVal);
+		[propput, id(9), helpstring("property Alignment")] HRESULT Alignment([in] ListColumnAlignmentConstants newVal);
+		[propget, id(10), helpstring("No auto-resize the column. User can resize it still if he wants")] HRESULT FixedWidth([out, retval] LONG *pVal);
+		[propput, id(10), helpstring("No auto-resize the column. User can resize it still if he wants")] HRESULT FixedWidth([in] LONG newVal);
+		[propget, id(11), helpstring("property Key")] HRESULT Key([out, retval] BSTR *pVal);
+		[propget, id(12), helpstring("property SubItemIndex")] HRESULT SubItemIndex([out, retval] short *pVal);
+		[propget, id(13), helpstring("property Tag")] HRESULT Tag([out, retval] VARIANT *pVal);
+		[propput, id(13), helpstring("property Tag")] HRESULT Tag([in] VARIANT newVal);
+		[propget, id(14), helpstring("Always returns physical width, even if width <0")] HRESULT WidthInPixels([out, retval] LONG* pVal);
+		[propget, id(15)] HRESULT HeightInPixels([out, retval] LONG* pVal);
+		[propput, id(15)] HRESULT HeightInPixels([in] LONG newVal);
+	};
+	
+
+	[
+		object,
+		uuid(D32B4AFE-8D77-4FFF-959B-458867A464C3),
+		dual,
+		helpstring("IListSubItem Interface"),
+		pointer_default(unique),
+		nonextensible
+	]
+	interface IListSubItem : IDispatch
+	{
+
+	};
+	[
+		object,
+		uuid(B0DAEBF8-61C3-4DA5-80FB-201F5D69B47B),
+		dual,
+		helpstring("IListItem Interface"),
+		pointer_default(unique)
+	]
+	interface IListItem : IDispatch
+	{
+
+		[propget, id(1), helpstring("property Text")] HRESULT Text([out, retval] BSTR *pVal);
+		[propput, id(1), helpstring("property Text")] HRESULT Text([in] BSTR newVal);
+		[propget, id(2), helpstring("property Index")] HRESULT Index([out, retval] LONG *pVal);
+	};
+	[
+		object,
+		uuid(D7697A8E-0A5F-4B36-850A-394D8FACE5C3),
+		dual,
+		helpstring("IListItems Interface"),
+		nonextensible,
+		pointer_default(unique)
+	]
+	interface IListItems : IDispatch
+	{
+
+			[id(1), helpstring("method Add")] HRESULT Add([in, optional] VARIANT* Index, 
+				[in, optional] VARIANT* Key, 
+				[in, optional] VARIANT* Text, 
+				[in, optional] VARIANT* Icon,
+				[in,optional] VARIANT* SmallIcon, [out, retval] IListItem** out);
+		[propget, id(2), helpstring("property Count")] HRESULT Count([out, retval] LONG *pVal);
+		[id(3), helpstring("method Clear")] HRESULT Clear();
+		[id(4), helpstring("method AddRangeEx")] HRESULT AddRangeEx(SAFEARRAY(BSTR)* arItemTexts);
+		[id(5), helpstring("method AddRange")] HRESULT AddRange([in] LONG howMany, [in, optional] VARIANT* Index, [out, retval] IInterfaceCollection** out);
+		[propget, id(DISPID_VALUE) , helpstring("property Item")] HRESULT Item([in] LONG index, [out, retval] IListItem* *pVal);
+		[propget, id(DISPID_NEWENUM), helpstring("Method _NewEnum")] 
+		 HRESULT _NewEnum([out, retval] IUnknown ** ppUnk);
+		
+		//[id(5), helpstring("method AddRange")] HRESULT AddRange([in] LONG howMany, [in, optional] VARIANT* Index, [out, retval] IInterfaceCollection** out);
+       
+
+
+
+		 [id(6)] HRESULT Remove([in] LONG Index);
+	};
+
+
+
+	
+	[
+		object,
+		uuid(1F163FF2-C8AF-4FC6-9632-DBDE28DC764F),
+		dual,
+		helpstring("IRedrawLock Interface"),
+		pointer_default(unique),
+		nonextensible
+	]
+	interface IRedrawLock : IDispatch
+	{
+		[propget, id(1), helpstring("property ListControlObject")] HRESULT ListControlObject([out, retval] IListControl* *pVal);
+		[propputref, id(1), helpstring("property ListControlObject")] HRESULT ListControlObject([in] IListControl* newVal);
+	};
+
+
+	[
+		uuid(FFFA7381-5EA4-4BD7-AE57-09AC6A731F32),
+		helpstring("ColumnHeader Class")
+	]
+	coclass ColumnHeader
+	{
+		[default] interface IColumnHeader;
+	};
+
+	[
+		uuid(E43F0889-64B6-45B5-84DF-002FEAEF5F97),
+		helpstring("ListItem Class"),
+			noncreatable
+	]
+	coclass ListItem
+	{
+		[default] interface IListItem;
+	};
+	[
+		uuid(E8B8BD02-42E2-4408-9EA5-102AB790B20C),
+		helpstring("ListSubItem Class"),
+		noncreatable
+	]
+	coclass ListSubItem
+	{
+		[default] interface IListSubItem;
+	};
+
+	[
+		uuid(1F457B00-05C9-44FC-A3FB-DFFC776620F2),
+		helpstring("ListItems Class"),
+		noncreatable
+	]
+	coclass ListItems
+	{
+		[default] interface IListItems;
+	};
+	[
+		uuid(91D76D82-2204-4071-B814-E95D9F05D412),
+		helpstring("InterfaceCollection Class"),
+		noncreatable
+	]
+	coclass InterfaceCollection
+	{
+		[default] interface IInterfaceCollection;
+	};
+
+	[
+		uuid(FE6B69DD-D7F0-4D48-82BD-73E347EF7FD0),
+		helpstring("RedrawLock Class")
+	]
+	coclass RedrawLock
+	{
+		[default] interface IRedrawLock;
+	};
+
+};

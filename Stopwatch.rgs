@@ -1,0 +1,26 @@
+HKCR
+{
+	ATLListView.Stopwatch.1 = s 'Stopwatch Class'
+	{
+		CLSID = s '{A2E4AB0E-9E2A-4B04-85F5-E168AE31A7EE}'
+	}
+	ATLListView.Stopwatch = s 'Stopwatch Class'
+	{
+		CLSID = s '{A2E4AB0E-9E2A-4B04-85F5-E168AE31A7EE}'
+		CurVer = s 'ATLListView.Stopwatch.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A2E4AB0E-9E2A-4B04-85F5-E168AE31A7EE} = s 'Stopwatch Class'
+		{
+			ProgID = s 'ATLListView.Stopwatch.1'
+			VersionIndependentProgID = s 'ATLListView.Stopwatch'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}

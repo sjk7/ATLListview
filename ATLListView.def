@@ -1,0 +1,9 @@
+; ATLListView.def : Declares the module parameters.
+
+LIBRARY      "ATLListView.DLL"
+
+EXPORTS
+	DllCanUnloadNow      PRIVATE
+	DllGetClassObject    PRIVATE
+	DllRegisterServer    PRIVATE
+	DllUnregisterServer	 PRIVATE
