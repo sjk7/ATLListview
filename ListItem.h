@@ -79,9 +79,9 @@ public:
 };
 
 static __inline void indexListItemCollection(std::vector<IDispatch*>& v) {
+	
 	typedef std::vector<IDispatch*>::iterator my_it;
 	int i = 0;
-	IListItem* p = 0;
 	for (my_it it = v.begin(); it != v.end(); ++it) {
 		//HRESULT hr = (*it)->QueryInterface(IID_IListItem, (void**)&p);
 		//ASSERT(SUCCEEDED(hr));

@@ -3,11 +3,11 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 7.00.0555 */
-/* at Thu May 12 19:38:13 2022
+ /* File created by MIDL compiler version 8.00.0603 */
+/* at Fri May 13 00:21:38 2022
  */
 /* Compiler settings for ATLListView.idl:
-    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
+    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -44,24 +44,28 @@
 #ifndef __IInterfaceCollection_FWD_DEFINED__
 #define __IInterfaceCollection_FWD_DEFINED__
 typedef interface IInterfaceCollection IInterfaceCollection;
+
 #endif 	/* __IInterfaceCollection_FWD_DEFINED__ */
 
 
 #ifndef __IListControl_FWD_DEFINED__
 #define __IListControl_FWD_DEFINED__
 typedef interface IListControl IListControl;
+
 #endif 	/* __IListControl_FWD_DEFINED__ */
 
 
 #ifndef ___IListControlEvents_FWD_DEFINED__
 #define ___IListControlEvents_FWD_DEFINED__
 typedef interface _IListControlEvents _IListControlEvents;
+
 #endif 	/* ___IListControlEvents_FWD_DEFINED__ */
 
 
 #ifndef __IColumnHeaders_FWD_DEFINED__
 #define __IColumnHeaders_FWD_DEFINED__
 typedef interface IColumnHeaders IColumnHeaders;
+
 #endif 	/* __IColumnHeaders_FWD_DEFINED__ */
 
 
@@ -92,31 +96,43 @@ typedef struct ColumnHeaders ColumnHeaders;
 #ifndef __IColumnHeader_FWD_DEFINED__
 #define __IColumnHeader_FWD_DEFINED__
 typedef interface IColumnHeader IColumnHeader;
+
 #endif 	/* __IColumnHeader_FWD_DEFINED__ */
 
 
 #ifndef __IListSubItem_FWD_DEFINED__
 #define __IListSubItem_FWD_DEFINED__
 typedef interface IListSubItem IListSubItem;
+
 #endif 	/* __IListSubItem_FWD_DEFINED__ */
 
 
 #ifndef __IListItem_FWD_DEFINED__
 #define __IListItem_FWD_DEFINED__
 typedef interface IListItem IListItem;
+
 #endif 	/* __IListItem_FWD_DEFINED__ */
 
 
 #ifndef __IListItems_FWD_DEFINED__
 #define __IListItems_FWD_DEFINED__
 typedef interface IListItems IListItems;
+
 #endif 	/* __IListItems_FWD_DEFINED__ */
 
 
 #ifndef __IRedrawLock_FWD_DEFINED__
 #define __IRedrawLock_FWD_DEFINED__
 typedef interface IRedrawLock IRedrawLock;
+
 #endif 	/* __IRedrawLock_FWD_DEFINED__ */
+
+
+#ifndef __ISelItemCollection_FWD_DEFINED__
+#define __ISelItemCollection_FWD_DEFINED__
+typedef interface ISelItemCollection ISelItemCollection;
+
+#endif 	/* __ISelItemCollection_FWD_DEFINED__ */
 
 
 #ifndef __ColumnHeader_FWD_DEFINED__
@@ -191,6 +207,18 @@ typedef struct RedrawLock RedrawLock;
 #endif 	/* __RedrawLock_FWD_DEFINED__ */
 
 
+#ifndef __SelItemCollection_FWD_DEFINED__
+#define __SelItemCollection_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class SelItemCollection SelItemCollection;
+#else
+typedef struct SelItemCollection SelItemCollection;
+#endif /* __cplusplus */
+
+#endif 	/* __SelItemCollection_FWD_DEFINED__ */
+
+
 /* header files for imported files */
 #include "oaidl.h"
 #include "ocidl.h"
@@ -202,6 +230,7 @@ extern "C"{
 
 /* interface __MIDL_itf_ATLListView_0000_0000 */
 /* [local] */ 
+
 
 
 
@@ -251,6 +280,7 @@ EXTERN_C const IID IID_IInterfaceCollection;
         
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IInterfaceCollectionVtbl
@@ -261,7 +291,7 @@ EXTERN_C const IID IID_IInterfaceCollection;
             IInterfaceCollection * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IInterfaceCollection * This);
@@ -289,14 +319,22 @@ EXTERN_C const IID IID_IInterfaceCollection;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IInterfaceCollection * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
             IInterfaceCollection * This,
@@ -376,79 +414,89 @@ EXTERN_C const IID IID_IInterfaceCollection;
 #pragma once
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("985ECCDF-A665-489D-887B-2BF1E5C8156B") 
 enum BorderStyleConstants
-    {	ccNone	= 0,
-	ccFixedSingle	= 1
+    {
+        ccNone	= 0,
+        ccFixedSingle	= 1
     } 	BorderStyleConstants;
 
 typedef /* [uuid] */  DECLSPEC_UUID("550EC01B-FF02-4AC4-A836-4366A35F6248") 
 enum ListSortOrderFlags
-    {	lvwNone	= 0,
-	lvwAscending	= 1,
-	lvwDescending	= 2,
-	lvwNatural	= 4,
-	lvwNoCase	= 8
+    {
+        lvwNone	= 0,
+        lvwAscending	= 1,
+        lvwDescending	= 2,
+        lvwNatural	= 4,
+        lvwNoCase	= 8
     } 	ListSortOrderFlags;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("A81E9973-2781-4CC6-B325-42FB3E2DB3E2") 
 enum ListColumnAlignmentConstants
-    {	lvwColumnLeft	= 0,
-	lvwColumnRight	= 1,
-	lvwColumnCenter	= 2
+    {
+        lvwColumnLeft	= 0,
+        lvwColumnRight	= 1,
+        lvwColumnCenter	= 2
     } 	ListColumnAlignmentConstants;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("5407754A-1B28-45A5-8D46-B4B9B5D39B7B") 
 enum ColumnContentType
-    {	lvText	= 0,
-	lvNumber	= 1,
-	lvDate	= 2,
-	lvTimeFormat	= 4
+    {
+        lvText	= 0,
+        lvNumber	= 1,
+        lvDate	= 2,
+        lvTimeFormat	= 4
     } 	ColumnContentType;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("6CB4DCFB-6598-4726-8A14-C14736529B98") 
 enum AppearanceConstants
-    {	ccFlat	= 0,
-	cc3D	= 1
+    {
+        ccFlat	= 0,
+        cc3D	= 1
     } 	AppearanceConstants;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("F690F6F2-9587-4DEE-B8D1-61F5DDA806DE") 
 enum ShiftConstants
-    {	vbShiftMask	= 1,
-	vbCtrlMask	= 2,
-	vbAltMask	= 4
+    {
+        vbShiftMask	= 1,
+        vbCtrlMask	= 2,
+        vbAltMask	= 4
     } 	vbShiftConstants;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("2454E41D-A2CE-488B-8C1C-FCD7D05AFE4E") 
 enum ListColumnResizeMode
-    {	lvwResizeHorizontalProportion	= 0,
-	lvwResizeKeepWidth	= 1
+    {
+        lvwResizeHorizontalProportion	= 0,
+        lvwResizeKeepWidth	= 1
     } 	ListColumnResizeMode;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("3511FB6C-CB9B-4DE6-A95A-D4554D7885F7") 
 enum MouseConstants
-    {	vbMiddleButton	= 1,
-	vbRightButton	= 2,
-	vbLeftButton	= 4
+    {
+        vbMiddleButton	= 1,
+        vbRightButton	= 2,
+        vbLeftButton	= 4
     } 	vbMouseConstants;
 
 typedef /* [public] */ 
 enum __MIDL_IListControl_0001
-    {	fmt_left	= 0x1,
-	fmt_right	= 0x2,
-	fmt_center	= 0x4,
-	fmt_justify_mask	= 0x3,
-	fmt_image	= 0x800,
-	fmt_bitmap_right	= 0x1000,
-	fmt_has_images	= 0x8000
+    {
+        fmt_left	= 0x1,
+        fmt_right	= 0x2,
+        fmt_center	= 0x4,
+        fmt_justify_mask	= 0x3,
+        fmt_image	= 0x800,
+        fmt_bitmap_right	= 0x1000,
+        fmt_has_images	= 0x8000
     } 	FormatFlags;
 
 typedef /* [public] */ 
 enum __MIDL_IListControl_0002
-    {	lvcf_fmt	= 0x1,
-	lvcf_width	= 0x2,
-	lvcf_text	= 0x4,
-	lvcf_subitem	= 0x8,
-	lvcf_image	= 0x10,
-	lvcf_order	= 0x20
+    {
+        lvcf_fmt	= 0x1,
+        lvcf_width	= 0x2,
+        lvcf_text	= 0x4,
+        lvcf_subitem	= 0x8,
+        lvcf_image	= 0x10,
+        lvcf_order	= 0x20
     } 	FormatMask;
 
 #pragma once
@@ -570,12 +618,13 @@ EXTERN_C const IID IID_IListControl;
             /* [in] */ VARIANT_BOOL newVal) = 0;
         
         virtual /* [id][propget] */ HRESULT STDMETHODCALLTYPE get_SelectedItems( 
-            /* [retval][out] */ IListItems **pVal) = 0;
+            /* [retval][out] */ ISelItemCollection **pVal) = 0;
         
         virtual /* [id][propget] */ HRESULT STDMETHODCALLTYPE get_SelectedItemCount( 
             /* [retval][out] */ LONG *pVal) = 0;
         
     };
+    
     
 #else 	/* C style interface */
 
@@ -587,7 +636,7 @@ EXTERN_C const IID IID_IListControl;
             IListControl * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListControl * This);
@@ -615,14 +664,22 @@ EXTERN_C const IID IID_IListControl;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListControl * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [requestedit][bindable][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_BackColor )( 
             IListControl * This,
@@ -771,7 +828,7 @@ EXTERN_C const IID IID_IListControl;
         
         /* [id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SelectedItems )( 
             IListControl * This,
-            /* [retval][out] */ IListItems **pVal);
+            /* [retval][out] */ ISelItemCollection **pVal);
         
         /* [id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_SelectedItemCount )( 
             IListControl * This,
@@ -967,7 +1024,7 @@ EXTERN_C const IID DIID__IListControlEvents;
             _IListControlEvents * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             _IListControlEvents * This);
@@ -995,14 +1052,22 @@ EXTERN_C const IID DIID__IListControlEvents;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             _IListControlEvents * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         END_INTERFACE
     } _IListControlEventsVtbl;
@@ -1095,6 +1160,7 @@ EXTERN_C const IID IID_IColumnHeaders;
         
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IColumnHeadersVtbl
@@ -1105,7 +1171,7 @@ EXTERN_C const IID IID_IColumnHeaders;
             IColumnHeaders * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IColumnHeaders * This);
@@ -1133,14 +1199,22 @@ EXTERN_C const IID IID_IColumnHeaders;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IColumnHeaders * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
             IColumnHeaders * This,
@@ -1349,6 +1423,7 @@ EXTERN_C const IID IID_IColumnHeader;
         
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IColumnHeaderVtbl
@@ -1359,7 +1434,7 @@ EXTERN_C const IID IID_IColumnHeader;
             IColumnHeader * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IColumnHeader * This);
@@ -1387,14 +1462,22 @@ EXTERN_C const IID IID_IColumnHeader;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IColumnHeader * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Text )( 
             IColumnHeader * This,
@@ -1613,6 +1696,7 @@ EXTERN_C const IID IID_IListSubItem;
     public:
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IListSubItemVtbl
@@ -1623,7 +1707,7 @@ EXTERN_C const IID IID_IListSubItem;
             IListSubItem * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListSubItem * This);
@@ -1651,14 +1735,22 @@ EXTERN_C const IID IID_IListSubItem;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListSubItem * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         END_INTERFACE
     } IListSubItemVtbl;
@@ -1733,6 +1825,7 @@ EXTERN_C const IID IID_IListItem;
         
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IListItemVtbl
@@ -1743,7 +1836,7 @@ EXTERN_C const IID IID_IListItem;
             IListItem * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListItem * This);
@@ -1771,14 +1864,22 @@ EXTERN_C const IID IID_IListItem;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListItem * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Text )( 
             IListItem * This,
@@ -1896,6 +1997,7 @@ EXTERN_C const IID IID_IListItems;
         
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IListItemsVtbl
@@ -1906,7 +2008,7 @@ EXTERN_C const IID IID_IListItems;
             IListItems * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListItems * This);
@@ -1934,14 +2036,22 @@ EXTERN_C const IID IID_IListItems;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListItems * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Add )( 
             IListItems * This,
@@ -2076,6 +2186,7 @@ EXTERN_C const IID IID_IRedrawLock;
         
     };
     
+    
 #else 	/* C style interface */
 
     typedef struct IRedrawLockVtbl
@@ -2086,7 +2197,7 @@ EXTERN_C const IID IID_IRedrawLock;
             IRedrawLock * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            __RPC__deref_out  void **ppvObject);
+            _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IRedrawLock * This);
@@ -2114,14 +2225,22 @@ EXTERN_C const IID IID_IRedrawLock;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IRedrawLock * This,
-            /* [in] */ DISPID dispIdMember,
-            /* [in] */ REFIID riid,
-            /* [in] */ LCID lcid,
-            /* [in] */ WORD wFlags,
-            /* [out][in] */ DISPPARAMS *pDispParams,
-            /* [out] */ VARIANT *pVarResult,
-            /* [out] */ EXCEPINFO *pExcepInfo,
-            /* [out] */ UINT *puArgErr);
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ListControlObject )( 
             IRedrawLock * This,
@@ -2184,6 +2303,158 @@ EXTERN_C const IID IID_IRedrawLock;
 #endif 	/* __IRedrawLock_INTERFACE_DEFINED__ */
 
 
+#ifndef __ISelItemCollection_INTERFACE_DEFINED__
+#define __ISelItemCollection_INTERFACE_DEFINED__
+
+/* interface ISelItemCollection */
+/* [unique][helpstring][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_ISelItemCollection;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("8F6E31F0-063E-41E9-9C2A-F9F14BE656DA")
+    ISelItemCollection : public IDispatch
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Count( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Item( 
+            /* [in] */ LONG index,
+            /* [retval][out] */ IListItem **pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get__NewEnum( 
+            /* [retval][out] */ IUnknown **ppUnk) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct ISelItemCollectionVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            ISelItemCollection * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            ISelItemCollection * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            ISelItemCollection * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            ISelItemCollection * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            ISelItemCollection * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            ISelItemCollection * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            ISelItemCollection * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
+            ISelItemCollection * This,
+            /* [retval][out] */ LONG *pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Item )( 
+            ISelItemCollection * This,
+            /* [in] */ LONG index,
+            /* [retval][out] */ IListItem **pVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get__NewEnum )( 
+            ISelItemCollection * This,
+            /* [retval][out] */ IUnknown **ppUnk);
+        
+        END_INTERFACE
+    } ISelItemCollectionVtbl;
+
+    interface ISelItemCollection
+    {
+        CONST_VTBL struct ISelItemCollectionVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define ISelItemCollection_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define ISelItemCollection_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define ISelItemCollection_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define ISelItemCollection_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define ISelItemCollection_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define ISelItemCollection_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define ISelItemCollection_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#define ISelItemCollection_get_Count(This,pVal)	\
+    ( (This)->lpVtbl -> get_Count(This,pVal) ) 
+
+#define ISelItemCollection_get_Item(This,index,pVal)	\
+    ( (This)->lpVtbl -> get_Item(This,index,pVal) ) 
+
+#define ISelItemCollection_get__NewEnum(This,ppUnk)	\
+    ( (This)->lpVtbl -> get__NewEnum(This,ppUnk) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __ISelItemCollection_INTERFACE_DEFINED__ */
+
+
 EXTERN_C const CLSID CLSID_ColumnHeader;
 
 #ifdef __cplusplus
@@ -2230,6 +2501,14 @@ EXTERN_C const CLSID CLSID_RedrawLock;
 
 class DECLSPEC_UUID("FE6B69DD-D7F0-4D48-82BD-73E347EF7FD0")
 RedrawLock;
+#endif
+
+EXTERN_C const CLSID CLSID_SelItemCollection;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("03B45990-66CA-4EF9-BF2B-28544DFCDE25")
+SelItemCollection;
 #endif
 #endif /* __ATLLISTVIEWLib_LIBRARY_DEFINED__ */
 

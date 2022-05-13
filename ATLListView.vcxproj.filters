@@ -45,6 +45,9 @@
     <ClCompile Include="RedrawLock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SelItemCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ATLListView.idl">
@@ -124,6 +127,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="myIListControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="selitemcollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

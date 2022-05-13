@@ -325,6 +325,10 @@ SOURCE=.\RedrawLock.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\SelItemCollection.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
@@ -390,6 +394,10 @@ SOURCE=.\Resource.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\SelItemCollection.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\StdAfx.h
 # End Source File
 # End Group
@@ -447,6 +455,10 @@ SOURCE=.\RedrawLock.rgs
 # Begin Source File
 
 SOURCE=.\RedrawLocker.rgs
+# End Source File
+# Begin Source File
+
+SOURCE=.\SelItemCollection.rgs
 # End Source File
 # Begin Source File
 

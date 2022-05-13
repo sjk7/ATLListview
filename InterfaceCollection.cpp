@@ -19,31 +19,4 @@ STDMETHODIMP CInterfaceCollection::InterfaceSupportsErrorInfo(REFIID riid) {
     return S_FALSE;
 }
 
-/*/
-STDMETHODIMP CInterfaceCollection::get__NewEnum(IUnknown** pVal) {
-    AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-    // TODO: Add your implementation code here
-    typedef IDispatchImpl<CollectionType, &IID_IInterfaceCollection,
-        &LIBID_ATLLISTVIEWLib>
-        ty;
-    HRESULT hr = this->get__NewEnum(pVal);
-    return S_OK;
-}
-
-
-STDMETHODIMP CInterfaceCollection::get_Count(LONG* pVal) {
-    AFX_MANAGE_STATE(AfxGetStaticModuleState())
-
-    ASSERT(m_pvec);
-    *pVal = this->m_pvec->size();
-    return S_OK;
-}
-
-STDMETHODIMP CInterfaceCollection::get_Item(LONG Index, IUnknown** pVal) {
-    AFX_MANAGE_STATE(AfxGetStaticModuleState())
-    ASSERT(m_pvec);
-    *pVal = 0;
-    return S_OK;
-}
-/*/

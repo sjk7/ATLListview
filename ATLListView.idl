@@ -16,6 +16,7 @@ interface IListItem;
 interface IListSubItem;
 interface IListItems;
 interface ColumnHeader;
+interface ISelItemCollection;
 	
 
 
@@ -123,7 +124,7 @@ library ATLLISTVIEWLib
 		[propput, id(15)] HRESULT SortOrder([in] ListSortOrderFlags newVal);
 		[propget, id(16)] HRESULT MultiSelect([out, retval] VARIANT_BOOL* pVal);
 		[propput, id(16)] HRESULT MultiSelect([in] VARIANT_BOOL newVal);
-		[propget, id(17)] HRESULT SelectedItems([out, retval] IListItems** pVal);
+		[propget, id(17)] HRESULT SelectedItems([out, retval] ISelItemCollection** pVal);
 		[propget, id(18)] HRESULT SelectedItemCount([out, retval] LONG* pVal);
 	};
 	
@@ -301,6 +302,25 @@ library ATLLISTVIEWLib
 		[propget, id(1), helpstring("property ListControlObject")] HRESULT ListControlObject([out, retval] IListControl* *pVal);
 		[propputref, id(1), helpstring("property ListControlObject")] HRESULT ListControlObject([in] IListControl* newVal);
 	};
+	[
+		object,
+		uuid(8F6E31F0-063E-41E9-9C2A-F9F14BE656DA),
+		dual,
+		helpstring("ISelItemCollection Interface"),
+		pointer_default(unique)
+	]
+	
+	interface ISelItemCollection : IDispatch
+	{
+			
+		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] LONG *pVal);
+		
+		[propget, id(DISPID_VALUE) , helpstring("property Item")] HRESULT Item([in] LONG index, 
+		[out, retval] IListItem* *pVal);
+		
+		[propget, id(DISPID_NEWENUM), helpstring("Method _NewEnum")] 
+		HRESULT _NewEnum([out, retval] IUnknown ** ppUnk);
+	};
 
 
 	[
@@ -359,4 +379,12 @@ library ATLLISTVIEWLib
 		[default] interface IRedrawLock;
 	};
 
+	[
+		uuid(03B45990-66CA-4EF9-BF2B-28544DFCDE25),
+		helpstring("SelItemCollection Class")
+	]
+	coclass SelItemCollection
+	{
+		[default] interface ISelItemCollection;
+	};
 };

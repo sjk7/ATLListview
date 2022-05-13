@@ -18,6 +18,7 @@
 #define IDR_REDRAWLOCKER                115
 #define IDR_REDRAWLOCK                  116
 #define IDR_STOPWATCH                   117
+#define IDR_SELITEMCOLLECTION           118
 
 // Next default values for new objects
 // 
@@ -26,6 +27,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        201
 #define _APS_NEXT_COMMAND_VALUE         32768
 #define _APS_NEXT_CONTROL_VALUE         201
-#define _APS_NEXT_SYMED_VALUE           118
+#define _APS_NEXT_SYMED_VALUE           119
 #endif
 #endif

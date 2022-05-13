@@ -27,12 +27,12 @@ Begin VB.Form Form1
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
    Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1665
-      Left            =   600
+      Height          =   1815
+      Left            =   240
       OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   13
-      Top             =   540
-      Width           =   4005
+      TabIndex        =   16
+      Top             =   480
+      Width           =   4485
    End
    Begin VB.CheckBox chkMultiSelect 
       Caption         =   "MultiSelect"

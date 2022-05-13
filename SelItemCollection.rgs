@@ -1,0 +1,26 @@
+HKCR
+{
+	ATLListView.SelItemCollection.1 = s 'SelItemCollection Class'
+	{
+		CLSID = s '{03B45990-66CA-4EF9-BF2B-28544DFCDE25}'
+	}
+	ATLListView.SelItemCollection = s 'SelItemCollection Class'
+	{
+		CLSID = s '{03B45990-66CA-4EF9-BF2B-28544DFCDE25}'
+		CurVer = s 'ATLListView.SelItemCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {03B45990-66CA-4EF9-BF2B-28544DFCDE25} = s 'SelItemCollection Class'
+		{
+			ProgID = s 'ATLListView.SelItemCollection.1'
+			VersionIndependentProgID = s 'ATLListView.SelItemCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}

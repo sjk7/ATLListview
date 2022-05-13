@@ -528,7 +528,7 @@ namespace my {
 
 	static __inline LRESULT lvHandleDispInfo(
 		const idispatch_collection& items, NMHDR* pnmhdr) {
-		LRESULT lrt = 0;
+		
 		NMLVDISPINFO* plvdi = (NMLVDISPINFO*)pnmhdr;
 
 		if (-1 == plvdi->item.iItem) {

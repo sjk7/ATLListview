@@ -14,6 +14,7 @@
 #include "InterfaceCollection.h"
 #include "ListItem.h"
 #include "my_cmp.h"
+#include "SelItemCollection.h"
 
 
 class CListControl;
@@ -47,8 +48,7 @@ class ATL_NO_VTABLE
       public CComCoClass<CListItems, &CLSID_ListItems>,
       public ISupportErrorInfo,
       public IDispatchImpl<IListItems, &IID_IListItems,
-          &LIBID_ATLLISTVIEWLib> //,
-                                 // public CComEnum<IEnumListItems,
+          &LIBID_ATLLISTVIEWLib> 
 {
     public:
 

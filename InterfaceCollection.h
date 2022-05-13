@@ -11,10 +11,9 @@
 #pragma comment(lib, "winmm") // timeGetTime
 #include "resource.h" // main symbols
 #include "VCUE_Copy.h"
-// Store the data in a vector of std::strings
+
 typedef std::vector<IDispatch*> ContainerType;
 
-// The collection interface exposes the data as BSTRs
 typedef IDispatch* CollectionExposedType;
 typedef IInterfaceCollection CollectionInterface;
 

@@ -156,7 +156,7 @@ public:
 	my::win32::Subclasser<CListControl>* m_phdrSubclass;
 
 	CComObject<CListItems>* m_litems;
-	CComObject<CListItems>* m_selItems;
+	CComObject<CSelItemCollection>* m_selItems;
 	BOOL m_bMouseActivate;
 	BOOL m_virtualMode;
 	CListControl();
@@ -417,6 +417,7 @@ public:
 	}
 
 	void selItemChange(CListItem* p) {
+		/*/
 		if (p->m_listItemInfo.selected) {
 			if (p->m_sKey.IsEmpty()) {
 				bool added = this->m_selItems->m_items.add(p);
@@ -428,6 +429,7 @@ public:
 				ASSERT(removed);
 			}
 		}
+		/*/
 	}
 
 	LRESULT OnMouseActivate(
@@ -640,7 +642,7 @@ public:
 				m_selItems->Release();
 				m_selItems = 0;
 			}
-			CComObject<CListItems> selItems;
+			CComObject<CSelItemCollection> selItems;
 			hr = selItems.CreateInstance(&m_selItems);
 			ASSERT(SUCCEEDED(hr));
 			if (FAILED(hr)) {
@@ -815,7 +817,7 @@ public:
 		return S_OK;
 	}
 
-	STDMETHOD(get_SelectedItems)(IListItems** pVal) {
+	STDMETHOD(get_SelectedItems)(ISelItemCollection** pVal) {
 		if (!pVal) {
 			return DISP_E_TYPEMISMATCH;
 		}
