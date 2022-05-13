@@ -16,20 +16,24 @@
 #include "my_cmp.h"
 #include "SelItemCollection.h"
 
-
 class CListControl;
 
 struct SortInfo {
-	
-	SortInfo() : key(0), order((ListSortOrderFlags)(lvwNoCase | lvwNatural)), sorted(FALSE) {}
-	// which column to sort by. zero indexed. zero means sort by the 'text' (this is the first text column)
-	int key;
-	ListSortOrderFlags order;
-	BOOL sorted;
-	inline bool operator == (const SortInfo& rhs) {
-		if (rhs.key == key && rhs.order == order && sorted == rhs.sorted) return true;
-		return false;
-	}
+
+    SortInfo()
+        : key(0)
+        , order((ListSortOrderFlags)(lvwNoCase | lvwNatural))
+        , sorted(FALSE) {}
+    // which column to sort by. zero indexed. zero means sort by the 'text'
+    // (this is the first text column)
+    int key;
+    ListSortOrderFlags order;
+    BOOL sorted;
+    inline bool operator==(const SortInfo& rhs) {
+        if (rhs.key == key && rhs.order == order && sorted == rhs.sorted)
+            return true;
+        return false;
+    }
 };
 
 typedef my::idispatch_collection listitem_collection;
@@ -47,54 +51,53 @@ class ATL_NO_VTABLE
     : public CComObjectRootEx<CComSingleThreadModel>,
       public CComCoClass<CListItems, &CLSID_ListItems>,
       public ISupportErrorInfo,
-      public IDispatchImpl<IListItems, &IID_IListItems,
-          &LIBID_ATLLISTVIEWLib> 
-{
+      public IDispatchImpl<IListItems, &IID_IListItems, &LIBID_ATLLISTVIEWLib> {
     public:
+    void sortByText(const SortInfo& si) {
 
-		void sortByText(const SortInfo& si) {
+        my::Stopwatch sw("Sorting");
+        if (si.order & lvwNatural) {
+            if (si.order & lvwAscending) {
+                std::stable_sort(m_items.getVector().begin(),
+                    m_items.getVector().end(), my::CmpLessCiNatural());
+            } else {
+                std::stable_sort(m_items.getVector().begin(),
+                    m_items.getVector().end(), my::CmpGreaterCiNatural());
+            }
+        } else {
+            if (si.order & lvwNoCase) {
+                if (si.order & lvwAscending) {
+                    std::stable_sort(m_items.getVector().begin(),
+                        m_items.getVector().end(), my::CmpLessNoCase());
+                } else {
+                    std::stable_sort(m_items.getVector().begin(),
+                        m_items.getVector().end(), my::CmpGreaterNoCase());
+                }
 
-			my::Stopwatch sw("Sorting");
-			if (si.order & lvwNatural) {
-				if (si.order & lvwAscending) {
-					std::stable_sort(m_items.getVector().begin(), m_items.getVector().end(), my::CmpLessCiNatural());
-				}
-				else {
-					std::stable_sort(m_items.getVector().begin(), m_items.getVector().end(), my::CmpGreaterCiNatural());
-				}
-			}
-			else {
-				if (si.order & lvwNoCase) {
-					if (si.order & lvwAscending) {
-						std::stable_sort(m_items.getVector().begin(), m_items.getVector().end(), my::CmpLessNoCase());
-					}
-					else {
-						std::stable_sort(m_items.getVector().begin(), m_items.getVector().end(), my::CmpGreaterNoCase());
-					}
+            } else {
+                if (si.order == lvwAscending) {
+                    std::stable_sort(m_items.getVector().begin(),
+                        m_items.getVector().end(), my::CmpLess());
+                } else {
+                    std::stable_sort(m_items.getVector().begin(),
+                        m_items.getVector().end(), my::CmpGreater());
+                }
+            }
+        }
+        m_sortInfo = si;
+        indexListItemCollection(m_items.getVector());
+    }
 
-				}
-				else {
-					if (si.order == lvwAscending) {
-						std::stable_sort(m_items.getVector().begin(), m_items.getVector().end(), my::CmpLess());
-					}
-					else {
-						std::stable_sort(m_items.getVector().begin(), m_items.getVector().end(), my::CmpGreater());
-					}
-				}
-			}
-			m_sortInfo = si;
-			indexListItemCollection(m_items.getVector());
-		}
-
-		void sort(const SortInfo& si) {
-			if (si.order == lvwNone || si.key < 0) return;
-			if (m_sortInfo == si) return;
-			if (si.key == 0) {
-				sortByText(si);
-			}
-		}
+    void sort(const SortInfo& si) {
+        if (si.order == lvwNone || si.key < 0) return;
+        if (m_sortInfo == si) return;
+        if (si.key == 0) {
+            sortByText(si);
+        }
+    }
 
     CListItems() : m_col_interface(0), m_lv(0) {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
         m_items.reserve(50000);
 
         HRESULT hr = CComObject<CInterfaceCollection>::CreateInstance(
@@ -105,10 +108,12 @@ class ATL_NO_VTABLE
     }
 
     virtual ~CListItems() {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
         if (m_col_interface) m_col_interface->Release();
     }
 
     HRESULT reportError(const std::wstring& what, HRESULT hr = E_FAIL) const {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
         return my::atlReportError(CLSID_ListItems, IID_IListItems, what, hr);
     }
 
@@ -130,7 +135,6 @@ class ATL_NO_VTABLE
 
     // IListItems
     public:
-
     STDMETHOD(AddRange)
     (/*[in]*/ LONG howMany, /*[in, optional]*/ VARIANT* Index,
         /*[out, retval]*/ IInterfaceCollection** out);
@@ -151,26 +155,24 @@ class ATL_NO_VTABLE
     STDMETHOD(get__NewEnum)(/*[out, retval]*/ IUnknown** pVal) override;
 
     BOOL reserve(size_t howManyExtra);
-	__inline void reIndexItems() {
-		indexListItemCollection(m_items.getVector());
-	}
-	SortInfo m_sortInfo;
+    __inline void reIndexItems() {
+        indexListItemCollection(m_items.getVector());
+    }
+    SortInfo m_sortInfo;
+
     private:
-    HRESULT addItem(const add_info& info, const CString& text, int index = -1, const CString& key = "",
-        IListItem** out = 0);
+    HRESULT addItem(const add_info& info, const CString& text, int index = -1,
+        const CString& key = "", IListItem** out = 0);
     static CComObject<CListItem> m_factory;
-	// This is where the item is actually added to the collection
+    // This is where the item is actually added to the collection
     HRESULT createListItem(
         CListControl* lv, const CString& text, IListItem** out = 0);
     HRESULT resizeMe(
         const int curSize, const add_info& addInfo, const int newCount);
-public:
-	STDMETHOD(Remove)(LONG Index);
-	size_t size() const {
-		return m_items.size();
-	}
+
+    public:
+    STDMETHOD(Remove)(LONG Index);
+    size_t size() const { return m_items.size(); }
 };
-
-
 
 #endif //__LISTITEMS_H_

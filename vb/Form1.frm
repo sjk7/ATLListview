@@ -30,7 +30,7 @@ Begin VB.Form Form1
       Height          =   1815
       Left            =   240
       OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   16
+      TabIndex        =   13
       Top             =   480
       Width           =   4485
    End
@@ -584,6 +584,14 @@ Private Sub lv_ItemSelectionChanged(ByVal Item As ATLLISTVIEWLibCtl.IListItem, B
     End If
     
     Debug.Assert lv.SelectedItemCount = lv.SelectedItems.Count
+    Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
+    
+    Dim litem As ATLLISTVIEWLibCtl.ListItem
+    For Each litem In lv.SelectedItems
+        Loginfo "Litem " & litem.Index & " is selected."
+    Next litem
+    
+    
 End Sub
 
 Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)

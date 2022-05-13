@@ -19,7 +19,7 @@
 CListControl::CListControl()
     : m_lvw(WC_LISTVIEW, this, 1)
     , m_litems(0)
-	, m_selItems(0)
+    , m_selItems(0)
     , m_hdr(0)
     , m_clrBackColor(0x80000005)
     , m_clrBorderColor(0)
@@ -38,11 +38,11 @@ CListControl::CListControl()
     , m_phdrSubclass(0)
     , m_hdrWnd(0)
     , m_scaleUnitsEnum(my::win32::pixelUnits)
-	, m_bMultiSelect(FALSE)
-	, m_lastSelItemIndex (-1)
+    , m_bMultiSelect(FALSE)
+    , m_lastSelItemIndex(-1)
 
 {
-    //::_CrtSetBreakAlloc(160);
+   // ::_CrtSetBreakAlloc(413);
     static bool have_init_cc = false;
     if (!have_init_cc) {
         have_init_cc = true;
@@ -62,13 +62,13 @@ CListControl::CListControl()
     if (m_hdr) {
         m_hdr->AddRef();
         m_hdr->m_plv = this; // NOT addrefed to avoid circularity#
-		m_hdr->m_scaleUnits = m_scaleUnitsEnum;
-		
+        m_hdr->m_scaleUnits = m_scaleUnitsEnum;
     }
 }
 
 // called when user changes property in HOST (not us)
 STDMETHODIMP CListControl::OnAmbientPropertyChange(DISPID dispid) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     HRESULT hr = E_FAIL;
     if (dispid == DISPID_AMBIENT_UIDEAD) return S_OK;
 
@@ -114,11 +114,13 @@ STDMETHODIMP CListControl::get_hWnd(OLE_HANDLE* pVal) {
 }
 
 STDMETHODIMP CListControl::get_BorderStyle(BorderStyleConstants* pVal) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     *pVal = (BorderStyleConstants)this->m_nBorderStyle;
     return S_OK;
 }
 
 STDMETHODIMP CListControl::put_BorderStyle(BorderStyleConstants newVal) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     this->m_nBorderStyle = newVal;
     this->SetDirty(TRUE);
     applyProperties();
@@ -126,14 +128,14 @@ STDMETHODIMP CListControl::put_BorderStyle(BorderStyleConstants newVal) {
     return S_OK;
 }
 
-
-
 STDMETHODIMP CListControl::get_Appearance(AppearanceConstants* pVal) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     *pVal = (AppearanceConstants)this->m_nAppearance;
     return S_OK;
 }
 
 STDMETHODIMP CListControl::put_Appearance(AppearanceConstants newVal) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     this->m_nAppearance = newVal;
     this->SetDirty(TRUE);
     applyProperties();
@@ -142,6 +144,7 @@ STDMETHODIMP CListControl::put_Appearance(AppearanceConstants newVal) {
 }
 
 STDMETHODIMP CListControl::get_ColumnHeaders(IColumnHeaders** pVal) {
+
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     HRESULT hr = m_hdr->QueryInterface(IID_IColumnHeaders, (void**)pVal);
     return hr;

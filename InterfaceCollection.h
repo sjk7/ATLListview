@@ -44,18 +44,14 @@ class ATL_NO_VTABLE CInterfaceCollection
     : public CComObjectRootEx<CComSingleThreadModel>,
       public CComCoClass<CInterfaceCollection, &CLSID_InterfaceCollection>,
       public ISupportErrorInfo,
-      public IDispatchImpl<CollectionType, &IID_IInterfaceCollection>
- {
+      public IDispatchImpl<CollectionType, &IID_IInterfaceCollection> {
     public:
-    CInterfaceCollection() {
-
-        // CComObject<EnumUnk>* pEnum = 0;
-        // HRESULT hr = CComObject<EnumUnk>::CreateInstance(&pEnum);
-    }
+    CInterfaceCollection() {}
 
     virtual ~CInterfaceCollection() { clearvec(m_coll); }
 
     void clearvec(ContainerType& v) {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
         typedef ContainerType::iterator it_t;
         for (it_t it = m_coll.begin(); it < m_coll.end(); ++it) {
@@ -64,6 +60,7 @@ class ATL_NO_VTABLE CInterfaceCollection
     }
 
     void setVectorData(const ContainerType& v) {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
         if (!m_coll.empty()) {
             clearvec(m_coll);
@@ -76,12 +73,16 @@ class ATL_NO_VTABLE CInterfaceCollection
     }
 
     int addItem(IDispatch* p) {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
         m_coll.push_back(p);
         p->AddRef();
         return static_cast<int>(m_coll.size()) - 1;
     }
 
-    void reserve(size_t how_many) { m_coll.reserve(how_many); }
+    void reserve(size_t how_many) {
+        AFX_MANAGE_STATE(AfxGetStaticModuleState())
+        m_coll.reserve(how_many);
+    }
 
     DECLARE_REGISTRY_RESOURCEID(IDR_INTERFACECOLLECTION)
 
@@ -102,12 +103,10 @@ class ATL_NO_VTABLE CInterfaceCollection
     // STDMETHOD(get__NewEnum)(/*[out, retval]*/ IUnknown** pVal);
     // STDMETHOD(get_Count)(LONG* pRetval);
     // STDMETHOD(get_Item)(LONG Index, IUnknown** pVal);
-public :
-
-BEGIN_CONNECTION_POINT_MAP(CInterfaceCollection)
-	//CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
-END_CONNECTION_POINT_MAP()
-
+    public:
+    BEGIN_CONNECTION_POINT_MAP(CInterfaceCollection)
+    // CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+    END_CONNECTION_POINT_MAP()
 };
 
 #endif //__INTERFACECOLLECTION_H_

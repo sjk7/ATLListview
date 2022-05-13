@@ -52,24 +52,26 @@ STDMETHODIMP CListItems::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
     int myOneBasedIndex = -1;
-	HRESULT hr = getVariantIndex(Index, m_items, myOneBasedIndex);
+    HRESULT hr = getVariantIndex(Index, m_items, myOneBasedIndex);
     if (FAILED(hr)) {
         return hr;
     }
 
-	CString txt;
-	hr = my::CStringFromVariant(txt, Text);
-	if (FAILED(hr)) {
-		return reportError(L"Bad type for listitem text. Should be a string", DISP_E_TYPEMISMATCH);
-	}
+    CString txt;
+    hr = my::CStringFromVariant(txt, Text);
+    if (FAILED(hr)) {
+        return reportError(L"Bad type for listitem text. Should be a string",
+            DISP_E_TYPEMISMATCH);
+    }
 
-	CString key;
-	if (Key && Key->vt != VT_ERROR) {
-		hr = my::CStringFromVariant(key, Key);
-		if (FAILED(hr)) {
-			return reportError(L"Bad type for listitem key. Should be a string", DISP_E_TYPEMISMATCH);
-		}
-	}
+    CString key;
+    if (Key && Key->vt != VT_ERROR) {
+        hr = my::CStringFromVariant(key, Key);
+        if (FAILED(hr)) {
+            return reportError(L"Bad type for listitem key. Should be a string",
+                DISP_E_TYPEMISMATCH);
+        }
+    }
     int ret = 0;
     const int myindex = myOneBasedIndex - 1;
     const add_info info(1);
@@ -141,15 +143,15 @@ HRESULT CListItems::resizeMe(
 
 // NOTE: index here is ZERO-BASED. You must subtract one from index BEFORE
 // CALLING ME if the caller is VB.
-HRESULT CListItems::addItem(const add_info& addInfo, const CString& text, 
+HRESULT CListItems::addItem(const add_info& addInfo, const CString& text,
     const int index, const CString& key, IListItem** out) {
 
-	if (!key.IsEmpty()) {
-		IDispatch* p = m_items.find(key);
-		if (p) {
-			return reportError(L"Key already in collection", DISP_E_BADINDEX);
-		}
-	}
+    if (!key.IsEmpty()) {
+        IDispatch* p = m_items.find(key);
+        if (p) {
+            return reportError(L"Key already in collection", DISP_E_BADINDEX);
+        }
+    }
     const HRESULT hr = createListItem(m_lv, text, out);
     if (FAILED(hr)) return hr;
     HWND hWnd = m_lv->lvhWnd();
@@ -175,6 +177,7 @@ HRESULT CListItems::addItem(const add_info& addInfo, const CString& text,
 }
 
 HRESULT CListItems::addItems(SAFEARRAY* sa) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     BSTR* raw = 0;
     HRESULT hr = SafeArrayAccessData(sa, (void**)&raw);
     if (FAILED(hr)) return hr;
@@ -287,7 +290,7 @@ STDMETHODIMP CListItems::AddRange(
     info.n = 0;
 
     while (i < howMany) {
-        addItem(info, "", myindex++,"", &pli);
+        addItem(info, "", myindex++, "", &pli);
         if (!pli) {
             this->m_lv->SetRedraw(VARIANT_TRUE);
             return E_OUTOFMEMORY;
@@ -309,35 +312,31 @@ STDMETHODIMP CListItems::AddRange(
     return S_OK;
 }
 
+STDMETHODIMP CListItems::Remove(LONG Index) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
-STDMETHODIMP CListItems::Remove(LONG Index)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+    const int apiIndex = Index - 1;
+    if (apiIndex < 0) return DISP_E_BADINDEX;
+    BOOL del = ListView_DeleteItem(m_lv->lvhWnd(), apiIndex);
+    if (del == FALSE) {
+        return reportError(L"Failed remove item from the grid");
+    }
+    IListItem* p = 0;
+    HRESULT hr = m_items.at(apiIndex)->QueryInterface(IID_IListItem, (void**)p);
+    if (FAILED(hr)) return reportError(L"Failed to get item to remove", hr);
+    // m_plv->Fire_ColumnRemoved((ColumnHeader*)pcol);
+    CListItem* pli = (CListItem*)p;
+    if (!pli->m_sKey.IsEmpty()) {
+        m_items.m_map.remove(pli->m_sKey);
+    }
+    m_items.delete_at(pli->apiIndex());
+    p->Release();
 
-	const int apiIndex = Index - 1;
-	if (apiIndex < 0) return DISP_E_BADINDEX;
-	BOOL del = ListView_DeleteItem(m_lv->lvhWnd(), apiIndex);
-	if (del == FALSE) {
-		return reportError(L"Failed remove item from the grid");
-	}
-	IListItem* p = 0;
-	HRESULT hr = m_items.at(apiIndex)->QueryInterface(IID_IListItem, (void**)p);
-	if (FAILED(hr)) return reportError(L"Failed to get item to remove", hr);
-	// m_plv->Fire_ColumnRemoved((ColumnHeader*)pcol);
-	CListItem* pli = (CListItem*)p;
-	if (!pli->m_sKey.IsEmpty()) {
-		m_items.m_map.remove(pli->m_sKey);
-	}
-	m_items.delete_at(pli->apiIndex());
-	p->Release();
-	
-	return S_OK;
-
+    return S_OK;
 }
 
-__inline bool listItemTextComparer(const IDispatch * a, const IDispatch * b)
-{
-	CListItem* lhs = (CListItem*)a;
-	CListItem* rhs = (CListItem*)b;
-	return lhs->m_listItemInfo.text < rhs->m_listItemInfo.text;
+__inline bool listItemTextComparer(const IDispatch* a, const IDispatch* b) {
+    CListItem* lhs = (CListItem*)a;
+    CListItem* rhs = (CListItem*)b;
+    return lhs->m_listItemInfo.text < rhs->m_listItemInfo.text;
 }

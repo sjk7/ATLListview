@@ -400,6 +400,18 @@ SOURCE=.\SelItemCollection.h
 
 SOURCE=.\StdAfx.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\VCUE_Collection.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\VCUE_Copy.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\VCUE_CopyString.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 

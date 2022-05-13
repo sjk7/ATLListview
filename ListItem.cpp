@@ -22,16 +22,19 @@ STDMETHODIMP CListItem::InterfaceSupportsErrorInfo(REFIID riid) {
     return S_FALSE;
 }
 
-void CListItem::notifySelChanged(BOOL selected){
+void CListItem::notifySelChanged(BOOL selected) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-	ASSERT(m_listItemInfo.m_pLv);
-	if (this->m_listItemInfo.m_pLv){
-		m_listItemInfo.m_pLv->selItemChange(this);
-		m_listItemInfo.m_pLv->Fire_ItemSelectionChanged(this, my::BoolToVB(selected));
-	}
+    ASSERT(m_listItemInfo.m_pLv);
+    if (this->m_listItemInfo.m_pLv) {
+        m_listItemInfo.m_pLv->selItemChange(this);
+        m_listItemInfo.m_pLv->Fire_ItemSelectionChanged(
+            this, my::BoolToVB(selected));
+    }
 }
 
 STDMETHODIMP CListItem::get_Text(BSTR* pVal) {
+
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     *pVal = m_listItemInfo.text.AllocSysString();
     return S_OK;
@@ -44,21 +47,24 @@ STDMETHODIMP CListItem::put_Text(BSTR newVal) {
 
     return S_OK;
 }
-void CListItem::setSelected(BOOL selected)
-{
-	m_listItemInfo.selected = selected;
-	if (selected) {
-		TRACE(_T("ListItem %d is SELECTED\n"), m_listItemInfo.apiIndex);
+void CListItem::setSelected(BOOL selected) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
+    m_listItemInfo.selected = selected;
+    if (selected) {
+        TRACE(_T("ListItem %d is SELECTED\n"), m_listItemInfo.apiIndex);
 
-	}
-	else {
-		TRACE(_T("ListItem %d is *NOT* SELECTED\n"), m_listItemInfo.apiIndex);
-	}
+    } else {
+        TRACE(_T("ListItem %d is *NOT* SELECTED\n"), m_listItemInfo.apiIndex);
+    }
 
-	notifySelChanged(selected);
-	// this->m_listItemInfo.m_pLv->selItemChanged(this);
+    if (selected) {
+        m_listItemInfo.m_pLv->setLastSelItemIndex(m_listItemInfo.apiIndex);
+    }
+    notifySelChanged(selected);
+    // this->m_listItemInfo.m_pLv->selItemChanged(this);
 }
 void CListItem::setListItemInfo(const ListItemInfo& info) noexcept {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     m_listItemInfo = info;
 }
 STDMETHODIMP CListItem::get_Index(LONG* pVal) {

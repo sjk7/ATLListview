@@ -12,11 +12,10 @@
 // CInterfaceCollection
 
 STDMETHODIMP CInterfaceCollection::InterfaceSupportsErrorInfo(REFIID riid) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
     static const IID* arr[] = {&IID_IInterfaceCollection};
     for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++) { //-V1008
         if (my::InlineIsEqualGUID(*arr[i], riid)) return S_OK;
     }
     return S_FALSE;
 }
-
-
