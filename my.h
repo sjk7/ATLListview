@@ -727,7 +727,7 @@ struct ClickData{
 };
 
 template <typename T>
-static __inline void lvHandleClick(T* pControl, NMHDR* pnmhdr,  const idispatch_collection& items){
+static __inline void lvHandleClick(T* pControl, NMHDR* pnmhdr,  const idispatch_collection&){
 	
 	const int code = pnmhdr->code;
 	NMITEMACTIVATE* itemClicked = (NMITEMACTIVATE*)pnmhdr;
@@ -739,8 +739,11 @@ static __inline void lvHandleClick(T* pControl, NMHDR* pnmhdr,  const idispatch_
 	int itemNumber = SendMessage(lvhWnd, LVM_SUBITEMHITTEST, 0, (LPARAM)&myinfo);
 	ASSERT(itemNumber == myinfo.iItem);
 	pControl->handleClick(code, myinfo);
+}
 
-	
+template <typename T>
+static __inline void lvHandleMouse(T* pControl, NMHDR* phdr) {
+
 }
 
 template <typename T>

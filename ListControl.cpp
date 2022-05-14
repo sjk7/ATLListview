@@ -197,11 +197,6 @@ STDMETHODIMP CListControl::putref_Font(IFontDisp* newVal) {
     return S_OK;
 }
 
-LRESULT __stdcall Subclassproc(HWND hWnd, UINT uMsg, WPARAM wParam,
-    LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
-    return 0;
-}
-
 STDMETHODIMP CListControl::SetRedraw(VARIANT_BOOL ShouldRedraw) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
 

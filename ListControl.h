@@ -128,6 +128,7 @@ public:
 		// This OnMouseActivate handler is used to identify if the control
 		// is activated by the mouse click
 		MESSAGE_HANDLER(WM_MOUSEACTIVATE, OnMouseActivate)
+			MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
 		// MESSAGE_HANDLER(WM_CLOSE, OnLvwClose)
 		//  MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
 		MESSAGE_HANDLER(WM_DESTROY, OnLvClose)
@@ -237,6 +238,13 @@ public:
 			}
 			return ret;
     }
+
+	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+		int xPos = GET_X_LPARAM(lParam);
+		int yPos = GET_Y_LPARAM(lParam);
+		// Fire_MouseMove(button, shift, xPos, yPos);
+		return 0;
+	}
 	
     // cached, because it is slow to ask the actual listview about anything,
     // much!
@@ -884,12 +892,12 @@ public:
 			{
 			case NM_CLICK:
 				this->Fire_ItemClick(pitem);
-				this->Fire_ItemClickEx(pitem, data.iSubItem);
+				this->Fire_ItemClickEx(pitem, static_cast<SHORT>(data.iSubItem));
 				break;
 			case NM_DBLCLK:
 				break;
 			case NM_RCLICK:
-				this->Fire_ItemClickRight(pitem, data.iSubItem);
+				this->Fire_ItemClickRight(pitem, static_cast<SHORT>(data.iSubItem));
 				break;
 			default:
 				ASSERT("handleClick: bad code" == 0);
