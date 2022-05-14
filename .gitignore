@@ -1,4 +1,4 @@
-
+*.enc
 *.dll
 *.exp
 *.pch

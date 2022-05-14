@@ -50,13 +50,14 @@ STDMETHODIMP CListItem::put_Text(BSTR newVal) {
 void CListItem::setSelected(BOOL selected) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     m_listItemInfo.selected = selected;
+    /*/
     if (selected) {
         TRACE(_T("ListItem %d is SELECTED\n"), m_listItemInfo.apiIndex);
 
     } else {
         TRACE(_T("ListItem %d is *NOT* SELECTED\n"), m_listItemInfo.apiIndex);
     }
-
+    /*/
     if (selected) {
         m_listItemInfo.m_pLv->setLastSelItemIndex(m_listItemInfo.apiIndex);
     }

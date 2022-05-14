@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{C73B7301-0087-43FF-97F1-456B1090BF45}#1.0#0"; "ATLListView.dll"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
-Object = "{57FBBA6B-40B6-443A-96CF-305EBC7C3802}#184.1#0"; "ListViewAPI.ocx"
+Object = "{57FBBA6B-40B6-443A-96CF-305EBC7C3802}#184.1#0"; "listviewapi.ocx"
 Begin VB.Form Form1 
    Appearance      =   0  'Flat
    BackColor       =   &H80000005&
@@ -26,6 +26,30 @@ Begin VB.Form Form1
    ScaleHeight     =   6450
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command2 
+      Caption         =   "Show Sel"
+      Height          =   285
+      Left            =   4890
+      TabIndex        =   18
+      Top             =   90
+      Width           =   1125
+   End
+   Begin VB.CommandButton cmdsel 
+      Caption         =   "Show Sel"
+      Height          =   285
+      Left            =   3600
+      TabIndex        =   17
+      Top             =   150
+      Width           =   1125
+   End
+   Begin VB.CommandButton cmdClear 
+      Caption         =   "Clear"
+      Height          =   285
+      Left            =   3210
+      TabIndex        =   16
+      Top             =   2340
+      Width           =   1125
+   End
    Begin ATLLISTVIEWLibCtl.ListControl lv 
       Height          =   1815
       Left            =   240
@@ -54,9 +78,9 @@ Begin VB.Form Form1
    Begin VB.CommandButton cmdAddSomelvOnly 
       Caption         =   "me only"
       Height          =   285
-      Left            =   360
+      Left            =   330
       TabIndex        =   12
-      Top             =   2310
+      Top             =   2340
       Width           =   1125
    End
    Begin ListViewAPI.ListView lvapi 
@@ -325,7 +349,7 @@ Private Sub cmdAddSomelvOnly_Click()
     Else
         howMany = 50000
     End If
-    Dim lck As New ATLLISTVIEWLibCtl.RedrawLock
+    Dim lck As New atlListViewLibCtl.RedrawLock
     Set lck.ListControlObject = lv
 
     Call AddLitemsEx(howMany, lv)
@@ -336,6 +360,57 @@ Private Sub cmdAddSomelvOnly_Click()
     
     
     
+End Sub
+
+Private Sub cmdClear_Click()
+    ClearLvw lvw
+    ClearLvw lv
+    ClearLvw lvapi
+End Sub
+
+Private Sub ClearLvw(lv As Object)
+    Dim sw As New Stopwatch
+    Set sw = sw.Create("Clearing " & lv.ListItems.Count & " items, for " & _
+        TypeName(lv) & " items took: ")
+    
+    lv.ListItems.Clear
+    Debug.Assert lv.ListItems.Count = 0
+End Sub
+Private Sub ShowSelLvwApi()
+    Dim sel As Collection
+    Dim sw As New Stopwatch
+    Set sw = sw.Create("Creating Selected items (for DPS' lvw) took: ")
+    Set sel = lvapi.SelectedItems
+    Loginfo "LvAPI has " & sel.Count & " selected items."
+    
+    Set sw = Nothing
+End Sub
+Private Sub ShowSel()
+    Dim sel As atlListViewLibCtl.SelItemCollection
+    Dim sw As New Stopwatch
+    Set sw = sw.Create("Creating Selected items for ATL ListControl took: ")
+    Set sel = lv.SelectedItems
+    Loginfo "Listcontrol has " & sel.Count & " selected items."
+    
+    Set sw = Nothing
+End Sub
+
+Private Sub ShowSelLvw()
+    Dim sel As Collection
+    Dim sw As New Stopwatch
+    Set sw = sw.Create("Creating (MSLV) Selected items took: ")
+    Set sel = New Collection
+    Dim litem As MSComctlLib.ListItem
+    
+    For Each litem In lvw.ListItems
+        If litem.Selected Then
+            sel.Add litem
+        End If
+    Next litem
+    
+    Loginfo "Listview has " & sel.Count & " selected items."
+    
+    Set sw = Nothing
 End Sub
 
 Private Sub cmdEnum_Click()
@@ -371,7 +446,7 @@ Private Sub AddRange2(lview As ListControl, nItems As Long)
     Set colAdded = lview.ListItems.AddRange(nItems)
     Debug.Assert colAdded.Count = nItems
     
-    Dim litem As ATLLISTVIEWLibCtl.ListItem
+    Dim litem As atlListViewLibCtl.ListItem
     For Each litem In colAdded
         litem.Text = "Hello Listitem! @ " & idx + 1
         idx = idx + 1
@@ -404,6 +479,10 @@ Private Sub AddRange(lv As Object, nItems As Long)
 
 End Sub
 
+Private Sub cmdsel_Click()
+    ShowSel
+End Sub
+
 Private Sub Command1_Click(Index As Integer)
     If Index = 0 Then
 
@@ -417,20 +496,10 @@ Private Sub Command1_Click(Index As Integer)
     lvActions UserControl11.ListView()
     Exit Sub
 
-
-
-
-
-
-
-
 End Sub
 
 
-
-
 Private Sub AddLitemsEx(howMany As Long, lv As Object)
-
 
     Dim c As Stopwatch
     Set c = New Stopwatch
@@ -476,7 +545,7 @@ Private Sub CmdAddSome_Click()
         howMany = 50000
     End If
     
-    Dim lck As New ATLLISTVIEWLibCtl.RedrawLock
+    Dim lck As New atlListViewLibCtl.RedrawLock
     Set lck.ListControlObject = lv
     Call AddLitemsEx(howMany, lvw)
     Debug.Print lck.ListControlObject.Appearance
@@ -490,6 +559,11 @@ Private Sub CmdAddSome_Click()
     
     Loginfo vbNullString
     Set lck = Nothing
+End Sub
+
+Private Sub Command2_Click()
+    ShowSelLvw
+    ShowSelLvwApi
 End Sub
 
 Private Sub Form_Load()
@@ -529,11 +603,11 @@ End Function
 
 
 
-Private Sub lv_ColumnClick(ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+Private Sub lv_ColumnClick(ByVal ColumnHeader As atlListViewLibCtl.IColumnHeader)
     Debug.Print "Colheader clicked: " & ColumnHeader.Index & " " & ColumnHeader.Text & " width: " & ColumnHeader.Width
     Dim c As New Stopwatch
     Set c = c.Create("ListControl: Sorting " & lv.ListItems.Count & " items took")
-    Dim ord As ATLLISTVIEWLibCtl.ListSortOrderFlags
+    Dim ord As atlListViewLibCtl.ListSortOrderFlags
     ord = lv.SortOrder
     If (ord And lvwDescending) Then
         ord = lvwAscending Or lvwNatural
@@ -553,14 +627,14 @@ Private Sub lv_ColumnClick(ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader
     
 End Sub
 
-Private Sub lv_ColumnRemoved(ByVal colRemoved As ATLLISTVIEWLibCtl.ColumnHeader)
+Private Sub lv_ColumnRemoved(ByVal colRemoved As atlListViewLibCtl.ColumnHeader)
     Debug.Print "Column Removed: " & colRemoved.Index
 End Sub
 
 '                               (DoDefault As Boolean, Shift As Integer, x As Single, y As Single, ColumnHeader As ListViewAPI.ColumnHeader)
 
 
-Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As atlListViewLibCtl.IColumnHeader)
 
     If ObjPtr(ColumnHeader) Then
         Debug.Assert (doDefault = True)
@@ -574,7 +648,9 @@ Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, By
     End If
 End Sub
 
-Private Sub lv_ItemSelectionChanged(ByVal Item As ATLLISTVIEWLibCtl.IListItem, ByVal SelState As Boolean)
+Private Sub lv_ItemSelectionChanged(ByVal Item As atlListViewLibCtl.IListItem, ByVal SelState As Boolean)
+    Exit Sub
+    If lv.LayoutSuspended Then Exit Sub
     Debug.Print "Selection changed, for item: " & Item.Index
     Debug.Print "New state is "
     If (SelState) Then
@@ -582,18 +658,19 @@ Private Sub lv_ItemSelectionChanged(ByVal Item As ATLLISTVIEWLibCtl.IListItem, B
     Else
         Debug.Print "NOT SELECTED"
     End If
+
     
-    Debug.Assert lv.SelectedItemCount = lv.SelectedItems.Count
-    Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
-    
-    Dim litem As ATLLISTVIEWLibCtl.ListItem
+    Dim litem As atlListViewLibCtl.ListItem
     For Each litem In lv.SelectedItems
         Loginfo "Litem " & litem.Index & " is selected."
     Next litem
     
     
 End Sub
-
+Private Sub checkItemCount()
+    Debug.Assert lv.SelectedItemCount = lv.SelectedItems.Count
+    Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
+End Sub
 Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     Debug.Print "Colheader clicked: " & ColumnHeader.Index & " " & ColumnHeader.Text & " width: " & ColumnHeader.Width
     Dim c As New Stopwatch

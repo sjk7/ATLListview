@@ -22,6 +22,10 @@
 class CListItems;
 #define MAX_TXT_LEN 512
 
+#if _MSC_VER > VC6_VERSION
+#pragma warning(disable : 26812)
+#endif
+
 namespace my {
 
 namespace win32 {
@@ -231,7 +235,6 @@ template <typename K = CString, typename V = IUnknown> struct com_map {
     __inline bool remove(const K& key) {
         map_it it = m_map.find(key);
         if (it == m_map.end()) return false;
-        std::pair<K, V> pr = *it;
         m_map.erase(it);
         return true;
     }
@@ -241,7 +244,6 @@ template <typename K = CString, typename V = IUnknown> struct com_map {
     __inline map_it remove_it(const K& key) {
         map_it it = m_map.find(key);
         if (it == m_map.end()) return it;
-        std::pair<K, V> pr = *it;
         return m_map.erase(it);
     }
 
@@ -298,7 +300,7 @@ struct com_vector { // NOLINT(cppcoreguidelines-special-member-functions)
         size_t cnt = m_vec.size();
         (*it)->Release();
         vec_it it1 = std::remove(m_vec.begin(), m_vec.end(), *it);
-        m_vec.erase(it, m_vec.end());
+        m_vec.erase(it1, m_vec.end());
         return m_vec.size() == cnt - 1;
     }
 

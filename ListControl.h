@@ -23,6 +23,10 @@
 #include "ATLListViewCP.h"
 #include "_IListControlEvents_CP.h"
 
+#if _MSC_VER > VC6_VERSION
+#pragma warning(disable : 26454)
+#endif
+
 typedef enum tagKEYMODIFIERS {
     KEYMOD_NONE = 0X00000000,
     KEYMOD_SHIFT = 0x00000001,
@@ -875,9 +879,14 @@ class ATL_NO_VTABLE CListControl
     }
 
     public:
+    __inline void setLvItemCount(int newCount) {
+        my::lvSetItemCount(lvhWnd(), newCount);
+    }
+
     LRESULT hdrCallDefWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         return this->m_phdrSubclass->CallDefWndProc(hwnd, msg, wp, lp);
     }
+
     LRESULT OnSubclassProc(
         HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
         switch (msg) {
@@ -887,7 +896,6 @@ class ATL_NO_VTABLE CListControl
                     if (m_hdr->apiSetHeight(
                             hWnd, msg, wParam, lParam, bHandled)) {
                         this->Refresh();
-
                         return 1;
                         break;
                     }

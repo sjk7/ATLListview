@@ -14,6 +14,7 @@
 #include "VCUE_Collection.h"
 #include "VCUE_Copy.h"
 #include "ListItem.h"
+#include "Stopwatch.h"
 
 typedef std::vector<IDispatch*> myContainerType;
 
@@ -72,11 +73,13 @@ class ATL_NO_VTABLE CSelItemCollection
     // ISupportsErrorInfo
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
     void setData(const std::vector<IDispatch*>& vecItems) {
+
+        my::Stopwatch sw("setData for populating selected items");
         m_map.clear();
         m_coll.clear();
         m_coll.reserve(vecItems.size());
-        typedef typename std::vector<IDispatch*>::const_iterator ci_t;
-        typedef typename std::map<int, IListItem*>::iterator m_it;
+        typedef std::vector<IDispatch*>::const_iterator ci_t;
+        typedef std::map<int, IListItem*>::iterator m_it;
 
         for (ci_t it = vecItems.begin(); it < vecItems.end(); ++it) {
             CListItem* pi = (CListItem*)*it;

@@ -8,6 +8,7 @@
 #define AFX_STDAFX_H__300839D4_82CE_4A7D_B6AE_56E24A376F33__INCLUDED_
 
 #pragma warning(disable : 4786) // VC6 complaining about truncated debug names.
+#define VC6_VERSION 1200
 
 #if _MSC_VER > 1000
 #pragma once
@@ -19,7 +20,7 @@
 #endif
 
 #ifndef _WIN32_WINNT_WIN7
-#define _WIN32_WINNT_WIN7                   0x0601 
+#define _WIN32_WINNT_WIN7 0x0601
 #endif
 
 #ifndef VC6_MSC_VERSION

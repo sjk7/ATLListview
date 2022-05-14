@@ -48,7 +48,7 @@ namespace doj {
 // anonymous namespace for functions we use internally. But if you
 // are coding in C, you can use alphanum_impl() directly, since it
 // uses not C++ features.
-namespace {
+namespace { //-V1068
 
     // if you want to honour the locale settings for detecting digit
     // characters, you should define ALPHANUM_LOCALE

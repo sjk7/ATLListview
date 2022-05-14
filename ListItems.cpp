@@ -245,6 +245,7 @@ STDMETHODIMP CListItems::get_Item(LONG index, IListItem** pVal) {
 STDMETHODIMP CListItems::Clear() {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     m_items.clear();
+    this->m_lv->setLvItemCount(0);
 
     return S_OK;
 }
@@ -321,16 +322,18 @@ STDMETHODIMP CListItems::Remove(LONG Index) {
     if (del == FALSE) {
         return reportError(L"Failed remove item from the grid");
     }
-    IListItem* p = 0;
-    HRESULT hr = m_items.at(apiIndex)->QueryInterface(IID_IListItem, (void**)p);
-    if (FAILED(hr)) return reportError(L"Failed to get item to remove", hr);
-    // m_plv->Fire_ColumnRemoved((ColumnHeader*)pcol);
-    CListItem* pli = (CListItem*)p;
+
+    CComPtr<IListItem> p = 0;
+    HRESULT hr
+        = m_items.at(apiIndex)->QueryInterface(IID_IListItem, (void**)&p);
+    if (FAILED(hr) || p == 0)
+        return reportError(L"Failed to get item to remove", hr);
+
+    CListItem* pli = (CListItem*)p.p;
     if (!pli->m_sKey.IsEmpty()) {
         m_items.m_map.remove(pli->m_sKey);
     }
     m_items.delete_at(pli->apiIndex());
-    p->Release();
 
     return S_OK;
 }

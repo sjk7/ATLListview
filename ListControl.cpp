@@ -42,7 +42,7 @@ CListControl::CListControl()
     , m_lastSelItemIndex(-1)
 
 {
-   // ::_CrtSetBreakAlloc(413);
+    // ::_CrtSetBreakAlloc(413);
     static bool have_init_cc = false;
     if (!have_init_cc) {
         have_init_cc = true;
@@ -197,6 +197,10 @@ STDMETHODIMP CListControl::SetRedraw(VARIANT_BOOL ShouldRedraw) {
 
     if (m_bRedrawEnabled) {
         FireViewChange();
+        if (this->m_virtualMode && m_litems->m_items.size() > 0) {
+            my::lvSetItemCount(lvhWnd(), m_litems->m_items.size());
+        }
+
         sizeToFit();
     }
 
