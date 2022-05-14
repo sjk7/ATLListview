@@ -58,7 +58,7 @@ STDMETHODIMP CListItems::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
     }
 
     CString txt;
-    hr = my::CStringFromVariant(txt, Text);
+    hr = my::VariantToCString(Text, txt, true);
     if (FAILED(hr)) {
         return reportError(L"Bad type for listitem text. Should be a string",
             DISP_E_TYPEMISMATCH);
@@ -66,7 +66,7 @@ STDMETHODIMP CListItems::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
 
     CString key;
     if (Key && Key->vt != VT_ERROR) {
-        hr = my::CStringFromVariant(key, Key);
+        hr = my::VariantToCString(Key, key, true);
         if (FAILED(hr)) {
             return reportError(L"Bad type for listitem key. Should be a string",
                 DISP_E_TYPEMISMATCH);
@@ -170,7 +170,7 @@ HRESULT CListItems::addItem(const add_info& addInfo, const CString& text,
 
     if (m_items.size() == 1 && ret >= 0) {
         // first one: make sure there's an indication we tabbed to the control.
-        my::lvSetSelectedItem(hWnd, 0, 1);
+        my::lvSetSelectedItem(hWnd, 0);
     }
 
     return hr;

@@ -47,6 +47,8 @@ STDMETHODIMP CColumnHeaders::get_Count(LONG* pVal) {
 BOOL CColumnHeaders::apiSetHeight(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
 
+    (void)bHandled;
+    (void)wParam;
     LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
     RECT* pRect = pHL->prc;
     WINDOWPOS* pWPos = pHL->pwpos;
@@ -68,7 +70,7 @@ STDMETHODIMP CColumnHeaders::get_Item(LONG index, IColumnHeader** pVal) {
     const long sz = (long)m_cols.size();
     index -= 1;
 
-    if (index < 0 || (size_t)index >= m_cols.size()) {
+    if (index < 0 || index >= sz) {
         hr = DISP_E_BADINDEX;
     } else {
         hr = m_cols.at(index)->QueryInterface(IID_IDispatch, (void**)pVal);
@@ -105,26 +107,31 @@ STDMETHODIMP CColumnHeaders::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
     VARIANT* Width, VARIANT* Alignment, VARIANT* Icon, IColumnHeader** retVal) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-    if (Index->vt == VT_I2 || Index->vt == VT_I4) {
-    } else {
-        if (Index->vt != VT_ERROR) return DISP_E_TYPEMISMATCH;
+    //(void)Icon;
+    //(void)Alignment;
+    //(void)Width;
+    int vbindex = 0;
+    HRESULT hr = my::VariantToInt(Index, vbindex, true);
+    if (FAILED(hr)) return hr;
+    int index = vbindex - 1;
+    if (index < 0 || index >= m_cols.isize()) {
+        index = m_cols.isize(); // append
     }
+    int width = 100;
 
-    if (Index->vt != VT_ERROR && Index->lVal < 0) {
-        return DISP_E_BADINDEX;
-    }
+    hr = my::VariantToInt(Width, width, true);
+    if (FAILED(hr)) return hr;
 
-    int index = (int)m_cols.size();
     CString txt;
-    HRESULT hr = my::CStringFromVariant(txt, Text);
+    hr = my::VariantToCString(Text, txt, true);
     if (FAILED(hr)) {
         return reportError(L"Bad type in text argument to ColumnHeaders::Add()",
             DISP_E_TYPEMISMATCH);
     }
 
-    int added = addColumn(txt, 100, Key);
+    int added = addColumn(txt, width, Key);
     ASSERT(added == index);
-    if (m_cols.size() != index + 1) {
+    if (static_cast<int>(m_cols.size()) != index + 1) {
         return reportError(
             L"Unable to add column: probably out of memory", E_OUTOFMEMORY);
     }
@@ -162,7 +169,8 @@ STDMETHODIMP CColumnHeaders::Clear() {
     const int cnt = my::lvGetColumnCount(m_hWndLv);
     int mycnt = cnt - 1;
     while (mycnt >= 0) {
-        int del = ListView_DeleteColumn(m_hWndLv, mycnt);
+        BOOL del = ListView_DeleteColumn(m_hWndLv, mycnt);
+        ASSERT(del == TRUE);
         IDispatch* p = m_cols.at(mycnt);
         IColumnHeader* pcol = 0;
 
@@ -184,6 +192,7 @@ STDMETHODIMP CColumnHeaders::Remove(LONG indexToRemove) {
     const int apiIndex = indexToRemove - 1;
     if (apiIndex < 0) return DISP_E_BADINDEX;
     int del = ListView_DeleteColumn(m_hWndLv, apiIndex);
+    ASSERT(del);
     CComPtr<IColumnHeader> pcol = 0;
     HRESULT hr
         = m_cols.at(apiIndex)->QueryInterface(IID_IColumnHeader, (void**)&pcol);

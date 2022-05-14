@@ -24,6 +24,7 @@ class CListItems;
 
 #if _MSC_VER > VC6_VERSION
 #pragma warning(disable : 26812)
+#pragma warning(disable : 4130)
 #endif
 
 namespace my {
@@ -470,7 +471,51 @@ static inline HRESULT atlReportError(
     }
 }
 
-static __inline HRESULT CStringFromVariant(CString& txt, VARIANT* Text) {
+static __inline HRESULT VariantToInt(
+    VARIANT* v, int& i, bool isOptional = false) {
+
+    if (isOptional) {
+        if (!v) return S_FALSE;
+        if (v->vt == VT_ERROR || v->vt == VT_EMPTY) return S_FALSE;
+    }
+
+    const long vt = v->vt;
+    if (!v) {
+        return DISP_E_TYPEMISMATCH;
+    }
+
+    if (v->vt != VT_ERROR) {
+        if (vt & VT_I2) {
+            if (vt & VT_BYREF) {
+                i = *v->piVal;
+                return S_OK;
+            } else {
+                i = v->iVal;
+                return S_OK;
+            }
+        }
+
+        if (vt & VT_I4) {
+            if (vt & VT_BYREF) {
+                i = *v->plVal;
+                return S_OK;
+            } else {
+                i = v->lVal;
+                return S_OK;
+            }
+        }
+    }
+
+    return DISP_E_TYPEMISMATCH;
+}
+
+static __inline HRESULT VariantToCString(
+    VARIANT* Text, CString& txt, bool isOptional = false) {
+
+    if (isOptional) {
+        if (!Text) return S_FALSE;
+        if (Text->vt == VT_ERROR || Text->vt == VT_EMPTY) return S_FALSE;
+    }
 
     long vt = Text->vt;
     if (vt != VT_ERROR) {
@@ -627,6 +672,8 @@ member is undefined for notification messages that do not use it. } NMLISTVIEW,
 template <typename T>
 static __inline LRESULT lvHandleStateChange(myIListControl* pControl,
     HWND hWndLv, LPNMLISTVIEW state, const idispatch_collection& items) {
+
+    (void)hWndLv;
     TRACE(_T("item %d, state from oldstate:%d to newstate:%d, and uChanged: ")
           _T("%d\n"),
         state->iItem, state->uOldState, state->uNewState, state->uChanged);
@@ -665,8 +712,9 @@ static __inline LRESULT lvHandleStateChange(myIListControl* pControl,
 
 static __inline LRESULT lvHandleNotify(myIListControl* pcontrol, BOOL isVirtual,
     const idispatch_collection& items, NMHDR* pnmhdr, BOOL& bHandled) {
-    LRESULT lrt = 0;
 
+    LRESULT lrt = 0;
+    (void)bHandled;
     switch (pnmhdr->code) {
         case LVN_GETDISPINFO: {
             if (isVirtual) return lvHandleDispInfo(items, pnmhdr);
@@ -808,7 +856,7 @@ Then Flags = LVIS_FOCUSED Or LVIS_SELECTED Else Flags = 0 End If
   hWndLv, i, Flags, mask) End Function
 /*/
 
-static __inline int lvSetSelectedItem(HWND hWnd, long index, BOOL sel) {
+static __inline int lvSetSelectedItem(HWND hWnd, long index) {
 
     DWORD data = LVIS_SELECTED;
     DWORD mask = LVIS_SELECTED;

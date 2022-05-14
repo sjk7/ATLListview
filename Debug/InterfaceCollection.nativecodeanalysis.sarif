@@ -1,0 +1,107 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.32.31328.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/interfacecollection.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "ede09c1ac8a7d7a6e9fe89d9821a68e3cd0eee31e8f49084ae059cfea6ddcd12"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/stdafx.h"
+          },
+          "hashes": {
+            "sha-256": "4e116a2644536b7ab2723e94f904daebc18fa17a1ef1b065201ed71db387ef0b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/stopwatch.h"
+          },
+          "hashes": {
+            "sha-256": "319242d1d1db87aced025c73dc18abb73fe8b6991e0cd59656f9c9a7c3f54fdd"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/atllistview.h"
+          },
+          "hashes": {
+            "sha-256": "726b0c73ac24d294575e0d5d228d2b1f98bccbcde032e26bc4e6146db8b25b09"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/interfacecollection.h"
+          },
+          "hashes": {
+            "sha-256": "ba08aa5644176baff2970a7de0332058ecd7cd6526d4836cf95638a66316d279"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/resource.h"
+          },
+          "hashes": {
+            "sha-256": "bfcd08995bebbda61ff1dac2b8cbb66286bbc6270a38922ca927e08b950fd3e4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/vcue_copy.h"
+          },
+          "hashes": {
+            "sha-256": "11e9af2a946b47a1e51d4b6dbcc72d7c6e1e8524f8692981443ebc5b5441d07a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/my.h"
+          },
+          "hashes": {
+            "sha-256": "19186f70def74911dc77bfb35bc6a7f58c69286ef6c688fc1c68dc68812bdd3c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/listitem.h"
+          },
+          "hashes": {
+            "sha-256": "7d60fd5570fa4093edf29b901e84c060d7a4c7183d0546f111389f60922d2f03"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/devnvme/desktop/atllistview/myilistcontrol.h"
+          },
+          "hashes": {
+            "sha-256": "25f1ac8da89d31eb5a8fc8b8ddd3ad74ee8d6d4a785e87f2e7bad1fd04f1207f"
+          }
+        }
+      ]
+    }
+  ]
+}

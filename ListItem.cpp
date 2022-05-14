@@ -27,7 +27,6 @@ void CListItem::notifySelChanged(BOOL selected) {
 
     ASSERT(m_listItemInfo.m_pLv);
     if (this->m_listItemInfo.m_pLv) {
-        m_listItemInfo.m_pLv->selItemChange(this);
         m_listItemInfo.m_pLv->Fire_ItemSelectionChanged(
             this, my::BoolToVB(selected));
     }

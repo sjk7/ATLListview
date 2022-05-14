@@ -43,12 +43,12 @@ class ATL_NO_VTABLE ColumnHeader
     {}
 
     CString m_key;
-    __inline void setKey(VARIANT* key) { 
-		HRESULT hr= my::CStringFromVariant(m_key, key);
-		ASSERT(SUCCEEDED(hr));
-		(void) hr;
-		return;
-	}
+    __inline void setKey(VARIANT* key) {
+        HRESULT hr = my::VariantToCString(key, m_key, true);
+        ASSERT(SUCCEEDED(hr));
+        (void)hr;
+        return;
+    }
     void setListview(CListControl* p);
 
     __inline void setName(const CString& name) { m_name = name; }

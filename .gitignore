@@ -16,6 +16,7 @@
 *.backtimelog
 *.idb
 *.pdb
+*.nativecodeanalysis.sarif
 
 
 

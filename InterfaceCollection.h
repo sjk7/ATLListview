@@ -54,7 +54,7 @@ class ATL_NO_VTABLE CInterfaceCollection
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
         typedef ContainerType::iterator it_t;
-        for (it_t it = m_coll.begin(); it < m_coll.end(); ++it) {
+        for (it_t it = v.begin(); it < v.end(); ++it) {
             (*it)->Release();
         }
     }

@@ -245,6 +245,7 @@ class ATL_NO_VTABLE CListControl
     LRESULT OnLvClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
 
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
+        (void)bHandled;
 
         if (m_phdrSubclass) delete m_phdrSubclass; //-V809
         m_phdrSubclass = 0;
@@ -262,15 +263,15 @@ class ATL_NO_VTABLE CListControl
         for (int i = 0; i < sz; ++i) {
             ColumnHeader* ph = (ColumnHeader*)m_hdr->m_cols.at(i);
             if (ph->m_bVisible) {
-                ::InsertMenu(hPopupMenu, -1,
+                ::InsertMenu(hPopupMenu, (UINT)-1,
                     MF_CHECKED | MF_BYCOMMAND | MF_STRING, i, ph->m_name);
             } else {
-                ::InsertMenu(hPopupMenu, -1,
+                ::InsertMenu(hPopupMenu, (UINT)-1,
                     MF_UNCHECKED | MF_BYCOMMAND | MF_STRING, i, ph->m_name);
             }
         }
 
-        ::InsertMenu(hPopupMenu, -1, MF_STRING, sz, _T("Cancel"));
+        ::InsertMenu(hPopupMenu, (UINT)-1, MF_STRING, sz, _T("Cancel"));
         int which = TrackPopupMenu(hPopupMenu,
             TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RETURNCMD, pointScreen.x,
             pointScreen.y, 0, hWnd, NULL);
@@ -405,6 +406,8 @@ class ATL_NO_VTABLE CListControl
         // int id = (int)wParam;
         NMHDR* pnmhdr = (NMHDR*)lParam;
         HWND hWnd = pnmhdr->hwndFrom;
+        (void)wParam;
+        (void)uMsg;
 
         if (hWnd == m_lvw.m_hWnd) {
             LRESULT retval = my::lvHandleNotify(
@@ -426,23 +429,6 @@ class ATL_NO_VTABLE CListControl
     // helper for buggy virtual listview state notifications
     virtual int getLastSelItemIndex() { return m_lastSelItemIndex; }
     virtual void setLastSelItemIndex(int idx) { m_lastSelItemIndex = idx; }
-
-    void selItemChange(CListItem* p){
-        AFX_MANAGE_STATE(AfxGetStaticModuleState())
-        /*/
-        if (p->m_listItemInfo.selected) {
-            if (p->m_sKey.IsEmpty()) {
-                bool added = this->m_selItems->m_items.add(p);
-                ASSERT(added);
-            }
-            else {
-                CString* ps = p->m_sKey.GetLength() > 0 ? &p->m_sKey : 0;
-                bool removed = this->m_selItems->m_items.remove(p, ps);
-                ASSERT(removed);
-            }
-        }
-        /*/
-    }
 
     LRESULT OnMouseActivate(
         UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
@@ -798,7 +784,7 @@ class ATL_NO_VTABLE CListControl
 
     STDMETHOD(get_SortKey)(short* pVal) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
-        *pVal = m_sortInfo.key;
+        *pVal = static_cast<short>(m_sortInfo.key);
         return S_OK;
     }
 
@@ -833,7 +819,6 @@ class ATL_NO_VTABLE CListControl
     STDMETHOD(put_MultiSelect)(VARIANT_BOOL pVal) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
         m_bMultiSelect = my::VBToBool(pVal);
-        DWORD style = 0;
 
         if (!m_bMultiSelect) {
             m_lvw.ModifyStyle(0, LVS_SINGLESEL);
@@ -886,13 +871,16 @@ class ATL_NO_VTABLE CListControl
     LRESULT hdrCallDefWndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         return this->m_phdrSubclass->CallDefWndProc(hwnd, msg, wp, lp);
     }
+#if _MSC_VER > VC6_VERSION
+#pragma warning(disable : 26819)
+#endif
 
     LRESULT OnSubclassProc(
         HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
         switch (msg) {
             case HDM_LAYOUT:
                 if (m_hdr) {
-                    LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
+                    // LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
                     if (m_hdr->apiSetHeight(
                             hWnd, msg, wParam, lParam, bHandled)) {
                         this->Refresh();
@@ -902,6 +890,7 @@ class ATL_NO_VTABLE CListControl
                 }
                 break;
             default: {
+                break;
             }
         }
 
