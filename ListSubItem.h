@@ -10,6 +10,7 @@
 #define __LISTSUBITEM_H_
 
 #include "resource.h"       // main symbols
+#include "ATLListViewCP.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CListSubItem
@@ -17,7 +18,8 @@ class ATL_NO_VTABLE CListSubItem :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CListSubItem, &CLSID_ListSubItem>,
 	public ISupportErrorInfo,
-	public IDispatchImpl<IListSubItem, &IID_IListSubItem, &LIBID_ATLLISTVIEWLib>
+	public IDispatchImpl<IListSubItem, &IID_IListSubItem, &LIBID_ATLLISTVIEWLib>,
+	public IConnectionPointContainerImpl<CListSubItem>
 {
 public:
 	CListSubItem()
@@ -32,6 +34,7 @@ BEGIN_COM_MAP(CListSubItem)
 	COM_INTERFACE_ENTRY(IListSubItem)
 	COM_INTERFACE_ENTRY(IDispatch)
 	COM_INTERFACE_ENTRY(ISupportErrorInfo)
+	COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
 END_COM_MAP()
 
 // ISupportsErrorInfo
@@ -39,6 +42,12 @@ END_COM_MAP()
 
 // IListSubItem
 public:
+public :
+
+BEGIN_CONNECTION_POINT_MAP(CListSubItem)
+	//CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+END_CONNECTION_POINT_MAP()
+
 };
 
 #endif //__LISTSUBITEM_H_

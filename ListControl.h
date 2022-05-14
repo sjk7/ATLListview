@@ -25,6 +25,13 @@
 
 #if _MSC_VER > VC6_VERSION
 #pragma warning(disable : 26454)
+#else
+#ifndef GET_X_LPARAM
+#define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
+#endif
+#ifndef GET_Y_LPARAM
+#define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
+#endif
 #endif
 
 typedef enum tagKEYMODIFIERS {
@@ -105,9 +112,8 @@ public:
 		END_PROP_MAP()
 		
 		BEGIN_CONNECTION_POINT_MAP(CListControl)
-		// CONNECTION_POINT_ENTRY(__uuidof(_IListControlEvents))
-		CONNECTION_POINT_ENTRY(IID_IPropertyNotifySink)
-		CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+			CONNECTION_POINT_ENTRY(__uuidof(_IListControlEvents))
+			CONNECTION_POINT_ENTRY(IID_IPropertyNotifySink)
 		END_CONNECTION_POINT_MAP()
 		
 		BEGIN_MSG_MAP(CListControl)
@@ -239,10 +245,23 @@ public:
 			return ret;
     }
 
+
+	
+
 	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
 		int xPos = GET_X_LPARAM(lParam);
 		int yPos = GET_Y_LPARAM(lParam);
-		// Fire_MouseMove(button, shift, xPos, yPos);
+		short shift = 0;
+		vbShiftConstants shift_ = my::win32::getVBKeyStates(&shift);
+		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam);
+		int button = 0;
+
+		if (m_scaleUnitsEnum == my::win32::ScaleUnits::twipsUnits) {
+			xPos *= my::win32::twipsPerPixel(LOGPIXELSX);
+			yPos *= my::win32::twipsPerPixel(LOGPIXELSY);
+		}
+
+		Fire_MouseMove(static_cast<SHORT>(button_), shift, xPos, yPos);
 		return 0;
 	}
 	

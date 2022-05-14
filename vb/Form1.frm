@@ -695,6 +695,27 @@ Private Sub checkItemCount()
     Debug.Assert lv.SelectedItemCount = lv.SelectedItems.Count
     Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
 End Sub
+
+Private Sub lv_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+    Debug.Print "MouseMove: " & x & ":" & y
+    If (Shift And vbShiftMask) Then
+        Debug.Print "SHIFT KEY IS DOWN WHEN MOUSEMOVE"
+    End If
+    If (Shift And vbAltMask) Then
+        Debug.Print "ALT KEY IS DOWN WHEN MOUSEMOVE"
+    End If
+    If (Shift And vbCtrlMask) Then
+        Debug.Print "CTRL KEY IS DOWN WHEN MOUSEMOVE"
+    End If
+    
+    If Button And vbRightButton Then
+        Debug.Print "RIGHT MOUSE DOWN WHEN MOUSEMOVE"
+    End If
+        If Button And vbLeftButton Then
+        Debug.Print "LEFT MOUSE DOWN WHEN MOUSEMOVE"
+    End If
+End Sub
+
 Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     Debug.Print "Colheader clicked: " & ColumnHeader.Index & " " & ColumnHeader.Text & " width: " & ColumnHeader.Width
     Dim c As New Stopwatch

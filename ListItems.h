@@ -52,9 +52,8 @@ class ATL_NO_VTABLE
     : public CComObjectRootEx<CComSingleThreadModel>,
       public CComCoClass<CListItems, &CLSID_ListItems>,
       public ISupportErrorInfo,
-      public IDispatchImpl<IListItems, &IID_IListItems, &LIBID_ATLLISTVIEWLib>, 
-      public CProxy_IListControlEvents< CListItems >,
-      public IConnectionPointContainerImpl<CListItems>
+      public IDispatchImpl<IListItems, &IID_IListItems, &LIBID_ATLLISTVIEWLib>
+
 {
     public:
     void sortByText(const SortInfo& si) {
@@ -131,7 +130,6 @@ class ATL_NO_VTABLE
     COM_INTERFACE_ENTRY(IListItems)
     COM_INTERFACE_ENTRY(IDispatch)
     COM_INTERFACE_ENTRY(ISupportErrorInfo)
-    COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
     END_COM_MAP()
 
     // ISupportsErrorInfo
@@ -180,9 +178,9 @@ class ATL_NO_VTABLE
     size_t size() const { return m_items.size(); }
 public :
 
-BEGIN_CONNECTION_POINT_MAP(CListItems)
-	CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
-END_CONNECTION_POINT_MAP()
+//BEGIN_CONNECTION_POINT_MAP(CListItems)
+//	CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+//END_CONNECTION_POINT_MAP()
 
 };
 

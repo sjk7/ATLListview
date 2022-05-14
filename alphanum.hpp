@@ -67,6 +67,9 @@ namespace { //-V1068
     }
 #endif
 
+#if _MSC_VER > VC6_VERSION
+#pragma warning (disable : 4706)
+#endif
     /**
     compare l and r with strcmp() semantics, but using
     the "Alphanum Algorithm". This function is designed to read
@@ -154,6 +157,10 @@ namespace { //-V1068
     }
 
 } // namespace
+
+#if _MSC_VER > VC6_VERSION
+#pragma warning (default : 4706)
+#endif
 
 /**
 Compare left and right with the same semantics as strcmp(), but with the
