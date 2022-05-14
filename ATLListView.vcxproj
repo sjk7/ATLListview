@@ -315,6 +315,7 @@ echo Warning : Cannot register Unicode DLL on Windows 95
       <ModuleDefinitionFile>.\ATLListView.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <RegisterOutput>true</RegisterOutput>
     </Link>
     <CustomBuildStep>
       <Command>regsvr32 /s /c "$(TargetPath)" 

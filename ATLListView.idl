@@ -155,6 +155,8 @@ library ATLLISTVIEWLib
 		[id(10), helpstring("method ClickEx")] HRESULT ClickEx(LONG x, LONG y);
 		[id(11), helpstring("method ItemClicked")] HRESULT ItemClicked(ListItem* Item, vbMouseButtonConstants Button);
 		[id(12)] HRESULT MouseMove(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
+		[id(13)] HRESULT MouseDown(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
+		[id(14)] HRESULT MouseUp(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
 	};
 	[
 		object,

@@ -134,7 +134,9 @@ public:
 		// This OnMouseActivate handler is used to identify if the control
 		// is activated by the mouse click
 		MESSAGE_HANDLER(WM_MOUSEACTIVATE, OnMouseActivate)
-			MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
+		MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
+			MESSAGE_HANDLER(WM_LBUTTONDOWN, OnMouseDown)
+			MESSAGE_HANDLER(WM_LBUTTONUP, OnMouseUp)
 		// MESSAGE_HANDLER(WM_CLOSE, OnLvwClose)
 		//  MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
 		MESSAGE_HANDLER(WM_DESTROY, OnLvClose)
@@ -245,7 +247,13 @@ public:
 			return ret;
     }
 
+	LRESULT OnMouseUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+		return 0;
+	}
 
+	LRESULT OnMouseDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+		return 0;
+	}
 	
 
 	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
