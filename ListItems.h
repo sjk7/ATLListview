@@ -15,6 +15,7 @@
 #include "ListItem.h"
 #include "my_cmp.h"
 #include "SelItemCollection.h"
+#include "ATLListViewCP.h"
 
 class CListControl;
 
@@ -51,7 +52,10 @@ class ATL_NO_VTABLE
     : public CComObjectRootEx<CComSingleThreadModel>,
       public CComCoClass<CListItems, &CLSID_ListItems>,
       public ISupportErrorInfo,
-      public IDispatchImpl<IListItems, &IID_IListItems, &LIBID_ATLLISTVIEWLib> {
+      public IDispatchImpl<IListItems, &IID_IListItems, &LIBID_ATLLISTVIEWLib>, 
+      public CProxy_IListControlEvents< CListItems >,
+      public IConnectionPointContainerImpl<CListItems>
+{
     public:
     void sortByText(const SortInfo& si) {
 
@@ -127,6 +131,7 @@ class ATL_NO_VTABLE
     COM_INTERFACE_ENTRY(IListItems)
     COM_INTERFACE_ENTRY(IDispatch)
     COM_INTERFACE_ENTRY(ISupportErrorInfo)
+    COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
     END_COM_MAP()
 
     // ISupportsErrorInfo
@@ -173,6 +178,12 @@ class ATL_NO_VTABLE
     public:
     STDMETHOD(Remove)(LONG Index);
     size_t size() const { return m_items.size(); }
+public :
+
+BEGIN_CONNECTION_POINT_MAP(CListItems)
+	CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+END_CONNECTION_POINT_MAP()
+
 };
 
 #endif //__LISTITEMS_H_

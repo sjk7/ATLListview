@@ -17,7 +17,9 @@ interface IListSubItem;
 interface IListItems;
 interface ColumnHeader;
 interface ISelItemCollection;
-	
+interface ListItem;
+			#include "my_flags.h"
+		#include "my_disp_ids.h"
 
 
 
@@ -63,8 +65,7 @@ library ATLLISTVIEWLib
 	]
 	interface IListControl : IDispatch
 	{
-		#include "my_flags.h"
-		#include "my_disp_ids.h"
+
 
 		[propput, id(DISPID_BACKCOLOR), bindable, requestedit]
 		HRESULT BackColor([in]OLE_COLOR clr);
@@ -139,14 +140,20 @@ library ATLLISTVIEWLib
 		properties:
 		methods:
 
-		[id(1), helpstring("method ColumnClick")] HRESULT ColumnClick(IColumnHeader* columnHeader);
+		[id(1), helpstring("method ColumnClick")] HRESULT ColumnClick(IColumnHeader* whichHeader);
 		[id(2), helpstring("method ColumnRightClick")] 
 		HRESULT ColumnRightClick(VARIANT_BOOL* DoDefault, 
-			SHORT Shift, FLOAT x, FLOAT y, IColumnHeader* columnHeader);
+			SHORT Shift, FLOAT x, FLOAT y, IColumnHeader* whichHeader);
 		[id(3)] HRESULT ColumnAdded([out] ColumnHeader* colAdded);
 		[id(4)] HRESULT ColumnRemoved([out] ColumnHeader* colRemoved);
 		[id(5), helpstring("method ItemSelectionChanged")] 
 		HRESULT ItemSelectionChanged(IListItem* item, VARIANT_BOOL SelState);
+		[id(6), helpstring("method ItemClick")] HRESULT ItemClick(ListItem* Item);
+		[id(7), helpstring("method ItemClickEx")] HRESULT ItemClickEx(ListItem* Item, short SubItemIndex);
+		[id(8), helpstring("method ItemClickRight")] HRESULT ItemClickRight(ListItem* item, SHORT subItemIndex);
+		[id(9), helpstring("method Click")] HRESULT Click();
+		[id(10), helpstring("method ClickEx")] HRESULT ClickEx(LONG x, LONG y);
+		[id(11), helpstring("method ItemClicked")] HRESULT ItemClicked(ListItem* Item, vbMouseButtonConstants Button);
 	};
 	[
 		object,

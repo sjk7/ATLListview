@@ -173,7 +173,7 @@ STDMETHODIMP ColumnHeader::EnsureVisible() {
 
     int colLeft = 0;
     if (this->m_plv) {
-        SCROLLINFO si = m_plv->hScrollInfo();
+        // SCROLLINFO si = m_plv->hScrollInfo();
         // long ScrollBarPosNow = si.nPos;
         RECT rc;
         ::GetClientRect(m_plv->lvhWnd(), &rc);

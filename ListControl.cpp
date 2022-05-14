@@ -14,6 +14,19 @@
 #include <crtdbg.h>
 #include <comdef.h> // _bstr_t
 
+// Added fake code begins here
+#if 0
+class CAppModule : 
+    public CComModule
+{
+};
+	CAppModule _Module;
+
+// Added fake code ends here, below is regular ATL project stuff
+#endif
+
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CListControl
 CListControl::CListControl()

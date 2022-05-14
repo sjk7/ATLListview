@@ -26,20 +26,28 @@ Begin VB.Form Form1
    ScaleHeight     =   6450
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
+   Begin ATLLISTVIEWLibCtl.ListControl lv 
+      Height          =   1815
+      Left            =   480
+      OleObjectBlob   =   "Form1.frx":0000
+      TabIndex        =   13
+      Top             =   390
+      Width           =   4035
+   End
    Begin VB.CommandButton Command2 
       Caption         =   "Show Sel"
       Height          =   285
       Left            =   4890
       TabIndex        =   18
-      Top             =   90
+      Top             =   30
       Width           =   1125
    End
    Begin VB.CommandButton cmdsel 
       Caption         =   "Show Sel"
       Height          =   285
-      Left            =   3600
+      Left            =   3420
       TabIndex        =   17
-      Top             =   150
+      Top             =   30
       Width           =   1125
    End
    Begin VB.CommandButton cmdClear 
@@ -50,20 +58,12 @@ Begin VB.Form Form1
       Top             =   2340
       Width           =   1125
    End
-   Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1815
-      Left            =   240
-      OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   13
-      Top             =   480
-      Width           =   4485
-   End
    Begin VB.CheckBox chkMultiSelect 
       Caption         =   "MultiSelect"
       Height          =   315
-      Left            =   1830
+      Left            =   1770
       TabIndex        =   15
-      Top             =   120
+      Top             =   0
       Width           =   1575
    End
    Begin VB.CheckBox chkCollate 
@@ -71,7 +71,7 @@ Begin VB.Form Form1
       Height          =   315
       Left            =   90
       TabIndex        =   14
-      Top             =   120
+      Top             =   0
       Value           =   1  'Checked
       Width           =   1575
    End
@@ -349,7 +349,7 @@ Private Sub cmdAddSomelvOnly_Click()
     Else
         howMany = 50000
     End If
-    Dim lck As New atlListViewLibCtl.RedrawLock
+    Dim lck As New ATLLISTVIEWLibCtl.RedrawLock
     Set lck.ListControlObject = lv
 
     Call AddLitemsEx(howMany, lv)
@@ -386,7 +386,7 @@ Private Sub ShowSelLvwApi()
     Set sw = Nothing
 End Sub
 Private Sub ShowSel()
-    Dim sel As atlListViewLibCtl.SelItemCollection
+    Dim sel As ATLLISTVIEWLibCtl.SelItemCollection
     Dim sw As New Stopwatch
     Set sw = sw.Create("Creating Selected items for ATL ListControl took: ")
     Set sel = lv.SelectedItems
@@ -446,7 +446,7 @@ Private Sub AddRange2(lview As ListControl, nItems As Long)
     Set colAdded = lview.ListItems.AddRange(nItems)
     Debug.Assert colAdded.Count = nItems
     
-    Dim litem As atlListViewLibCtl.ListItem
+    Dim litem As ATLLISTVIEWLibCtl.ListItem
     For Each litem In colAdded
         litem.Text = "Hello Listitem! @ " & idx + 1
         idx = idx + 1
@@ -545,7 +545,7 @@ Private Sub CmdAddSome_Click()
         howMany = 50000
     End If
     
-    Dim lck As New atlListViewLibCtl.RedrawLock
+    Dim lck As New ATLLISTVIEWLibCtl.RedrawLock
     Set lck.ListControlObject = lv
     Call AddLitemsEx(howMany, lvw)
     Debug.Print lck.ListControlObject.Appearance
@@ -603,11 +603,19 @@ End Function
 
 
 
-Private Sub lv_ColumnClick(ByVal ColumnHeader As atlListViewLibCtl.IColumnHeader)
+Private Sub lv_Click()
+    Loginfo "ListControl Click"
+End Sub
+
+Private Sub lv_ClickEx(ByVal x As Long, ByVal y As Long)
+Loginfo "ListControl ClickEx, with x and y: " & x & "," & y
+End Sub
+
+Private Sub lv_ColumnClick(ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
     Debug.Print "Colheader clicked: " & ColumnHeader.Index & " " & ColumnHeader.Text & " width: " & ColumnHeader.Width
     Dim c As New Stopwatch
     Set c = c.Create("ListControl: Sorting " & lv.ListItems.Count & " items took")
-    Dim ord As atlListViewLibCtl.ListSortOrderFlags
+    Dim ord As ATLLISTVIEWLibCtl.ListSortOrderFlags
     ord = lv.SortOrder
     If (ord And lvwDescending) Then
         ord = lvwAscending Or lvwNatural
@@ -627,14 +635,14 @@ Private Sub lv_ColumnClick(ByVal ColumnHeader As atlListViewLibCtl.IColumnHeader
     
 End Sub
 
-Private Sub lv_ColumnRemoved(ByVal colRemoved As atlListViewLibCtl.ColumnHeader)
+Private Sub lv_ColumnRemoved(ByVal colRemoved As ATLLISTVIEWLibCtl.ColumnHeader)
     Debug.Print "Column Removed: " & colRemoved.Index
 End Sub
 
 '                               (DoDefault As Boolean, Shift As Integer, x As Single, y As Single, ColumnHeader As ListViewAPI.ColumnHeader)
 
 
-Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As atlListViewLibCtl.IColumnHeader)
+Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
 
     If ObjPtr(ColumnHeader) Then
         Debug.Assert (doDefault = True)
@@ -648,7 +656,23 @@ Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, By
     End If
 End Sub
 
-Private Sub lv_ItemSelectionChanged(ByVal Item As atlListViewLibCtl.IListItem, ByVal SelState As Boolean)
+Private Sub lv_ItemClick(ByVal Item As ATLLISTVIEWLibCtl.ListItem)
+    Loginfo "Item " & Item.Index & " clicked"
+End Sub
+
+Private Sub lv_ItemClicked(ByVal Item As ATLLISTVIEWLibCtl.ListItem, ByVal Button As ATLLISTVIEWLibCtl.vbMouseButtonConstants)
+    Loginfo "Item " & Item.Index & " clicked, with button = " & Button
+End Sub
+
+Private Sub lv_ItemClickEx(ByVal Item As ATLLISTVIEWLibCtl.ListItem, ByVal SubItemIndex As Integer)
+Loginfo "Item " & Item.Index & " clicked(Ex) " & "Subitem Index is: " & SubItemIndex
+End Sub
+
+Private Sub lv_ItemClickRight(ByVal Item As ATLLISTVIEWLibCtl.ListItem, ByVal SubItemIndex As Integer)
+Loginfo "Item " & Item.Index & " RIGHT clicked(Ex) " & "Subitem Index is: " & SubItemIndex
+End Sub
+
+Private Sub lv_ItemSelectionChanged(ByVal Item As ATLLISTVIEWLibCtl.IListItem, ByVal SelState As Boolean)
     Exit Sub
     If lv.LayoutSuspended Then Exit Sub
     Debug.Print "Selection changed, for item: " & Item.Index
@@ -660,7 +684,7 @@ Private Sub lv_ItemSelectionChanged(ByVal Item As atlListViewLibCtl.IListItem, B
     End If
 
     
-    Dim litem As atlListViewLibCtl.ListItem
+    Dim litem As ATLLISTVIEWLibCtl.ListItem
     For Each litem In lv.SelectedItems
         Loginfo "Litem " & litem.Index & " is selected."
     Next litem

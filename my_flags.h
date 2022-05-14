@@ -55,13 +55,13 @@ typedef enum ListColumnResizeMode{
 
 
 [uuid(3511FB6C-CB9B-4DE6-A95A-D4554D7885F7), v1_enum]
-typedef enum MouseConstants{
+typedef enum MouseButtonConstants{
 
-	vbMiddleButton = 1,
-	vbRightButton = 2,
-	vbLeftButton = 4
+	VbLeftButton = 1,
+	VbRightButton = 2,
+	VbMiddleButton = 4
 
-}vbMouseConstants;
+}vbMouseButtonConstants;
 
 
 typedef enum {

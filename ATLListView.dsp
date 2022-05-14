@@ -479,6 +479,10 @@ SOURCE=.\Stopwatch.rgs
 # End Group
 # Begin Source File
 
+SOURCE=.\CP.h.txt
+# End Source File
+# Begin Source File
+
 SOURCE=.\Fire_byRef_HOWTO.txt
 # End Source File
 # End Target
