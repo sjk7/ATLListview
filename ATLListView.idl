@@ -157,7 +157,24 @@ library ATLLISTVIEWLib
 		[id(12)] HRESULT MouseMove(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
 		[id(13)] HRESULT MouseDown(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
 		[id(14)] HRESULT MouseUp(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
+		
 	};
+
+
+	[
+		uuid("5B2601EF-4F24-4374-A6CB-14362769AF73"),
+		helpstring("ColumnHeader Events Interface")
+	]
+	dispinterface _IColumnHeaderEvents
+	{
+	properties:
+	methods:
+
+		[id(1), helpstring("Event when column left clicked")] HRESULT ColumnClick(IColumnHeader* whichHeader);
+
+	};
+
+
 	[
 		object,
 		uuid(D78DC907-B60F-4E2E-AE9D-4F0ADCDBB92F),
@@ -200,6 +217,7 @@ library ATLLISTVIEWLib
 	coclass ColumnHeaders
 	{
 		[default] interface IColumnHeaders;
+		[default, source] dispinterface _IColumnHeaderEvents;
 	};
 
 	[

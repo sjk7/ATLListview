@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Sun May 15 09:10:36 2022
+/* at Sun May 15 09:39:45 2022
  */
 /* Compiler settings for ATLListView.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -60,6 +60,13 @@ typedef interface IListControl IListControl;
 typedef interface _IListControlEvents _IListControlEvents;
 
 #endif 	/* ___IListControlEvents_FWD_DEFINED__ */
+
+
+#ifndef ___IColumnHeaderEvents_FWD_DEFINED__
+#define ___IColumnHeaderEvents_FWD_DEFINED__
+typedef interface _IColumnHeaderEvents _IColumnHeaderEvents;
+
+#endif 	/* ___IColumnHeaderEvents_FWD_DEFINED__ */
 
 
 #ifndef __IColumnHeaders_FWD_DEFINED__
@@ -1112,6 +1119,121 @@ EXTERN_C const IID DIID__IListControlEvents;
 
 
 #endif 	/* ___IListControlEvents_DISPINTERFACE_DEFINED__ */
+
+
+#ifndef ___IColumnHeaderEvents_DISPINTERFACE_DEFINED__
+#define ___IColumnHeaderEvents_DISPINTERFACE_DEFINED__
+
+/* dispinterface _IColumnHeaderEvents */
+/* [helpstring][uuid] */ 
+
+
+EXTERN_C const IID DIID__IColumnHeaderEvents;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("5B2601EF-4F24-4374-A6CB-14362769AF73")
+    _IColumnHeaderEvents : public IDispatch
+    {
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct _IColumnHeaderEventsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            _IColumnHeaderEvents * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            _IColumnHeaderEvents * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            _IColumnHeaderEvents * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            _IColumnHeaderEvents * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            _IColumnHeaderEvents * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            _IColumnHeaderEvents * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            _IColumnHeaderEvents * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        END_INTERFACE
+    } _IColumnHeaderEventsVtbl;
+
+    interface _IColumnHeaderEvents
+    {
+        CONST_VTBL struct _IColumnHeaderEventsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define _IColumnHeaderEvents_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define _IColumnHeaderEvents_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define _IColumnHeaderEvents_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define _IColumnHeaderEvents_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define _IColumnHeaderEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define _IColumnHeaderEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define _IColumnHeaderEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+#endif 	/* ___IColumnHeaderEvents_DISPINTERFACE_DEFINED__ */
 
 
 #ifndef __IColumnHeaders_INTERFACE_DEFINED__

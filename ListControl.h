@@ -137,6 +137,8 @@ public:
 		MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
 			MESSAGE_HANDLER(WM_LBUTTONDOWN, OnMouseDown)
 			MESSAGE_HANDLER(WM_LBUTTONUP, OnMouseUp)
+			MESSAGE_HANDLER(WM_RBUTTONDOWN, OnMouseDown)
+			MESSAGE_HANDLER(WM_RBUTTONUP, OnMouseUp)
 		// MESSAGE_HANDLER(WM_CLOSE, OnLvwClose)
 		//  MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
 		MESSAGE_HANDLER(WM_DESTROY, OnLvClose)
@@ -259,7 +261,7 @@ public:
 		my::win32::VBPOINTF point = getXYFromLParam(lParam);
 		short shift = 0;
 		my::win32::getVBKeyStates(&shift);
-		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam);
+		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam == 0 ? NULL :&wParam);
 		Fire_MouseUp(static_cast<SHORT>(button_), shift, point.x, point.y);
 		return 0;
 	}
@@ -268,7 +270,7 @@ public:
 		my::win32::VBPOINTF point = getXYFromLParam(lParam);
 		short shift = 0;
 		my::win32::getVBKeyStates(&shift);
-		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam);
+		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam == 0 ? NULL : &wParam);
 		Fire_MouseDown(static_cast<SHORT>(button_), shift, point.x, point.y);
 		return 0;
 	}
@@ -279,7 +281,7 @@ public:
 		my::win32::VBPOINTF point = getXYFromLParam(lParam);
 		short shift = 0;
 		my::win32::getVBKeyStates(&shift);
-		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam);
+		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam == 0 ? NULL : &wParam);
 		Fire_MouseMove(static_cast<SHORT>(button_), shift, point.x, point.y);
 		return 0;
 	}

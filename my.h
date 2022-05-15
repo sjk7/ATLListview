@@ -30,14 +30,25 @@ namespace my {
 	
 	namespace win32 {
 
-		__inline vbMouseButtonConstants getVBMouseButton(const WPARAM wParam) {
+		__inline vbMouseButtonConstants getVBMouseButton(const WPARAM* wParam = NULL) {
 			int button = 0;
-			if (wParam & MK_LBUTTON)
-				button |= vbMouseButtonConstants::VbLeftButton;
-			if (wParam & MK_RBUTTON)
-				button |= vbMouseButtonConstants::VbRightButton;
-			if (wParam & MK_MBUTTON)
-				button |= vbMouseButtonConstants::VbMiddleButton;
+			if (!wParam) {
+				if (GetAsyncKeyState(VK_LBUTTON))
+					button |= vbMouseButtonConstants::VbLeftButton;
+				if (GetAsyncKeyState(VK_RBUTTON))
+					button |= vbMouseButtonConstants::VbRightButton;
+				if (GetAsyncKeyState(VK_MBUTTON))
+					button |= vbMouseButtonConstants::VbMiddleButton;
+			}
+			else {
+				
+				if (*wParam & MK_LBUTTON)
+					button |= vbMouseButtonConstants::VbLeftButton;
+				if (*wParam & MK_RBUTTON)
+					button |= vbMouseButtonConstants::VbRightButton;
+				if (*wParam & MK_MBUTTON)
+					button |= vbMouseButtonConstants::VbMiddleButton;
+			}
 			return static_cast<vbMouseButtonConstants>(button);
 		}
 		

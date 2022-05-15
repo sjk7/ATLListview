@@ -715,13 +715,13 @@ Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, x 
     If (Shift And vbCtrlMask) Then
         Debug.Print "CTRL KEY IS DOWN WHEN " & action
     End If
-    
+    'Debug.Assert action <> "MouseUp"
     If Button And vbRightButton Then
         Debug.Print "RIGHT MOUSE DOWN WHEN " & action
     End If
     
     If Button And vbLeftButton Then
-        Debug.Print "LEFT MOUSE DOWN WHEN MOUSEMOVE " & action
+        Debug.Print "LEFT MOUSE DOWN WHEN " & action
     End If
 End Sub
 
