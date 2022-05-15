@@ -30,6 +30,12 @@ namespace my {
 	
 	namespace win32 {
 
+
+		struct VBPOINTF {
+			float x;
+			float y;
+		};
+
 		__inline vbMouseButtonConstants getVBMouseButton(const WPARAM* wParam = NULL) {
 			int button = 0;
 			if (!wParam) {
@@ -41,7 +47,7 @@ namespace my {
 					button |= vbMouseButtonConstants::VbMiddleButton;
 			}
 			else {
-				
+
 				if (*wParam & MK_LBUTTON)
 					button |= vbMouseButtonConstants::VbLeftButton;
 				if (*wParam & MK_RBUTTON)
@@ -51,7 +57,7 @@ namespace my {
 			}
 			return static_cast<vbMouseButtonConstants>(button);
 		}
-		
+
 		__inline static vbShiftConstants getVBKeyStates(
 			short* ptrShort = 0) noexcept {
 			short ivbshift = 0;
@@ -69,7 +75,7 @@ namespace my {
 			}
 			return (vbShiftConstants)ivbshift;
 		}
-		
+
 		static __inline POINT ScreenPoint() {
 			POINT retval;
 			const DWORD dwPos = ::GetMessagePos();
@@ -77,9 +83,9 @@ namespace my {
 			retval.y = HIWORD(dwPos);
 			return retval;
 		}
-		
+
 		enum ScaleUnits { pixelUnits, twipsUnits, unknownUnits };
-		
+
 		static __inline ScaleUnits ScaleUnitsFromString(const CString& s) {
 			if (s == "Pixel") return pixelUnits;
 			if (s == "Twip") return twipsUnits;
@@ -91,12 +97,12 @@ namespace my {
 					_T("container\n\nProperties such as columnheader widths will ")
 					_T("not work correctly unless you do."),
 					_T("ListControl Message"), MB_OK | MB_ICONWARNING);
-				
+
 				shown_error = true;
 			}
 			return unknownUnits;
 		}
-		
+
 		// direction can also be LOGPIXELSX
 		static __inline int twipsPerPixel(unsigned int direction = LOGPIXELSY) {
 			HWND hWnd = ::GetDesktopWindow();
@@ -105,25 +111,58 @@ namespace my {
 			::ReleaseDC(hWnd, hDC);
 			return 1440 / logPix;
 		}
-		
-		struct VBPOINTF {
-			float x;
-			float y;
-		};
-		
+
 		static __inline VBPOINTF ptToVB(
 			const POINT& pt, const ScaleUnits units) noexcept {
 			VBPOINTF vbPoint;
-			
+
 			if (units == twipsUnits) {
 				vbPoint.x = (float)pt.x * (float)twipsPerPixel(LOGPIXELSX);
 				vbPoint.y = (float)pt.y * (float)twipsPerPixel(LOGPIXELSY);
-			} else {
+			}
+			else {
 				vbPoint.x = (float)pt.x;
 				vbPoint.y = (float)pt.y;
 			}
 			return vbPoint;
 		}
+
+		__inline my::win32::VBPOINTF getXYFromLParam(const LPARAM lParam, ScaleUnits scale) {
+			POINT pt;
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
+			my::win32::VBPOINTF point = my::win32::ptToVB(pt, scale);
+			return point;
+		}
+
+		enum InputInfoActions {
+			MousemoveAction,
+			MouseupAction,
+			MousedownAction
+		};
+		struct InputInfo {
+			InputInfo(const InputInfoActions Action, const ScaleUnits Units, const LPARAM* lp = NULL, const POINT* pt = NULL, const WPARAM* wp = NULL)
+			: action(Action), units(Units){
+				button = getVBMouseButton(wp);
+				shift = getVBKeyStates();
+				if (pt) {
+					point = ptToVB(*pt, units);
+				}
+				else if (lp) {
+					point = getXYFromLParam(*lp, units);
+				}
+				else {
+					ASSERT("InputInfo: either LPARAM or POINT should be set. They are both null" == 0);
+				}
+			}
+			vbMouseButtonConstants button;
+			vbShiftConstants shift;
+			VBPOINTF point;
+			InputInfoActions action;
+			ScaleUnits units;
+		};
+
+
 		
 		static __inline CString getClassName(HWND hWnd) {
 			ASSERT(IsWindow(hWnd));

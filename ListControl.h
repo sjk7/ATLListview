@@ -249,40 +249,23 @@ public:
 			return ret;
     }
 
-	__inline my::win32::VBPOINTF getXYFromLParam(const LPARAM lParam) {
-		POINT pt;
-		pt.x = GET_X_LPARAM(lParam);
-		pt.y = GET_Y_LPARAM(lParam);
-		my::win32::VBPOINTF point = my::win32::ptToVB(pt, m_scaleUnitsEnum);
-		return point;
-	}
 
 	LRESULT OnMouseUp(UINT , WPARAM wParam, LPARAM lParam, BOOL&) {
-		my::win32::VBPOINTF point = getXYFromLParam(lParam);
-		short shift = 0;
-		my::win32::getVBKeyStates(&shift);
-		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam == 0 ? NULL :&wParam);
-		Fire_MouseUp(static_cast<SHORT>(button_), shift, point.x, point.y);
+		my::win32::InputInfo ii(my::win32::InputInfoActions::MouseupAction, m_scaleUnitsEnum, &lParam, 0,  wParam == 0 ? NULL : &wParam);
+		Fire_MouseUp(static_cast<SHORT>(ii.button), static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
 		return 0;
 	}
 
 	LRESULT OnMouseDown(UINT , WPARAM wParam, LPARAM lParam, BOOL& ) {
-		my::win32::VBPOINTF point = getXYFromLParam(lParam);
-		short shift = 0;
-		my::win32::getVBKeyStates(&shift);
-		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam == 0 ? NULL : &wParam);
-		Fire_MouseDown(static_cast<SHORT>(button_), shift, point.x, point.y);
+		my::win32::InputInfo ii(my::win32::InputInfoActions::MouseupAction, m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
+		Fire_MouseDown(static_cast<SHORT>(ii.button), static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
 		return 0;
 	}
 	
 
 	LRESULT OnMouseMove(UINT , WPARAM wParam, LPARAM lParam, BOOL& ) {
-
-		my::win32::VBPOINTF point = getXYFromLParam(lParam);
-		short shift = 0;
-		my::win32::getVBKeyStates(&shift);
-		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam == 0 ? NULL : &wParam);
-		Fire_MouseMove(static_cast<SHORT>(button_), shift, point.x, point.y);
+		my::win32::InputInfo ii(my::win32::InputInfoActions::MouseupAction, m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
+		Fire_MouseMove(static_cast<SHORT>(ii.button), static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
 		return 0;
 	}
 	
