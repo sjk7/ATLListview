@@ -100,13 +100,13 @@ namespace my {
 			float y;
 		};
 		
-		static inline VBPOINTF ptToVB(
+		static __inline VBPOINTF ptToVB(
 			const POINT& pt, const ScaleUnits units) noexcept {
 			VBPOINTF vbPoint;
 			
 			if (units == twipsUnits) {
-				vbPoint.x = (float)pt.x * (float)twipsPerPixel();
-				vbPoint.y = (float)pt.y * (float)twipsPerPixel();
+				vbPoint.x = (float)pt.x * (float)twipsPerPixel(LOGPIXELSX);
+				vbPoint.y = (float)pt.y * (float)twipsPerPixel(LOGPIXELSY);
 			} else {
 				vbPoint.x = (float)pt.x;
 				vbPoint.y = (float)pt.y;

@@ -257,19 +257,15 @@ public:
 	
 
 	LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
+
+		POINT pt;
+		pt.x = GET_X_LPARAM(lParam);
+		pt.y = GET_Y_LPARAM(lParam);
+		my::win32::VBPOINTF point = my::win32::ptToVB(pt, m_scaleUnitsEnum);
 		short shift = 0;
-		vbShiftConstants shift_ = my::win32::getVBKeyStates(&shift);
+		my::win32::getVBKeyStates(&shift);
 		vbMouseButtonConstants button_ = my::win32::getVBMouseButton(wParam);
-		int button = 0;
-
-		if (m_scaleUnitsEnum == my::win32::ScaleUnits::twipsUnits) {
-			xPos *= my::win32::twipsPerPixel(LOGPIXELSX);
-			yPos *= my::win32::twipsPerPixel(LOGPIXELSY);
-		}
-
-		Fire_MouseMove(static_cast<SHORT>(button_), shift, xPos, yPos);
+		Fire_MouseMove(static_cast<SHORT>(button_), shift, point.x, point.y);
 		return 0;
 	}
 	
