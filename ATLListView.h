@@ -3,18 +3,18 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.00.0603 */
-/* at Sun May 15 09:39:45 2022
+ /* File created by MIDL compiler version 6.00.0361 */
+/* at Sun May 15 11:11:25 2022
  */
-/* Compiler settings for ATLListView.idl:
-    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
+/* Compiler settings for C:\Users\DevNVME\Desktop\ATLListview\ATLListView.idl:
+    Oicf, W1, Zp8, env=Win32 (32b run)
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
          __declspec(uuid()), __declspec(selectany), __declspec(novtable)
          DECLSPEC_UUID(), MIDL_INTERFACE()
 */
-/* @@MIDL_FILE_HEADING(  ) */
+//@@MIDL_FILE_HEADING(  )
 
 #pragma warning( disable: 4049 )  /* more than 64k source lines */
 
@@ -44,35 +44,30 @@
 #ifndef __IInterfaceCollection_FWD_DEFINED__
 #define __IInterfaceCollection_FWD_DEFINED__
 typedef interface IInterfaceCollection IInterfaceCollection;
-
 #endif 	/* __IInterfaceCollection_FWD_DEFINED__ */
 
 
 #ifndef __IListControl_FWD_DEFINED__
 #define __IListControl_FWD_DEFINED__
 typedef interface IListControl IListControl;
-
 #endif 	/* __IListControl_FWD_DEFINED__ */
 
 
 #ifndef ___IListControlEvents_FWD_DEFINED__
 #define ___IListControlEvents_FWD_DEFINED__
 typedef interface _IListControlEvents _IListControlEvents;
-
 #endif 	/* ___IListControlEvents_FWD_DEFINED__ */
 
 
 #ifndef ___IColumnHeaderEvents_FWD_DEFINED__
 #define ___IColumnHeaderEvents_FWD_DEFINED__
 typedef interface _IColumnHeaderEvents _IColumnHeaderEvents;
-
 #endif 	/* ___IColumnHeaderEvents_FWD_DEFINED__ */
 
 
 #ifndef __IColumnHeaders_FWD_DEFINED__
 #define __IColumnHeaders_FWD_DEFINED__
 typedef interface IColumnHeaders IColumnHeaders;
-
 #endif 	/* __IColumnHeaders_FWD_DEFINED__ */
 
 
@@ -103,42 +98,36 @@ typedef struct ColumnHeaders ColumnHeaders;
 #ifndef __IColumnHeader_FWD_DEFINED__
 #define __IColumnHeader_FWD_DEFINED__
 typedef interface IColumnHeader IColumnHeader;
-
 #endif 	/* __IColumnHeader_FWD_DEFINED__ */
 
 
 #ifndef __IListSubItem_FWD_DEFINED__
 #define __IListSubItem_FWD_DEFINED__
 typedef interface IListSubItem IListSubItem;
-
 #endif 	/* __IListSubItem_FWD_DEFINED__ */
 
 
 #ifndef __IListItem_FWD_DEFINED__
 #define __IListItem_FWD_DEFINED__
 typedef interface IListItem IListItem;
-
 #endif 	/* __IListItem_FWD_DEFINED__ */
 
 
 #ifndef __IListItems_FWD_DEFINED__
 #define __IListItems_FWD_DEFINED__
 typedef interface IListItems IListItems;
-
 #endif 	/* __IListItems_FWD_DEFINED__ */
 
 
 #ifndef __IRedrawLock_FWD_DEFINED__
 #define __IRedrawLock_FWD_DEFINED__
 typedef interface IRedrawLock IRedrawLock;
-
 #endif 	/* __IRedrawLock_FWD_DEFINED__ */
 
 
 #ifndef __ISelItemCollection_FWD_DEFINED__
 #define __ISelItemCollection_FWD_DEFINED__
 typedef interface ISelItemCollection ISelItemCollection;
-
 #endif 	/* __ISelItemCollection_FWD_DEFINED__ */
 
 
@@ -234,8 +223,10 @@ typedef struct SelItemCollection SelItemCollection;
 extern "C"{
 #endif 
 
+void * __RPC_USER MIDL_user_allocate(size_t);
+void __RPC_USER MIDL_user_free( void * ); 
 
-/* interface __MIDL_itf_ATLListView_0000_0000 */
+/* interface __MIDL_itf_ATLListView_0000 */
 /* [local] */ 
 
 
@@ -249,96 +240,86 @@ extern "C"{
 #pragma once
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("985ECCDF-A665-489D-887B-2BF1E5C8156B") 
 enum BorderStyleConstants
-    {
-        ccNone	= 0,
-        ccFixedSingle	= 1
+    {	ccNone	= 0,
+	ccFixedSingle	= 1
     } 	BorderStyleConstants;
 
 typedef /* [uuid] */  DECLSPEC_UUID("550EC01B-FF02-4AC4-A836-4366A35F6248") 
 enum ListSortOrderFlags
-    {
-        lvwNone	= 0,
-        lvwAscending	= 1,
-        lvwDescending	= 2,
-        lvwNatural	= 4,
-        lvwNoCase	= 8
+    {	lvwNone	= 0,
+	lvwAscending	= 1,
+	lvwDescending	= 2,
+	lvwNatural	= 4,
+	lvwNoCase	= 8
     } 	ListSortOrderFlags;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("A81E9973-2781-4CC6-B325-42FB3E2DB3E2") 
 enum ListColumnAlignmentConstants
-    {
-        lvwColumnLeft	= 0,
-        lvwColumnRight	= 1,
-        lvwColumnCenter	= 2
+    {	lvwColumnLeft	= 0,
+	lvwColumnRight	= 1,
+	lvwColumnCenter	= 2
     } 	ListColumnAlignmentConstants;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("5407754A-1B28-45A5-8D46-B4B9B5D39B7B") 
 enum ColumnContentType
-    {
-        lvText	= 0,
-        lvNumber	= 1,
-        lvDate	= 2,
-        lvTimeFormat	= 4
+    {	lvText	= 0,
+	lvNumber	= 1,
+	lvDate	= 2,
+	lvTimeFormat	= 4
     } 	ColumnContentType;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("6CB4DCFB-6598-4726-8A14-C14736529B98") 
 enum AppearanceConstants
-    {
-        ccFlat	= 0,
-        cc3D	= 1
+    {	ccFlat	= 0,
+	cc3D	= 1
     } 	AppearanceConstants;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("F690F6F2-9587-4DEE-B8D1-61F5DDA806DE") 
 enum ShiftConstants
-    {
-        vbShiftMask	= 1,
-        vbCtrlMask	= 2,
-        vbAltMask	= 4
+    {	vbShiftMask	= 1,
+	vbCtrlMask	= 2,
+	vbAltMask	= 4
     } 	vbShiftConstants;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("2454E41D-A2CE-488B-8C1C-FCD7D05AFE4E") 
 enum ListColumnResizeMode
-    {
-        lvwResizeHorizontalProportion	= 0,
-        lvwResizeKeepWidth	= 1
+    {	lvwResizeHorizontalProportion	= 0,
+	lvwResizeKeepWidth	= 1
     } 	ListColumnResizeMode;
 
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("3511FB6C-CB9B-4DE6-A95A-D4554D7885F7") 
 enum MouseButtonConstants
-    {
-        VbLeftButton	= 1,
-        VbRightButton	= 2,
-        VbMiddleButton	= 4
+    {	VbLeftButton	= 1,
+	VbRightButton	= 2,
+	VbMiddleButton	= 4
     } 	vbMouseButtonConstants;
 
 typedef /* [public] */ 
-enum __MIDL___MIDL_itf_ATLListView_0000_0000_0001
-    {
-        fmt_left	= 0x1,
-        fmt_right	= 0x2,
-        fmt_center	= 0x4,
-        fmt_justify_mask	= 0x3,
-        fmt_image	= 0x800,
-        fmt_bitmap_right	= 0x1000,
-        fmt_has_images	= 0x8000
+enum __MIDL___MIDL_itf_ATLListView_0000_0001
+    {	fmt_left	= 0x1,
+	fmt_right	= 0x2,
+	fmt_center	= 0x4,
+	fmt_justify_mask	= 0x3,
+	fmt_image	= 0x800,
+	fmt_bitmap_right	= 0x1000,
+	fmt_has_images	= 0x8000
     } 	FormatFlags;
 
 typedef /* [public] */ 
-enum __MIDL___MIDL_itf_ATLListView_0000_0000_0002
-    {
-        lvcf_fmt	= 0x1,
-        lvcf_width	= 0x2,
-        lvcf_text	= 0x4,
-        lvcf_subitem	= 0x8,
-        lvcf_image	= 0x10,
-        lvcf_order	= 0x20
+enum __MIDL___MIDL_itf_ATLListView_0000_0002
+    {	lvcf_fmt	= 0x1,
+	lvcf_width	= 0x2,
+	lvcf_text	= 0x4,
+	lvcf_subitem	= 0x8,
+	lvcf_image	= 0x10,
+	lvcf_order	= 0x20
     } 	FormatMask;
 
 #pragma once
 
 
-extern RPC_IF_HANDLE __MIDL_itf_ATLListView_0000_0000_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_ATLListView_0000_0000_v0_0_s_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_ATLListView_0000_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_ATLListView_0000_v0_0_s_ifspec;
 
 
 #ifndef __ATLLISTVIEWLib_LIBRARY_DEFINED__
@@ -377,7 +358,6 @@ EXTERN_C const IID IID_IInterfaceCollection;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IInterfaceCollectionVtbl
@@ -387,8 +367,7 @@ EXTERN_C const IID IID_IInterfaceCollection;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IInterfaceCollection * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IInterfaceCollection * This);
@@ -410,28 +389,20 @@ EXTERN_C const IID IID_IInterfaceCollection;
             IInterfaceCollection * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IInterfaceCollection * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
             IInterfaceCollection * This,
@@ -460,42 +431,79 @@ EXTERN_C const IID IID_IInterfaceCollection;
 
 
 #define IInterfaceCollection_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IInterfaceCollection_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IInterfaceCollection_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IInterfaceCollection_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IInterfaceCollection_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IInterfaceCollection_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IInterfaceCollection_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IInterfaceCollection_get_Count(This,pRetVal)	\
-    ( (This)->lpVtbl -> get_Count(This,pRetVal) ) 
+    (This)->lpVtbl -> get_Count(This,pRetVal)
 
 #define IInterfaceCollection_get_Item(This,vIndex,pvItem)	\
-    ( (This)->lpVtbl -> get_Item(This,vIndex,pvItem) ) 
+    (This)->lpVtbl -> get_Item(This,vIndex,pvItem)
 
 #define IInterfaceCollection_get__NewEnum(This,ppUnk)	\
-    ( (This)->lpVtbl -> get__NewEnum(This,ppUnk) ) 
+    (This)->lpVtbl -> get__NewEnum(This,ppUnk)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IInterfaceCollection_get_Count_Proxy( 
+    IInterfaceCollection * This,
+    /* [retval][out] */ long *pRetVal);
+
+
+void __RPC_STUB IInterfaceCollection_get_Count_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IInterfaceCollection_get_Item_Proxy( 
+    IInterfaceCollection * This,
+    /* [in] */ LONG vIndex,
+    /* [retval][out] */ IDispatch **pvItem);
+
+
+void __RPC_STUB IInterfaceCollection_get_Item_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][restricted][propget] */ HRESULT STDMETHODCALLTYPE IInterfaceCollection_get__NewEnum_Proxy( 
+    IInterfaceCollection * This,
+    /* [retval][out] */ IUnknown **ppUnk);
+
+
+void __RPC_STUB IInterfaceCollection_get__NewEnum_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -633,7 +641,6 @@ EXTERN_C const IID IID_IListControl;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IListControlVtbl
@@ -643,8 +650,7 @@ EXTERN_C const IID IID_IListControl;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IListControl * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListControl * This);
@@ -666,28 +672,20 @@ EXTERN_C const IID IID_IListControl;
             IListControl * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListControl * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [requestedit][bindable][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_BackColor )( 
             IListControl * This,
@@ -856,150 +854,615 @@ EXTERN_C const IID IID_IListControl;
 
 
 #define IListControl_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IListControl_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IListControl_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IListControl_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IListControl_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IListControl_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IListControl_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IListControl_put_BackColor(This,clr)	\
-    ( (This)->lpVtbl -> put_BackColor(This,clr) ) 
+    (This)->lpVtbl -> put_BackColor(This,clr)
 
 #define IListControl_get_BackColor(This,pclr)	\
-    ( (This)->lpVtbl -> get_BackColor(This,pclr) ) 
+    (This)->lpVtbl -> get_BackColor(This,pclr)
 
 #define IListControl_put_Appearance(This,appearance)	\
-    ( (This)->lpVtbl -> put_Appearance(This,appearance) ) 
+    (This)->lpVtbl -> put_Appearance(This,appearance)
 
 #define IListControl_get_Appearance(This,pappearance)	\
-    ( (This)->lpVtbl -> get_Appearance(This,pappearance) ) 
+    (This)->lpVtbl -> get_Appearance(This,pappearance)
 
 #define IListControl_put_ForeColor(This,clr)	\
-    ( (This)->lpVtbl -> put_ForeColor(This,clr) ) 
+    (This)->lpVtbl -> put_ForeColor(This,clr)
 
 #define IListControl_get_ForeColor(This,pclr)	\
-    ( (This)->lpVtbl -> get_ForeColor(This,pclr) ) 
+    (This)->lpVtbl -> get_ForeColor(This,pclr)
 
 #define IListControl_put_Enabled(This,vbool)	\
-    ( (This)->lpVtbl -> put_Enabled(This,vbool) ) 
+    (This)->lpVtbl -> put_Enabled(This,vbool)
 
 #define IListControl_get_Enabled(This,pbool)	\
-    ( (This)->lpVtbl -> get_Enabled(This,pbool) ) 
+    (This)->lpVtbl -> get_Enabled(This,pbool)
 
 #define IListControl_put_TabStop(This,vbool)	\
-    ( (This)->lpVtbl -> put_TabStop(This,vbool) ) 
+    (This)->lpVtbl -> put_TabStop(This,vbool)
 
 #define IListControl_get_TabStop(This,pbool)	\
-    ( (This)->lpVtbl -> get_TabStop(This,pbool) ) 
+    (This)->lpVtbl -> get_TabStop(This,pbool)
 
 #define IListControl_get_hWnd(This,pVal)	\
-    ( (This)->lpVtbl -> get_hWnd(This,pVal) ) 
+    (This)->lpVtbl -> get_hWnd(This,pVal)
 
 #define IListControl_put_BorderStyle(This,style)	\
-    ( (This)->lpVtbl -> put_BorderStyle(This,style) ) 
+    (This)->lpVtbl -> put_BorderStyle(This,style)
 
 #define IListControl_get_BorderStyle(This,pstyle)	\
-    ( (This)->lpVtbl -> get_BorderStyle(This,pstyle) ) 
+    (This)->lpVtbl -> get_BorderStyle(This,pstyle)
 
 #define IListControl_Refresh(This)	\
-    ( (This)->lpVtbl -> Refresh(This) ) 
+    (This)->lpVtbl -> Refresh(This)
 
 #define IListControl_get_ColumnHeaders(This,pVal)	\
-    ( (This)->lpVtbl -> get_ColumnHeaders(This,pVal) ) 
+    (This)->lpVtbl -> get_ColumnHeaders(This,pVal)
 
 #define IListControl_get_ListItems(This,pVal)	\
-    ( (This)->lpVtbl -> get_ListItems(This,pVal) ) 
+    (This)->lpVtbl -> get_ListItems(This,pVal)
 
 #define IListControl_get_Font(This,pVal)	\
-    ( (This)->lpVtbl -> get_Font(This,pVal) ) 
+    (This)->lpVtbl -> get_Font(This,pVal)
 
 #define IListControl_put_Font(This,newVal)	\
-    ( (This)->lpVtbl -> put_Font(This,newVal) ) 
+    (This)->lpVtbl -> put_Font(This,newVal)
 
 #define IListControl_putref_Font(This,newVal)	\
-    ( (This)->lpVtbl -> putref_Font(This,newVal) ) 
+    (This)->lpVtbl -> putref_Font(This,newVal)
 
 #define IListControl_SetRedraw(This,ShouldRedraw)	\
-    ( (This)->lpVtbl -> SetRedraw(This,ShouldRedraw) ) 
+    (This)->lpVtbl -> SetRedraw(This,ShouldRedraw)
 
 #define IListControl_get_AxHWnd(This,pVal)	\
-    ( (This)->lpVtbl -> get_AxHWnd(This,pVal) ) 
+    (This)->lpVtbl -> get_AxHWnd(This,pVal)
 
 #define IListControl_get_ContainerhWnd(This,pVal)	\
-    ( (This)->lpVtbl -> get_ContainerhWnd(This,pVal) ) 
+    (This)->lpVtbl -> get_ContainerhWnd(This,pVal)
 
 #define IListControl_get_RedrawEnabled(This,pVal)	\
-    ( (This)->lpVtbl -> get_RedrawEnabled(This,pVal) ) 
+    (This)->lpVtbl -> get_RedrawEnabled(This,pVal)
 
 #define IListControl_put_RedrawEnabled(This,newVal)	\
-    ( (This)->lpVtbl -> put_RedrawEnabled(This,newVal) ) 
+    (This)->lpVtbl -> put_RedrawEnabled(This,newVal)
 
 #define IListControl_get_LayoutSuspended(This,pVal)	\
-    ( (This)->lpVtbl -> get_LayoutSuspended(This,pVal) ) 
+    (This)->lpVtbl -> get_LayoutSuspended(This,pVal)
 
 #define IListControl_SuspendLayout(This)	\
-    ( (This)->lpVtbl -> SuspendLayout(This) ) 
+    (This)->lpVtbl -> SuspendLayout(This)
 
 #define IListControl_ResumeLayout(This)	\
-    ( (This)->lpVtbl -> ResumeLayout(This) ) 
+    (This)->lpVtbl -> ResumeLayout(This)
 
 #define IListControl_get_VirtualMode(This,pVal)	\
-    ( (This)->lpVtbl -> get_VirtualMode(This,pVal) ) 
+    (This)->lpVtbl -> get_VirtualMode(This,pVal)
 
 #define IListControl_put_VirtualMode(This,newVal)	\
-    ( (This)->lpVtbl -> put_VirtualMode(This,newVal) ) 
+    (This)->lpVtbl -> put_VirtualMode(This,newVal)
 
 #define IListControl_get_Sorted(This,pVal)	\
-    ( (This)->lpVtbl -> get_Sorted(This,pVal) ) 
+    (This)->lpVtbl -> get_Sorted(This,pVal)
 
 #define IListControl_put_Sorted(This,newVal)	\
-    ( (This)->lpVtbl -> put_Sorted(This,newVal) ) 
+    (This)->lpVtbl -> put_Sorted(This,newVal)
 
 #define IListControl_get_SortKey(This,pVal)	\
-    ( (This)->lpVtbl -> get_SortKey(This,pVal) ) 
+    (This)->lpVtbl -> get_SortKey(This,pVal)
 
 #define IListControl_put_SortKey(This,newVal)	\
-    ( (This)->lpVtbl -> put_SortKey(This,newVal) ) 
+    (This)->lpVtbl -> put_SortKey(This,newVal)
 
 #define IListControl_get_SortOrder(This,pVal)	\
-    ( (This)->lpVtbl -> get_SortOrder(This,pVal) ) 
+    (This)->lpVtbl -> get_SortOrder(This,pVal)
 
 #define IListControl_put_SortOrder(This,newVal)	\
-    ( (This)->lpVtbl -> put_SortOrder(This,newVal) ) 
+    (This)->lpVtbl -> put_SortOrder(This,newVal)
 
 #define IListControl_get_MultiSelect(This,pVal)	\
-    ( (This)->lpVtbl -> get_MultiSelect(This,pVal) ) 
+    (This)->lpVtbl -> get_MultiSelect(This,pVal)
 
 #define IListControl_put_MultiSelect(This,newVal)	\
-    ( (This)->lpVtbl -> put_MultiSelect(This,newVal) ) 
+    (This)->lpVtbl -> put_MultiSelect(This,newVal)
 
 #define IListControl_get_SelectedItems(This,pVal)	\
-    ( (This)->lpVtbl -> get_SelectedItems(This,pVal) ) 
+    (This)->lpVtbl -> get_SelectedItems(This,pVal)
 
 #define IListControl_get_SelectedItemCount(This,pVal)	\
-    ( (This)->lpVtbl -> get_SelectedItemCount(This,pVal) ) 
+    (This)->lpVtbl -> get_SelectedItemCount(This,pVal)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [requestedit][bindable][id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_BackColor_Proxy( 
+    IListControl * This,
+    /* [in] */ OLE_COLOR clr);
+
+
+void __RPC_STUB IListControl_put_BackColor_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [requestedit][bindable][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_BackColor_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ OLE_COLOR *pclr);
+
+
+void __RPC_STUB IListControl_get_BackColor_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_Appearance_Proxy( 
+    IListControl * This,
+    /* [in] */ AppearanceConstants appearance);
+
+
+void __RPC_STUB IListControl_put_Appearance_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_Appearance_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ AppearanceConstants *pappearance);
+
+
+void __RPC_STUB IListControl_get_Appearance_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_ForeColor_Proxy( 
+    IListControl * This,
+    /* [in] */ OLE_COLOR clr);
+
+
+void __RPC_STUB IListControl_put_ForeColor_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_ForeColor_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ OLE_COLOR *pclr);
+
+
+void __RPC_STUB IListControl_get_ForeColor_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_Enabled_Proxy( 
+    IListControl * This,
+    /* [in] */ VARIANT_BOOL vbool);
+
+
+void __RPC_STUB IListControl_put_Enabled_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_Enabled_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pbool);
+
+
+void __RPC_STUB IListControl_get_Enabled_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_TabStop_Proxy( 
+    IListControl * This,
+    /* [in] */ VARIANT_BOOL vbool);
+
+
+void __RPC_STUB IListControl_put_TabStop_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_TabStop_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pbool);
+
+
+void __RPC_STUB IListControl_get_TabStop_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_hWnd_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ OLE_HANDLE *pVal);
+
+
+void __RPC_STUB IListControl_get_hWnd_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_BorderStyle_Proxy( 
+    IListControl * This,
+    /* [in] */ BorderStyleConstants style);
+
+
+void __RPC_STUB IListControl_put_BorderStyle_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_BorderStyle_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ BorderStyleConstants *pstyle);
+
+
+void __RPC_STUB IListControl_get_BorderStyle_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id] */ HRESULT STDMETHODCALLTYPE IListControl_Refresh_Proxy( 
+    IListControl * This);
+
+
+void __RPC_STUB IListControl_Refresh_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_ColumnHeaders_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ IColumnHeaders **pVal);
+
+
+void __RPC_STUB IListControl_get_ColumnHeaders_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_ListItems_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ IListItems **pVal);
+
+
+void __RPC_STUB IListControl_get_ListItems_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_Font_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ IFontDisp **pVal);
+
+
+void __RPC_STUB IListControl_get_Font_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_Font_Proxy( 
+    IListControl * This,
+    /* [in] */ IFontDisp *newVal);
+
+
+void __RPC_STUB IListControl_put_Font_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propputref] */ HRESULT STDMETHODCALLTYPE IListControl_putref_Font_Proxy( 
+    IListControl * This,
+    /* [in] */ IFontDisp *newVal);
+
+
+void __RPC_STUB IListControl_putref_Font_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListControl_SetRedraw_Proxy( 
+    IListControl * This,
+    VARIANT_BOOL ShouldRedraw);
+
+
+void __RPC_STUB IListControl_SetRedraw_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_AxHWnd_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ OLE_HANDLE *pVal);
+
+
+void __RPC_STUB IListControl_get_AxHWnd_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_ContainerhWnd_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ OLE_HANDLE *pVal);
+
+
+void __RPC_STUB IListControl_get_ContainerhWnd_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_RedrawEnabled_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pVal);
+
+
+void __RPC_STUB IListControl_get_RedrawEnabled_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_RedrawEnabled_Proxy( 
+    IListControl * This,
+    /* [in] */ VARIANT_BOOL newVal);
+
+
+void __RPC_STUB IListControl_put_RedrawEnabled_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_LayoutSuspended_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pVal);
+
+
+void __RPC_STUB IListControl_get_LayoutSuspended_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListControl_SuspendLayout_Proxy( 
+    IListControl * This);
+
+
+void __RPC_STUB IListControl_SuspendLayout_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListControl_ResumeLayout_Proxy( 
+    IListControl * This);
+
+
+void __RPC_STUB IListControl_ResumeLayout_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_VirtualMode_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pVal);
+
+
+void __RPC_STUB IListControl_get_VirtualMode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_VirtualMode_Proxy( 
+    IListControl * This,
+    /* [in] */ VARIANT_BOOL newVal);
+
+
+void __RPC_STUB IListControl_put_VirtualMode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_Sorted_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pVal);
+
+
+void __RPC_STUB IListControl_get_Sorted_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_Sorted_Proxy( 
+    IListControl * This,
+    /* [in] */ VARIANT_BOOL newVal);
+
+
+void __RPC_STUB IListControl_put_Sorted_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_SortKey_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ short *pVal);
+
+
+void __RPC_STUB IListControl_get_SortKey_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_SortKey_Proxy( 
+    IListControl * This,
+    /* [in] */ short newVal);
+
+
+void __RPC_STUB IListControl_put_SortKey_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_SortOrder_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ ListSortOrderFlags *pVal);
+
+
+void __RPC_STUB IListControl_get_SortOrder_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_SortOrder_Proxy( 
+    IListControl * This,
+    /* [in] */ ListSortOrderFlags newVal);
+
+
+void __RPC_STUB IListControl_put_SortOrder_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_MultiSelect_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ VARIANT_BOOL *pVal);
+
+
+void __RPC_STUB IListControl_get_MultiSelect_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IListControl_put_MultiSelect_Proxy( 
+    IListControl * This,
+    /* [in] */ VARIANT_BOOL newVal);
+
+
+void __RPC_STUB IListControl_put_MultiSelect_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_SelectedItems_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ ISelItemCollection **pVal);
+
+
+void __RPC_STUB IListControl_get_SelectedItems_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IListControl_get_SelectedItemCount_Proxy( 
+    IListControl * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IListControl_get_SelectedItemCount_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -1031,8 +1494,7 @@ EXTERN_C const IID DIID__IListControlEvents;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             _IListControlEvents * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             _IListControlEvents * This);
@@ -1054,28 +1516,20 @@ EXTERN_C const IID DIID__IListControlEvents;
             _IListControlEvents * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             _IListControlEvents * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         END_INTERFACE
     } _IListControlEventsVtbl;
@@ -1091,26 +1545,26 @@ EXTERN_C const IID DIID__IListControlEvents;
 
 
 #define _IListControlEvents_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define _IListControlEvents_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define _IListControlEvents_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define _IListControlEvents_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define _IListControlEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define _IListControlEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define _IListControlEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 #endif /* COBJMACROS */
 
@@ -1146,8 +1600,7 @@ EXTERN_C const IID DIID__IColumnHeaderEvents;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             _IColumnHeaderEvents * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             _IColumnHeaderEvents * This);
@@ -1169,28 +1622,20 @@ EXTERN_C const IID DIID__IColumnHeaderEvents;
             _IColumnHeaderEvents * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             _IColumnHeaderEvents * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         END_INTERFACE
     } _IColumnHeaderEventsVtbl;
@@ -1206,26 +1651,26 @@ EXTERN_C const IID DIID__IColumnHeaderEvents;
 
 
 #define _IColumnHeaderEvents_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define _IColumnHeaderEvents_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define _IColumnHeaderEvents_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define _IColumnHeaderEvents_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define _IColumnHeaderEvents_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define _IColumnHeaderEvents_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define _IColumnHeaderEvents_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 #endif /* COBJMACROS */
 
@@ -1283,7 +1728,6 @@ EXTERN_C const IID IID_IColumnHeaders;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IColumnHeadersVtbl
@@ -1293,8 +1737,7 @@ EXTERN_C const IID IID_IColumnHeaders;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IColumnHeaders * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IColumnHeaders * This);
@@ -1316,28 +1759,20 @@ EXTERN_C const IID IID_IColumnHeaders;
             IColumnHeaders * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IColumnHeaders * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
             IColumnHeaders * This,
@@ -1391,57 +1826,159 @@ EXTERN_C const IID IID_IColumnHeaders;
 
 
 #define IColumnHeaders_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IColumnHeaders_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IColumnHeaders_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IColumnHeaders_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IColumnHeaders_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IColumnHeaders_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IColumnHeaders_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IColumnHeaders_get_Count(This,pVal)	\
-    ( (This)->lpVtbl -> get_Count(This,pVal) ) 
+    (This)->lpVtbl -> get_Count(This,pVal)
 
 #define IColumnHeaders_get_Item(This,index,pVal)	\
-    ( (This)->lpVtbl -> get_Item(This,index,pVal) ) 
+    (This)->lpVtbl -> get_Item(This,index,pVal)
 
 #define IColumnHeaders_Add(This,Index,Key,Text,Width,Alignment,Icon,out)	\
-    ( (This)->lpVtbl -> Add(This,Index,Key,Text,Width,Alignment,Icon,out) ) 
+    (This)->lpVtbl -> Add(This,Index,Key,Text,Width,Alignment,Icon,out)
 
 #define IColumnHeaders_get__NewEnum(This,pVal)	\
-    ( (This)->lpVtbl -> get__NewEnum(This,pVal) ) 
+    (This)->lpVtbl -> get__NewEnum(This,pVal)
 
 #define IColumnHeaders_get_HeightInPixels(This,pVal)	\
-    ( (This)->lpVtbl -> get_HeightInPixels(This,pVal) ) 
+    (This)->lpVtbl -> get_HeightInPixels(This,pVal)
 
 #define IColumnHeaders_put_HeightInPixels(This,newVal)	\
-    ( (This)->lpVtbl -> put_HeightInPixels(This,newVal) ) 
+    (This)->lpVtbl -> put_HeightInPixels(This,newVal)
 
 #define IColumnHeaders_Clear(This)	\
-    ( (This)->lpVtbl -> Clear(This) ) 
+    (This)->lpVtbl -> Clear(This)
 
 #define IColumnHeaders_Remove(This,indexToRemove)	\
-    ( (This)->lpVtbl -> Remove(This,indexToRemove) ) 
+    (This)->lpVtbl -> Remove(This,indexToRemove)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_get_Count_Proxy( 
+    IColumnHeaders * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeaders_get_Count_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_get_Item_Proxy( 
+    IColumnHeaders * This,
+    LONG index,
+    /* [retval][out] */ IColumnHeader **pVal);
+
+
+void __RPC_STUB IColumnHeaders_get_Item_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_Add_Proxy( 
+    IColumnHeaders * This,
+    /* [optional][in] */ VARIANT *Index,
+    /* [optional][in] */ VARIANT *Key,
+    /* [optional][in] */ VARIANT *Text,
+    /* [optional][in] */ VARIANT *Width,
+    /* [optional][in] */ VARIANT *Alignment,
+    /* [optional][in] */ VARIANT *Icon,
+    /* [retval][out] */ IColumnHeader **out);
+
+
+void __RPC_STUB IColumnHeaders_Add_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_get__NewEnum_Proxy( 
+    IColumnHeaders * This,
+    /* [retval][out] */ IUnknown **pVal);
+
+
+void __RPC_STUB IColumnHeaders_get__NewEnum_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_get_HeightInPixels_Proxy( 
+    IColumnHeaders * This,
+    /* [retval][out] */ long *pVal);
+
+
+void __RPC_STUB IColumnHeaders_get_HeightInPixels_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_put_HeightInPixels_Proxy( 
+    IColumnHeaders * This,
+    /* [in] */ long newVal);
+
+
+void __RPC_STUB IColumnHeaders_put_HeightInPixels_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_Clear_Proxy( 
+    IColumnHeaders * This);
+
+
+void __RPC_STUB IColumnHeaders_Clear_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id] */ HRESULT STDMETHODCALLTYPE IColumnHeaders_Remove_Proxy( 
+    IColumnHeaders * This,
+    /* [in] */ LONG indexToRemove);
+
+
+void __RPC_STUB IColumnHeaders_Remove_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -1546,7 +2083,6 @@ EXTERN_C const IID IID_IColumnHeader;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IColumnHeaderVtbl
@@ -1556,8 +2092,7 @@ EXTERN_C const IID IID_IColumnHeader;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IColumnHeader * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IColumnHeader * This);
@@ -1579,28 +2114,20 @@ EXTERN_C const IID IID_IColumnHeader;
             IColumnHeader * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IColumnHeader * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Text )( 
             IColumnHeader * This,
@@ -1703,99 +2230,362 @@ EXTERN_C const IID IID_IColumnHeader;
 
 
 #define IColumnHeader_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IColumnHeader_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IColumnHeader_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IColumnHeader_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IColumnHeader_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IColumnHeader_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IColumnHeader_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IColumnHeader_get_Text(This,pVal)	\
-    ( (This)->lpVtbl -> get_Text(This,pVal) ) 
+    (This)->lpVtbl -> get_Text(This,pVal)
 
 #define IColumnHeader_put_Text(This,newVal)	\
-    ( (This)->lpVtbl -> put_Text(This,newVal) ) 
+    (This)->lpVtbl -> put_Text(This,newVal)
 
 #define IColumnHeader_get_Index(This,pVal)	\
-    ( (This)->lpVtbl -> get_Index(This,pVal) ) 
+    (This)->lpVtbl -> get_Index(This,pVal)
 
 #define IColumnHeader_get_Width(This,pVal)	\
-    ( (This)->lpVtbl -> get_Width(This,pVal) ) 
+    (This)->lpVtbl -> get_Width(This,pVal)
 
 #define IColumnHeader_put_Width(This,newVal)	\
-    ( (This)->lpVtbl -> put_Width(This,newVal) ) 
+    (This)->lpVtbl -> put_Width(This,newVal)
 
 #define IColumnHeader_get_ResizeMode(This,pVal)	\
-    ( (This)->lpVtbl -> get_ResizeMode(This,pVal) ) 
+    (This)->lpVtbl -> get_ResizeMode(This,pVal)
 
 #define IColumnHeader_put_ResizeMode(This,newVal)	\
-    ( (This)->lpVtbl -> put_ResizeMode(This,newVal) ) 
+    (This)->lpVtbl -> put_ResizeMode(This,newVal)
 
 #define IColumnHeader_get_ColumnContentKind(This,pVal)	\
-    ( (This)->lpVtbl -> get_ColumnContentKind(This,pVal) ) 
+    (This)->lpVtbl -> get_ColumnContentKind(This,pVal)
 
 #define IColumnHeader_put_ColumnContentKind(This,newVal)	\
-    ( (This)->lpVtbl -> put_ColumnContentKind(This,newVal) ) 
+    (This)->lpVtbl -> put_ColumnContentKind(This,newVal)
 
 #define IColumnHeader_EnsureVisible(This)	\
-    ( (This)->lpVtbl -> EnsureVisible(This) ) 
+    (This)->lpVtbl -> EnsureVisible(This)
 
 #define IColumnHeader_get_LeftInPixels(This,pVal)	\
-    ( (This)->lpVtbl -> get_LeftInPixels(This,pVal) ) 
+    (This)->lpVtbl -> get_LeftInPixels(This,pVal)
 
 #define IColumnHeader_get_Alignment(This,pVal)	\
-    ( (This)->lpVtbl -> get_Alignment(This,pVal) ) 
+    (This)->lpVtbl -> get_Alignment(This,pVal)
 
 #define IColumnHeader_put_Alignment(This,newVal)	\
-    ( (This)->lpVtbl -> put_Alignment(This,newVal) ) 
+    (This)->lpVtbl -> put_Alignment(This,newVal)
 
 #define IColumnHeader_get_FixedWidth(This,pVal)	\
-    ( (This)->lpVtbl -> get_FixedWidth(This,pVal) ) 
+    (This)->lpVtbl -> get_FixedWidth(This,pVal)
 
 #define IColumnHeader_put_FixedWidth(This,newVal)	\
-    ( (This)->lpVtbl -> put_FixedWidth(This,newVal) ) 
+    (This)->lpVtbl -> put_FixedWidth(This,newVal)
 
 #define IColumnHeader_get_Key(This,pVal)	\
-    ( (This)->lpVtbl -> get_Key(This,pVal) ) 
+    (This)->lpVtbl -> get_Key(This,pVal)
 
 #define IColumnHeader_get_SubItemIndex(This,pVal)	\
-    ( (This)->lpVtbl -> get_SubItemIndex(This,pVal) ) 
+    (This)->lpVtbl -> get_SubItemIndex(This,pVal)
 
 #define IColumnHeader_get_Tag(This,pVal)	\
-    ( (This)->lpVtbl -> get_Tag(This,pVal) ) 
+    (This)->lpVtbl -> get_Tag(This,pVal)
 
 #define IColumnHeader_put_Tag(This,newVal)	\
-    ( (This)->lpVtbl -> put_Tag(This,newVal) ) 
+    (This)->lpVtbl -> put_Tag(This,newVal)
 
 #define IColumnHeader_get_WidthInPixels(This,pVal)	\
-    ( (This)->lpVtbl -> get_WidthInPixels(This,pVal) ) 
+    (This)->lpVtbl -> get_WidthInPixels(This,pVal)
 
 #define IColumnHeader_get_HeightInPixels(This,pVal)	\
-    ( (This)->lpVtbl -> get_HeightInPixels(This,pVal) ) 
+    (This)->lpVtbl -> get_HeightInPixels(This,pVal)
 
 #define IColumnHeader_put_HeightInPixels(This,newVal)	\
-    ( (This)->lpVtbl -> put_HeightInPixels(This,newVal) ) 
+    (This)->lpVtbl -> put_HeightInPixels(This,newVal)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_Text_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ BSTR *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_Text_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_Text_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ BSTR *newVal);
+
+
+void __RPC_STUB IColumnHeader_put_Text_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_Index_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_Index_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_Width_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_Width_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_Width_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ LONG newVal);
+
+
+void __RPC_STUB IColumnHeader_put_Width_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_ResizeMode_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ ListColumnResizeMode *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_ResizeMode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_ResizeMode_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ ListColumnResizeMode newVal);
+
+
+void __RPC_STUB IColumnHeader_put_ResizeMode_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_ColumnContentKind_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ ColumnContentType *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_ColumnContentKind_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_ColumnContentKind_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ ColumnContentType newVal);
+
+
+void __RPC_STUB IColumnHeader_put_ColumnContentKind_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IColumnHeader_EnsureVisible_Proxy( 
+    IColumnHeader * This);
+
+
+void __RPC_STUB IColumnHeader_EnsureVisible_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_LeftInPixels_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_LeftInPixels_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_Alignment_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ ListColumnAlignmentConstants *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_Alignment_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_Alignment_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ ListColumnAlignmentConstants newVal);
+
+
+void __RPC_STUB IColumnHeader_put_Alignment_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_FixedWidth_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_FixedWidth_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_FixedWidth_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ LONG newVal);
+
+
+void __RPC_STUB IColumnHeader_put_FixedWidth_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_Key_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ BSTR *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_Key_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_SubItemIndex_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ short *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_SubItemIndex_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_Tag_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ VARIANT *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_Tag_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_Tag_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ VARIANT newVal);
+
+
+void __RPC_STUB IColumnHeader_put_Tag_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_WidthInPixels_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_WidthInPixels_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propget] */ HRESULT STDMETHODCALLTYPE IColumnHeader_get_HeightInPixels_Proxy( 
+    IColumnHeader * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IColumnHeader_get_HeightInPixels_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id][propput] */ HRESULT STDMETHODCALLTYPE IColumnHeader_put_HeightInPixels_Proxy( 
+    IColumnHeader * This,
+    /* [in] */ LONG newVal);
+
+
+void __RPC_STUB IColumnHeader_put_HeightInPixels_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -1819,7 +2609,6 @@ EXTERN_C const IID IID_IListSubItem;
     public:
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IListSubItemVtbl
@@ -1829,8 +2618,7 @@ EXTERN_C const IID IID_IListSubItem;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IListSubItem * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListSubItem * This);
@@ -1852,28 +2640,20 @@ EXTERN_C const IID IID_IListSubItem;
             IListSubItem * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListSubItem * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         END_INTERFACE
     } IListSubItemVtbl;
@@ -1889,26 +2669,26 @@ EXTERN_C const IID IID_IListSubItem;
 
 
 #define IListSubItem_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IListSubItem_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IListSubItem_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IListSubItem_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IListSubItem_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IListSubItem_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IListSubItem_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #endif /* COBJMACROS */
@@ -1948,7 +2728,6 @@ EXTERN_C const IID IID_IListItem;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IListItemVtbl
@@ -1958,8 +2737,7 @@ EXTERN_C const IID IID_IListItem;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IListItem * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListItem * This);
@@ -1981,28 +2759,20 @@ EXTERN_C const IID IID_IListItem;
             IListItem * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListItem * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Text )( 
             IListItem * This,
@@ -2030,42 +2800,78 @@ EXTERN_C const IID IID_IListItem;
 
 
 #define IListItem_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IListItem_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IListItem_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IListItem_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IListItem_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IListItem_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IListItem_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IListItem_get_Text(This,pVal)	\
-    ( (This)->lpVtbl -> get_Text(This,pVal) ) 
+    (This)->lpVtbl -> get_Text(This,pVal)
 
 #define IListItem_put_Text(This,newVal)	\
-    ( (This)->lpVtbl -> put_Text(This,newVal) ) 
+    (This)->lpVtbl -> put_Text(This,newVal)
 
 #define IListItem_get_Index(This,pVal)	\
-    ( (This)->lpVtbl -> get_Index(This,pVal) ) 
+    (This)->lpVtbl -> get_Index(This,pVal)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListItem_get_Text_Proxy( 
+    IListItem * This,
+    /* [retval][out] */ BSTR *pVal);
+
+
+void __RPC_STUB IListItem_get_Text_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE IListItem_put_Text_Proxy( 
+    IListItem * This,
+    /* [in] */ BSTR newVal);
+
+
+void __RPC_STUB IListItem_put_Text_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListItem_get_Index_Proxy( 
+    IListItem * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IListItem_get_Index_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -2120,7 +2926,6 @@ EXTERN_C const IID IID_IListItems;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IListItemsVtbl
@@ -2130,8 +2935,7 @@ EXTERN_C const IID IID_IListItems;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IListItems * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IListItems * This);
@@ -2153,28 +2957,20 @@ EXTERN_C const IID IID_IListItems;
             IListItems * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IListItems * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Add )( 
             IListItems * This,
@@ -2229,57 +3025,160 @@ EXTERN_C const IID IID_IListItems;
 
 
 #define IListItems_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IListItems_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IListItems_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IListItems_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IListItems_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IListItems_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IListItems_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IListItems_Add(This,Index,Key,Text,Icon,SmallIcon,out)	\
-    ( (This)->lpVtbl -> Add(This,Index,Key,Text,Icon,SmallIcon,out) ) 
+    (This)->lpVtbl -> Add(This,Index,Key,Text,Icon,SmallIcon,out)
 
 #define IListItems_get_Count(This,pVal)	\
-    ( (This)->lpVtbl -> get_Count(This,pVal) ) 
+    (This)->lpVtbl -> get_Count(This,pVal)
 
 #define IListItems_Clear(This)	\
-    ( (This)->lpVtbl -> Clear(This) ) 
+    (This)->lpVtbl -> Clear(This)
 
 #define IListItems_AddRangeEx(This,arItemTexts)	\
-    ( (This)->lpVtbl -> AddRangeEx(This,arItemTexts) ) 
+    (This)->lpVtbl -> AddRangeEx(This,arItemTexts)
 
 #define IListItems_AddRange(This,howMany,Index,out)	\
-    ( (This)->lpVtbl -> AddRange(This,howMany,Index,out) ) 
+    (This)->lpVtbl -> AddRange(This,howMany,Index,out)
 
 #define IListItems_get_Item(This,index,pVal)	\
-    ( (This)->lpVtbl -> get_Item(This,index,pVal) ) 
+    (This)->lpVtbl -> get_Item(This,index,pVal)
 
 #define IListItems_get__NewEnum(This,ppUnk)	\
-    ( (This)->lpVtbl -> get__NewEnum(This,ppUnk) ) 
+    (This)->lpVtbl -> get__NewEnum(This,ppUnk)
 
 #define IListItems_Remove(This,Index)	\
-    ( (This)->lpVtbl -> Remove(This,Index) ) 
+    (This)->lpVtbl -> Remove(This,Index)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListItems_Add_Proxy( 
+    IListItems * This,
+    /* [optional][in] */ VARIANT *Index,
+    /* [optional][in] */ VARIANT *Key,
+    /* [optional][in] */ VARIANT *Text,
+    /* [optional][in] */ VARIANT *Icon,
+    /* [optional][in] */ VARIANT *SmallIcon,
+    /* [retval][out] */ IListItem **out);
+
+
+void __RPC_STUB IListItems_Add_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListItems_get_Count_Proxy( 
+    IListItems * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB IListItems_get_Count_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListItems_Clear_Proxy( 
+    IListItems * This);
+
+
+void __RPC_STUB IListItems_Clear_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListItems_AddRangeEx_Proxy( 
+    IListItems * This,
+    SAFEARRAY * *arItemTexts);
+
+
+void __RPC_STUB IListItems_AddRangeEx_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id] */ HRESULT STDMETHODCALLTYPE IListItems_AddRange_Proxy( 
+    IListItems * This,
+    /* [in] */ LONG howMany,
+    /* [optional][in] */ VARIANT *Index,
+    /* [retval][out] */ IInterfaceCollection **out);
+
+
+void __RPC_STUB IListItems_AddRange_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListItems_get_Item_Proxy( 
+    IListItems * This,
+    /* [in] */ LONG index,
+    /* [retval][out] */ IListItem **pVal);
+
+
+void __RPC_STUB IListItems_get_Item_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IListItems_get__NewEnum_Proxy( 
+    IListItems * This,
+    /* [retval][out] */ IUnknown **ppUnk);
+
+
+void __RPC_STUB IListItems_get__NewEnum_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [id] */ HRESULT STDMETHODCALLTYPE IListItems_Remove_Proxy( 
+    IListItems * This,
+    /* [in] */ LONG Index);
+
+
+void __RPC_STUB IListItems_Remove_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -2309,7 +3208,6 @@ EXTERN_C const IID IID_IRedrawLock;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct IRedrawLockVtbl
@@ -2319,8 +3217,7 @@ EXTERN_C const IID IID_IRedrawLock;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IRedrawLock * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IRedrawLock * This);
@@ -2342,28 +3239,20 @@ EXTERN_C const IID IID_IRedrawLock;
             IRedrawLock * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IRedrawLock * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ListControlObject )( 
             IRedrawLock * This,
@@ -2387,39 +3276,63 @@ EXTERN_C const IID IID_IRedrawLock;
 
 
 #define IRedrawLock_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define IRedrawLock_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define IRedrawLock_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define IRedrawLock_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define IRedrawLock_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define IRedrawLock_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define IRedrawLock_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define IRedrawLock_get_ListControlObject(This,pVal)	\
-    ( (This)->lpVtbl -> get_ListControlObject(This,pVal) ) 
+    (This)->lpVtbl -> get_ListControlObject(This,pVal)
 
 #define IRedrawLock_putref_ListControlObject(This,newVal)	\
-    ( (This)->lpVtbl -> putref_ListControlObject(This,newVal) ) 
+    (This)->lpVtbl -> putref_ListControlObject(This,newVal)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE IRedrawLock_get_ListControlObject_Proxy( 
+    IRedrawLock * This,
+    /* [retval][out] */ IListControl **pVal);
+
+
+void __RPC_STUB IRedrawLock_get_ListControlObject_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propputref] */ HRESULT STDMETHODCALLTYPE IRedrawLock_putref_ListControlObject_Proxy( 
+    IRedrawLock * This,
+    /* [in] */ IListControl *newVal);
+
+
+void __RPC_STUB IRedrawLock_putref_ListControlObject_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 
@@ -2453,7 +3366,6 @@ EXTERN_C const IID IID_ISelItemCollection;
         
     };
     
-    
 #else 	/* C style interface */
 
     typedef struct ISelItemCollectionVtbl
@@ -2463,8 +3375,7 @@ EXTERN_C const IID IID_ISelItemCollection;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ISelItemCollection * This,
             /* [in] */ REFIID riid,
-            /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            /* [iid_is][out] */ void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             ISelItemCollection * This);
@@ -2486,28 +3397,20 @@ EXTERN_C const IID IID_ISelItemCollection;
             ISelItemCollection * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
-            /* [range][in] */ UINT cNames,
+            /* [in] */ UINT cNames,
             /* [in] */ LCID lcid,
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             ISelItemCollection * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
             ISelItemCollection * This,
@@ -2536,42 +3439,79 @@ EXTERN_C const IID IID_ISelItemCollection;
 
 
 #define ISelItemCollection_QueryInterface(This,riid,ppvObject)	\
-    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+    (This)->lpVtbl -> QueryInterface(This,riid,ppvObject)
 
 #define ISelItemCollection_AddRef(This)	\
-    ( (This)->lpVtbl -> AddRef(This) ) 
+    (This)->lpVtbl -> AddRef(This)
 
 #define ISelItemCollection_Release(This)	\
-    ( (This)->lpVtbl -> Release(This) ) 
+    (This)->lpVtbl -> Release(This)
 
 
 #define ISelItemCollection_GetTypeInfoCount(This,pctinfo)	\
-    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+    (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo)
 
 #define ISelItemCollection_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
-    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+    (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo)
 
 #define ISelItemCollection_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
-    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+    (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)
 
 #define ISelItemCollection_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
-    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+    (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)
 
 
 #define ISelItemCollection_get_Count(This,pVal)	\
-    ( (This)->lpVtbl -> get_Count(This,pVal) ) 
+    (This)->lpVtbl -> get_Count(This,pVal)
 
 #define ISelItemCollection_get_Item(This,index,pVal)	\
-    ( (This)->lpVtbl -> get_Item(This,index,pVal) ) 
+    (This)->lpVtbl -> get_Item(This,index,pVal)
 
 #define ISelItemCollection_get__NewEnum(This,ppUnk)	\
-    ( (This)->lpVtbl -> get__NewEnum(This,ppUnk) ) 
+    (This)->lpVtbl -> get__NewEnum(This,ppUnk)
 
 #endif /* COBJMACROS */
 
 
 #endif 	/* C style interface */
 
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISelItemCollection_get_Count_Proxy( 
+    ISelItemCollection * This,
+    /* [retval][out] */ LONG *pVal);
+
+
+void __RPC_STUB ISelItemCollection_get_Count_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISelItemCollection_get_Item_Proxy( 
+    ISelItemCollection * This,
+    /* [in] */ LONG index,
+    /* [retval][out] */ IListItem **pVal);
+
+
+void __RPC_STUB ISelItemCollection_get_Item_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
+
+
+/* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE ISelItemCollection_get__NewEnum_Proxy( 
+    ISelItemCollection * This,
+    /* [retval][out] */ IUnknown **ppUnk);
+
+
+void __RPC_STUB ISelItemCollection_get__NewEnum_Stub(
+    IRpcStubBuffer *This,
+    IRpcChannelBuffer *_pRpcChannelBuffer,
+    PRPC_MESSAGE _pRpcMessage,
+    DWORD *_pdwStubPhase);
 
 
 

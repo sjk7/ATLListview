@@ -18,8 +18,12 @@ class ATL_NO_VTABLE ColumnHeader
     : public CComObjectRootEx<CComSingleThreadModel>,
       public CComCoClass<ColumnHeader, &CLSID_ColumnHeader>,
       public ISupportErrorInfo,
-      public IDispatchImpl<IColumnHeader, &IID_IColumnHeader,
-          &LIBID_ATLLISTVIEWLib> {
+      public IDispatchImpl<IColumnHeader, &IID_IColumnHeader>,
+      public IConnectionPointContainerImpl<ColumnHeader>,
+		public IProvideClassInfo2Impl<&CLSID_ListControl,
+		&DIID__IListControlEvents, &LIBID_ATLLISTVIEWLib>
+
+{
     public:
     ColumnHeader()
         : m_VBIndex(-1)
@@ -60,6 +64,12 @@ class ATL_NO_VTABLE ColumnHeader
         m_hdrs = hdrs;
         m_hWnd = hWnd;
     }
+
+	public :
+
+	BEGIN_CONNECTION_POINT_MAP(ColumnHeader)
+	// CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
+	END_CONNECTION_POINT_MAP()
     CString m_name;
     int m_VBIndex;
     CColumnHeaders* m_hdrs;
@@ -110,6 +120,8 @@ class ATL_NO_VTABLE ColumnHeader
 
     inline ListColumnResizeMode resizeMode() const noexcept {
         return m_resizeMode;
+
+
     }
 
     inline void resizeModeSet(ListColumnResizeMode newMode) {
@@ -135,6 +147,7 @@ class ATL_NO_VTABLE ColumnHeader
     COM_INTERFACE_ENTRY(IColumnHeader)
     COM_INTERFACE_ENTRY(IDispatch)
     COM_INTERFACE_ENTRY(ISupportErrorInfo)
+    COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
     END_COM_MAP()
 
     // ISupportsErrorInfo

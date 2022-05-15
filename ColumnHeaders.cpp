@@ -110,6 +110,8 @@ STDMETHODIMP CColumnHeaders::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
     //(void)Icon;
     //(void)Alignment;
     //(void)Width;
+
+	
     int vbindex = 0;
     HRESULT hr = my::VariantToInt(Index, vbindex, true);
     if (FAILED(hr)) return hr;

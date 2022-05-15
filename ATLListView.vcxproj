@@ -51,7 +51,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
     <UseOfAtl>Static</UseOfAtl>
     <EnableASAN>false</EnableASAN>
   </PropertyGroup>
@@ -525,6 +525,7 @@ echo Warning : Cannot register Unicode DLL on Windows 95
     <ClInclude Include="VCUE_Collection.h" />
     <ClInclude Include="VCUE_Copy.h" />
     <ClInclude Include="VCUE_CopyString.h" />
+    <ClInclude Include="_IColumnHeaderEvents_CP.H" />
     <ClInclude Include="_IListControlEvents_CP.H" />
   </ItemGroup>
   <ItemGroup>

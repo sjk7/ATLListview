@@ -132,6 +132,9 @@
     <ClInclude Include="selitemcollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="_IColumnHeaderEvents_CP.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ATLListView.def">

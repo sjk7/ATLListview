@@ -12,6 +12,9 @@
 #include "ColumnHeader.h"
 #include "my.h"
 #include "InterfaceCollection.h"
+#include "ATLListView.h"
+#include "_IColumnHeaderEvents_CP.H"
+#include "ATLListViewCP.h"
 
 class CListControl;
 struct columnheaders : my::com_vector<IDispatch*> {};
@@ -22,8 +25,11 @@ class ATL_NO_VTABLE CColumnHeaders
     : public CComObjectRootEx<CComSingleThreadModel>,
       public CComCoClass<CColumnHeaders, &CLSID_ColumnHeaders>,
       public ISupportErrorInfo,
-      public IDispatchImpl<IColumnHeaders, &IID_IColumnHeaders,
-          &LIBID_ATLLISTVIEWLib> {
+      public IConnectionPointContainerImpl<CColumnHeaders>,
+	  public IDispatchImpl<IColumnHeaders, &IID_IColumnHeaders, &LIBID_ATLLISTVIEWLib>,
+	  public CProxy_IColumnHeaderEvents<CColumnHeaders>
+      
+{
     public:
     CColumnHeaders();
     columnheaders m_cols;
@@ -37,6 +43,11 @@ class ATL_NO_VTABLE CColumnHeaders
     HWND m_hWnd;
     int m_heightInPixels;
     CComObject<CInterfaceCollection>* m_col_interface;
+	my::win32::Subclasser<CColumnHeaders>* m_pSubclass;
+
+
+
+
     int addColumn(const CString& txt, int wid = 100, VARIANT* key = 0);
 
     /*/
@@ -88,8 +99,8 @@ class ATL_NO_VTABLE CColumnHeaders
         long now = my::lvGetColumnCount(m_hWndLv);
         ASSERT(now == was);
     }
-    HRESULT heightInPixelsSet(long newHeight) {
-
+    
+	HRESULT heightInPixelsSet(long newHeight) {
         HD_LAYOUT hdl = {0};
         RECT r;
         ::GetClientRect(m_hWnd, &r);
@@ -117,13 +128,22 @@ class ATL_NO_VTABLE CColumnHeaders
     my::win32::ScaleUnits m_scaleUnits;
 
     long heightInPixels() const noexcept {
-        LVCOLUMN col = {0};
+        // LVCOLUMN col = {0};
         ASSERT(m_hWnd);
         RECT rc = {0};
         ::GetClientRect(m_hWnd, &rc);
         long ret = rc.bottom - rc.top;
+		
         return ret;
     }
+
+	public :
+
+BEGIN_CONNECTION_POINT_MAP(CColumnHeaders)
+	// CONNECTION_POINT_ENTRY(__uuidof(_IColumnHeaderEvents))
+	// CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
+	CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
+END_CONNECTION_POINT_MAP()
 
     DECLARE_REGISTRY_RESOURCEID(IDR_COLUMNHEADERS)
 
@@ -133,7 +153,9 @@ class ATL_NO_VTABLE CColumnHeaders
     COM_INTERFACE_ENTRY(IColumnHeaders)
     COM_INTERFACE_ENTRY(IDispatch)
     COM_INTERFACE_ENTRY(ISupportErrorInfo)
-    END_COM_MAP()
+    COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
+	COM_INTERFACE_ENTRY(IConnectionPointContainer)
+	END_COM_MAP()
 
     // ISupportsErrorInfo
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
