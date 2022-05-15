@@ -696,24 +696,38 @@ Private Sub checkItemCount()
     Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
 End Sub
 
+Private Sub lv_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+    PrintMouse Button, "MouseDown", Shift, x, y
+End Sub
+
 Private Sub lv_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
-    Debug.Print "MouseMove: " & x & ":" & y
+   PrintMouse Button, "MouseMove", Shift, x, y
+End Sub
+
+Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, x As Single, y As Single)
+   Debug.Print action & ": " & x & ":" & y
     If (Shift And vbShiftMask) Then
-        Debug.Print "SHIFT KEY IS DOWN WHEN MOUSEMOVE"
+        Debug.Print "SHIFT KEY IS DOWN WHEN " & action
     End If
     If (Shift And vbAltMask) Then
-        Debug.Print "ALT KEY IS DOWN WHEN MOUSEMOVE"
+        Debug.Print "ALT KEY IS DOWN WHEN " & action
     End If
     If (Shift And vbCtrlMask) Then
-        Debug.Print "CTRL KEY IS DOWN WHEN MOUSEMOVE"
+        Debug.Print "CTRL KEY IS DOWN WHEN " & action
     End If
     
     If Button And vbRightButton Then
-        Debug.Print "RIGHT MOUSE DOWN WHEN MOUSEMOVE"
+        Debug.Print "RIGHT MOUSE DOWN WHEN " & action
     End If
-        If Button And vbLeftButton Then
-        Debug.Print "LEFT MOUSE DOWN WHEN MOUSEMOVE"
+    
+    If Button And vbLeftButton Then
+        Debug.Print "LEFT MOUSE DOWN WHEN MOUSEMOVE " & action
     End If
+End Sub
+
+
+Private Sub lv_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+    PrintMouse Button, "MouseUp", Shift, x, y
 End Sub
 
 Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)

@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Sat May 14 22:27:15 2022
+/* at Sun May 15 09:10:36 2022
  */
 /* Compiler settings for ATLListView.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
