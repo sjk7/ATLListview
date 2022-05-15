@@ -1,6 +1,6 @@
 template<class T>
 class CProxy_IListControlEvents :
-	public ATL::IConnectionPointImpl<T, &__uuidof(_IListControlEvents)>
+	public IConnectionPointImpl<T, &__uuidof(_IListControlEvents)>
 {
 public:
 	HRESULT Fire_ColumnClick(IColumnHeader * whichHeader)

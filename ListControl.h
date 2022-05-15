@@ -23,16 +23,6 @@
 #include "ATLListViewCP.h"
 #include "_IListControlEvents_CP.h"
 
-#if _MSC_VER > VC6_VERSION
-#pragma warning(disable : 26454)
-#else
-#ifndef GET_X_LPARAM
-#define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
-#endif
-#ifndef GET_Y_LPARAM
-#define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
-#endif
-#endif
 
 typedef enum tagKEYMODIFIERS {
     KEYMOD_NONE = 0X00000000,
@@ -251,20 +241,20 @@ public:
 
 
 	LRESULT OnMouseUp(UINT , WPARAM wParam, LPARAM lParam, BOOL&) {
-		my::win32::InputInfo ii(my::win32::InputInfoActions::MouseupAction, m_scaleUnitsEnum, &lParam, 0,  wParam == 0 ? NULL : &wParam);
+		my::win32::InputInfo ii(m_scaleUnitsEnum, &lParam, 0,  wParam == 0 ? NULL : &wParam);
 		Fire_MouseUp(static_cast<SHORT>(ii.button), static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
 		return 0;
 	}
 
 	LRESULT OnMouseDown(UINT , WPARAM wParam, LPARAM lParam, BOOL& ) {
-		my::win32::InputInfo ii(my::win32::InputInfoActions::MouseupAction, m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
+		my::win32::InputInfo ii(m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
 		Fire_MouseDown(static_cast<SHORT>(ii.button), static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
 		return 0;
 	}
 	
 
 	LRESULT OnMouseMove(UINT , WPARAM wParam, LPARAM lParam, BOOL& ) {
-		my::win32::InputInfo ii(my::win32::InputInfoActions::MouseupAction, m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
+		my::win32::InputInfo ii(m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
 		Fire_MouseMove(static_cast<SHORT>(ii.button), static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
 		return 0;
 	}

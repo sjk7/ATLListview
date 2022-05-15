@@ -26,6 +26,17 @@ class CListItems;
 #pragma warning(disable : 4130)
 #endif
 
+#if _MSC_VER > VC6_VERSION
+#pragma warning(disable : 26454)
+#else
+#ifndef GET_X_LPARAM
+#define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
+#endif
+#ifndef GET_Y_LPARAM
+#define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
+#endif
+#endif
+
 namespace my {
 	
 	namespace win32 {
@@ -40,20 +51,20 @@ namespace my {
 			int button = 0;
 			if (!wParam) {
 				if (GetAsyncKeyState(VK_LBUTTON))
-					button |= vbMouseButtonConstants::VbLeftButton;
+					button |= VbLeftButton;
 				if (GetAsyncKeyState(VK_RBUTTON))
-					button |= vbMouseButtonConstants::VbRightButton;
+					button |= VbRightButton;
 				if (GetAsyncKeyState(VK_MBUTTON))
-					button |= vbMouseButtonConstants::VbMiddleButton;
+					button |= VbMiddleButton;
 			}
 			else {
 
 				if (*wParam & MK_LBUTTON)
-					button |= vbMouseButtonConstants::VbLeftButton;
+					button |= VbLeftButton;
 				if (*wParam & MK_RBUTTON)
-					button |= vbMouseButtonConstants::VbRightButton;
+					button |= VbRightButton;
 				if (*wParam & MK_MBUTTON)
-					button |= vbMouseButtonConstants::VbMiddleButton;
+					button |= VbMiddleButton;
 			}
 			return static_cast<vbMouseButtonConstants>(button);
 		}
@@ -135,14 +146,11 @@ namespace my {
 			return point;
 		}
 
-		enum InputInfoActions {
-			MousemoveAction,
-			MouseupAction,
-			MousedownAction
-		};
+
 		struct InputInfo {
-			InputInfo(const InputInfoActions Action, const ScaleUnits Units, const LPARAM* lp = NULL, const POINT* pt = NULL, const WPARAM* wp = NULL)
-			: action(Action), units(Units){
+
+			InputInfo(const ScaleUnits Units, const LPARAM* lp = NULL, const POINT* pt = NULL, const WPARAM* wp = NULL)
+			: units(Units){
 				button = getVBMouseButton(wp);
 				shift = getVBKeyStates();
 				if (pt) {
@@ -158,7 +166,6 @@ namespace my {
 			vbMouseButtonConstants button;
 			vbShiftConstants shift;
 			VBPOINTF point;
-			InputInfoActions action;
 			ScaleUnits units;
 		};
 
