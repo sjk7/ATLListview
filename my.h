@@ -193,7 +193,15 @@ namespace my {
 			
 			inline Subclasser(T* OwnerClass, HWND hWndToSubclass)
 				: m_ownerClass(OwnerClass), m_hWnd(hWndToSubclass), m_origProc(0) {
-				ASSERT(::IsWindow(m_hWnd));
+					attach(OwnerClass, hWndToSubclass);
+			}
+			inline Subclasser() : m_ownerClass(NULL),m_origProc(NULL), m_hWnd(0){}
+			inline void attach(T* OwnerClass, HWND hWndToSubclass){
+				ASSERT(m_hWnd = 0); // already subclassing
+				ASSERT(::IsWindow(hWndToSubclass));
+				ASSERT(OwnerClass);
+				m_ownerClass = OwnerClass;
+				m_hWnd= hWndToSubclass;
 				
 				m_origProc = (WNDPROC)::SetWindowLongPtr(
 					m_hWnd, GWL_WNDPROC, (LONG_PTR)WndProc_p);
@@ -201,6 +209,7 @@ namespace my {
 				LONG_PTR p
 					= ::SetWindowLongPtr(m_hWnd, GWLP_USERDATA, (LONG_PTR)this);
 				ASSERT(p == 0);
+
 			}
 			
 			~Subclasser() {

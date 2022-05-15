@@ -27,12 +27,12 @@ Begin VB.Form Form1
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
    Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1815
-      Left            =   480
+      Height          =   1755
+      Left            =   420
       OleObjectBlob   =   "Form1.frx":0000
       TabIndex        =   13
-      Top             =   390
-      Width           =   4035
+      Top             =   420
+      Width           =   4215
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Show Sel"
@@ -261,6 +261,8 @@ Private Declare Function SendMessageLong Lib "user32" Alias "SendMessageA" (ByVa
 
 Private Const SB_BOTTOM = 7
 Private Const EM_SCROLL As Integer = &HB5
+Private WithEvents m_ColumnHeaders As ATLLISTVIEWLibCtl.ColumnHeaders
+Attribute m_ColumnHeaders.VB_VarHelpID = -1
 
 
 Private Sub CheckIndexes(lv As Object, litems As Variant)
@@ -288,6 +290,12 @@ Private Sub lvActions(lv As Object)
         Set col = lv.ColumnHeaders.Add(, "WTF", "Static String")
         Debug.Assert col.Text = "Static String"
     End If
+    
+   If TypeName(lv) = "ListControl" Then
+
+        Set m_ColumnHeaders = lv.ColumnHeaders
+    End If
+    
     Dim s As String
     s = "Column" & lv.ColumnHeaders.Count + 1
     Set col = lv.ColumnHeaders.Add(, , s)
@@ -314,6 +322,7 @@ Private Sub lvActions(lv As Object)
     Set li = litems.Add(, , "Listitem " & litems.Count + 1)
     If TypeName(lv) = "ListControl" Then
         lv.ColumnHeaders.HeightInPixels = lv.ColumnHeaders.HeightInPixels + 1
+        Set m_ColumnHeaders = lv.ColumnHeaders
     End If
 
 
@@ -745,4 +754,8 @@ Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     lvw.SortOrder = ord
     lvw.SortKey = 0
     lvw.Sorted = True
+End Sub
+
+Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+
 End Sub

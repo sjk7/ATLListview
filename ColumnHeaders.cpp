@@ -111,7 +111,7 @@ STDMETHODIMP CColumnHeaders::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
     //(void)Alignment;
     //(void)Width;
 
-	
+	this->Fire_ColumnClick(NULL);
     int vbindex = 0;
     HRESULT hr = my::VariantToInt(Index, vbindex, true);
     if (FAILED(hr)) return hr;
