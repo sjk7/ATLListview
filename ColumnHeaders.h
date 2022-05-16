@@ -13,14 +13,8 @@
 #include "my.h"
 #include "InterfaceCollection.h"
 #include "ATLListView.h"
-#include "_IColumnHeaderEvents_CP.H"
+//#include "_IColumnHeaderEvents_CP.H"
 #include "ATLListViewCP.h"
-
-#if _MSC_VER > VC6_VERSION
-#pragma warning(disable : 6387)
-// nonsense about sending null to CContainedWindow
-// constuctor. MSDN says this is ok in this case.
-#endif
 
 class CListControl;
 struct columnheaders : my::com_vector<IDispatch*> {};
@@ -29,7 +23,7 @@ class CMyContainer : public CMessageMap {
     public:
     CContainedWindow m_hdr;
 
-    CMyContainer() : m_hdr(0, this, 0) {}
+    CMyContainer() : m_hdr(this, 0) {}
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,10 +41,14 @@ class ATL_NO_VTABLE CColumnHeaders
 {
     public:
     BEGIN_MSG_MAP(CColumnHeaders)
-    MESSAGE_HANDLER(WM_MOUSEMOVE, OnHeaderMouseMove)
+    MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
+    MESSAGE_HANDLER(WM_LBUTTONDOWN, OnMouseDown)
+    MESSAGE_HANDLER(WM_LBUTTONUP, OnMouseUp)
+    MESSAGE_HANDLER(WM_RBUTTONDOWN, OnMouseDown)
+    MESSAGE_HANDLER(WM_RBUTTONUP, OnMouseUp)
     MESSAGE_HANDLER(HDM_LAYOUT, OnHeaderLayout)
     END_MSG_MAP()
-    LRESULT OnHeaderMouseMove(UINT, WPARAM, LPARAM, BOOL&) { return 0; }
+
     LRESULT OnHeaderLayout(UINT, WPARAM wp, LPARAM lp, BOOL& bHandled) {
         apiSetHeight(m_hWnd, HDM_LAYOUT, wp, lp, bHandled);
         UpdateWindow(m_hWnd);
@@ -95,7 +93,34 @@ class ATL_NO_VTABLE CColumnHeaders
         ASSERT(b);
     }
 
-    LRESULT OnMouseMove(UINT, WPARAM, LPARAM, BOOL&) { return 0; }
+    LRESULT OnMouseUp(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+        my::win32::InputInfo ii(
+            m_scaleUnits, &lParam, 0, wParam == 0 ? NULL : &wParam);
+        Fire_MouseUp(static_cast<SHORT>(ii.button),
+            static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
+        bHandled = FALSE;
+
+        return 0;
+    }
+
+    LRESULT OnMouseDown(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+        my::win32::InputInfo ii(
+            m_scaleUnits, &lParam, 0, wParam == 0 ? NULL : &wParam);
+        Fire_MouseDown(static_cast<SHORT>(ii.button),
+            static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
+
+        bHandled = FALSE;
+        return 0;
+    }
+
+    LRESULT OnMouseMove(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+        my::win32::InputInfo ii(
+            m_scaleUnits, &lParam, 0, wParam == 0 ? NULL : &wParam);
+        Fire_MouseMove(static_cast<SHORT>(ii.button),
+            static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
+        bHandled = FALSE;
+        return 0;
+    }
 
     private:
     CListControl* m_plv;
@@ -188,9 +213,8 @@ class ATL_NO_VTABLE CColumnHeaders
 
     public:
     BEGIN_CONNECTION_POINT_MAP(CColumnHeaders)
-    // CONNECTION_POINT_ENTRY(__uuidof(_IColumnHeaderEvents))
-    // CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
     CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
+    // CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
     END_CONNECTION_POINT_MAP()
 
     DECLARE_REGISTRY_RESOURCEID(IDR_COLUMNHEADERS)
@@ -210,6 +234,8 @@ class ATL_NO_VTABLE CColumnHeaders
 
     // IColumnHeaders
     public:
+    STDMETHOD(HitTest)
+    (FLOAT x, FLOAT y, /*[out, retval]*/ IColumnHeader** columnHeader);
     // STDMETHOD(get_Index)(/*[out, retval]*/ LONG* pVal);
     STDMETHOD(get__NewEnum)(/*[out, retval]*/ IUnknown** pVal);
     STDMETHOD(Add)

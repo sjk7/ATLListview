@@ -21,7 +21,7 @@
 #include "my.h"
 #include "myIListControl.h"
 #include "ATLListViewCP.h"
-#include "_IListControlEvents_CP.h"
+//#include "_IListControlEvents_CP.h"
 
 typedef enum tagKEYMODIFIERS {
     KEYMOD_NONE = 0X00000000,
@@ -100,6 +100,7 @@ class ATL_NO_VTABLE CListControl
     END_PROP_MAP()
 
     BEGIN_CONNECTION_POINT_MAP(CListControl)
+    // CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
     CONNECTION_POINT_ENTRY(__uuidof(_IListControlEvents))
     CONNECTION_POINT_ENTRY(IID_IPropertyNotifySink)
     END_CONNECTION_POINT_MAP()
@@ -122,13 +123,14 @@ class ATL_NO_VTABLE CListControl
     // This OnMouseActivate handler is used to identify if the control
     // is activated by the mouse click
     MESSAGE_HANDLER(WM_MOUSEACTIVATE, OnMouseActivate)
+
     MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
     MESSAGE_HANDLER(WM_LBUTTONDOWN, OnMouseDown)
     MESSAGE_HANDLER(WM_LBUTTONUP, OnMouseUp)
     MESSAGE_HANDLER(WM_RBUTTONDOWN, OnMouseDown)
     MESSAGE_HANDLER(WM_RBUTTONUP, OnMouseUp)
     // MESSAGE_HANDLER(WM_CLOSE, OnLvwClose)
-    //  MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
+    // MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
     MESSAGE_HANDLER(WM_DESTROY, OnLvClose)
     END_MSG_MAP()
 
@@ -233,27 +235,30 @@ class ATL_NO_VTABLE CListControl
         return ret;
     }
 
-    LRESULT OnMouseUp(UINT, WPARAM wParam, LPARAM lParam, BOOL&) {
+    LRESULT OnMouseUp(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
         my::win32::InputInfo ii(
             m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
         Fire_MouseUp(static_cast<SHORT>(ii.button),
             static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
+        bHandled = FALSE;
         return 0;
     }
 
-    LRESULT OnMouseDown(UINT, WPARAM wParam, LPARAM lParam, BOOL&) {
+    LRESULT OnMouseDown(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
         my::win32::InputInfo ii(
             m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
         Fire_MouseDown(static_cast<SHORT>(ii.button),
             static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
+        bHandled = FALSE;
         return 0;
     }
 
-    LRESULT OnMouseMove(UINT, WPARAM wParam, LPARAM lParam, BOOL&) {
+    LRESULT OnMouseMove(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
         my::win32::InputInfo ii(
             m_scaleUnitsEnum, &lParam, 0, wParam == 0 ? NULL : &wParam);
         Fire_MouseMove(static_cast<SHORT>(ii.button),
             static_cast<SHORT>(ii.shift), ii.point.x, ii.point.y);
+        bHandled = FALSE;
         return 0;
     }
 

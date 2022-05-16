@@ -1280,6 +1280,11 @@ EXTERN_C const IID IID_IColumnHeaders;
         virtual /* [id] */ HRESULT STDMETHODCALLTYPE Remove( 
             /* [in] */ LONG indexToRemove) = 0;
         
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE HitTest( 
+            FLOAT x,
+            FLOAT y,
+            /* [retval][out] */ IColumnHeader **columnHeader) = 0;
+        
     };
     
     
@@ -1376,6 +1381,12 @@ EXTERN_C const IID IID_IColumnHeaders;
             IColumnHeaders * This,
             /* [in] */ LONG indexToRemove);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *HitTest )( 
+            IColumnHeaders * This,
+            FLOAT x,
+            FLOAT y,
+            /* [retval][out] */ IColumnHeader **columnHeader);
+        
         END_INTERFACE
     } IColumnHeadersVtbl;
 
@@ -1435,6 +1446,9 @@ EXTERN_C const IID IID_IColumnHeaders;
 
 #define IColumnHeaders_Remove(This,indexToRemove)	\
     ( (This)->lpVtbl -> Remove(This,indexToRemove) ) 
+
+#define IColumnHeaders_HitTest(This,x,y,columnHeader)	\
+    ( (This)->lpVtbl -> HitTest(This,x,y,columnHeader) ) 
 
 #endif /* COBJMACROS */
 

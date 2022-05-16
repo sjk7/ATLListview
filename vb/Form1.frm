@@ -27,12 +27,12 @@ Begin VB.Form Form1
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
    Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1755
-      Left            =   420
+      Height          =   1455
+      Left            =   390
       OleObjectBlob   =   "Form1.frx":0000
       TabIndex        =   13
-      Top             =   420
-      Width           =   4215
+      Top             =   600
+      Width           =   3855
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Show Sel"
@@ -291,9 +291,8 @@ Private Sub lvActions(lv As Object)
         Debug.Assert col.Text = "Static String"
     End If
     
-   If TypeName(lv) = "ListControl" Then
-
-        Set m_ColumnHeaders = lv.ColumnHeaders
+   If TypeName(lv) = "ListControl" And lv.Name = "lv" Then
+        Set m_ColumnHeaders = Me.lv.ColumnHeaders
     End If
     
     Dim s As String
@@ -322,7 +321,7 @@ Private Sub lvActions(lv As Object)
     Set li = litems.Add(, , "Listitem " & litems.Count + 1)
     If TypeName(lv) = "ListControl" Then
         lv.ColumnHeaders.HeightInPixels = lv.ColumnHeaders.HeightInPixels + 1
-        Set m_ColumnHeaders = lv.ColumnHeaders
+        ' Set m_ColumnHeaders = lv.ColumnHeaders
     End If
 
 
@@ -651,14 +650,14 @@ End Sub
 '                               (DoDefault As Boolean, Shift As Integer, x As Single, y As Single, ColumnHeader As ListViewAPI.ColumnHeader)
 
 
-Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+Private Sub lv_ColumnRightClick(DoDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
 
     If ObjPtr(ColumnHeader) Then
-        Debug.Assert (doDefault = True)
+        Debug.Assert (DoDefault = True)
         Debug.Print "Right click on columnheader: " & ColumnHeader.Text & ", at index: " & ColumnHeader.Index
     
         If ColumnHeader.Index Mod 2 = 0 Then
-            doDefault = False
+            DoDefault = False
         End If
     Else
         Loginfo "Clicked on the header, but not on any column (probably no columns to show)"
@@ -756,3 +755,25 @@ Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     lvw.Sorted = True
 End Sub
 
+Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+    If ObjPtr(whichHeader) Then
+        Debug.Print "Clicked on Column " & whichHeader.Index
+    End If
+End Sub
+
+Private Sub m_ColumnHeaders_MouseEvent(ByVal iMsg As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, DoDefault As Boolean)
+    Debug.Print iMsg
+    Debug.Print DoDefault
+    
+End Sub
+
+Private Sub m_ColumnHeaders_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+    
+    Debug.Print "Columnheaders mousemove " & x & ":" & y
+    Dim chdr As ColumnHeader
+    Set chdr = m_ColumnHeaders.HitTest(x, y)
+    If ObjPtr(chdr) = 0 Then
+    Else
+        Debug.Print "ColumnHeader hitTest: " & chdr.Index
+    End If
+End Sub

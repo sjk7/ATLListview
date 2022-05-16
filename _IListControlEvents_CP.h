@@ -1,3 +1,4 @@
+#pragma once
 template<class T>
 class CProxy_IListControlEvents :
 	public IConnectionPointImpl<T, &__uuidof(_IListControlEvents)>

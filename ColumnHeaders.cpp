@@ -203,3 +203,20 @@ STDMETHODIMP CColumnHeaders::Remove(LONG indexToRemove) {
     m_cols.delete_at(apiIndex);
     return S_OK;
 }
+
+STDMETHODIMP CColumnHeaders::HitTest(
+    FLOAT x, FLOAT y, IColumnHeader** columnHeader) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
+    HD_HITTESTINFO hdhti;
+    POINT pointHdr = my::win32::VBToPt(x, y, m_scaleUnits);
+
+    my::lvHeaderHitTest(m_hWnd, pointHdr, hdhti, false);
+    if (hdhti.iItem >= 0 && hdhti.iItem < m_cols.isize()) {
+        HRESULT hr = m_plv->getColumnHeader(hdhti.iItem, columnHeader);
+        if (FAILED(hr)) return hr;
+    } else {
+        // -1 if clicked on a header with no columns
+    }
+
+    return S_OK;
+}

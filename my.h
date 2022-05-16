@@ -116,6 +116,18 @@ namespace win32 {
         return 1440 / logPix;
     }
 
+    static __inline POINT VBToPt(float vbx, float vby, ScaleUnits scale) {
+        POINT ret;
+        ret.x = (LONG)vbx;
+        ret.y = (LONG)vby;
+        if (scale == twipsUnits) {
+
+            ret.x = (LONG)((float)vbx / twipsPerPixel(LOGPIXELSX));
+            ret.y = (LONG)((float)vby / twipsPerPixel(LOGPIXELSY));
+        }
+        return ret;
+    }
+
     static __inline VBPOINTF ptToVB(
         const POINT& pt, const ScaleUnits units) noexcept {
         VBPOINTF vbPoint;
@@ -132,7 +144,7 @@ namespace win32 {
 
     __inline my::win32::VBPOINTF getXYFromLParam(
         const LPARAM lParam, ScaleUnits scale) {
-        POINT pt = {};
+        POINT pt;
         pt.x = GET_X_LPARAM(lParam);
         pt.y = GET_Y_LPARAM(lParam);
         my::win32::VBPOINTF point = my::win32::ptToVB(pt, scale);
@@ -143,7 +155,9 @@ namespace win32 {
 
         InputInfo(const ScaleUnits Units, const LPARAM* lp = NULL,
             const POINT* pt = NULL, const WPARAM* wp = NULL)
-            : units(Units), point{} {
+            : units(Units) {
+
+            memset(&point, 0, sizeof(point));
             button = getVBMouseButton(wp);
             shift = getVBKeyStates();
             if (pt) {
@@ -542,9 +556,11 @@ static __inline HRESULT bounds_check(const INT_T index, const COLLECTION& c) {
     return S_OK;
 }
 
-static __inline void lvHeaderHitTest(
-    const HWND& hWndHdr, POINT& pointHdr, HDHITTESTINFO& hdhti) {
-    ::ScreenToClient(hWndHdr, &pointHdr);
+static __inline void lvHeaderHitTest(const HWND& hWndHdr, POINT& pointHdr,
+    HDHITTESTINFO& hdhti, bool use_screen_coords = true) {
+
+    if (use_screen_coords) ::ScreenToClient(hWndHdr, &pointHdr);
+
     memset(&hdhti, 0, sizeof(hdhti));
     hdhti.pt = pointHdr;
     ::SendMessage(hWndHdr, HDM_HITTEST, static_cast<WPARAM>(0),

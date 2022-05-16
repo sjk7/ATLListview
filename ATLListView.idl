@@ -172,6 +172,10 @@ library ATLLISTVIEWLib
 
 		[id(1), helpstring("Event when column left clicked")] HRESULT ColumnClick(IColumnHeader* whichHeader);
 
+		[id(2)] HRESULT MouseDown(short button, short Shift, float x, float y);
+		[id(3)] HRESULT MouseUp(short button, short Shift, float x, float y);
+		[id(4)] HRESULT MouseMove(short button, short Shift, float x, float y);
+		[id(5)] HRESULT MouseEvent(LONG iMsg, short button, short Shift, float x, float y, [in,out] VARIANT_BOOL* doDefault);
 	};
 
 
@@ -196,6 +200,7 @@ library ATLLISTVIEWLib
 		[propput, id(4)] HRESULT HeightInPixels([in] long newVal);
 		[id(5)] HRESULT Clear();
 		[id(6)] HRESULT Remove([in] LONG indexToRemove);
+		[id(7), helpstring("method HitTest")] HRESULT HitTest(FLOAT x, FLOAT y, [out, retval] IColumnHeader** columnHeader);
 	};
 
 
