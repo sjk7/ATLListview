@@ -45,14 +45,14 @@ STDMETHODIMP CColumnHeaders::get_Count(LONG* pVal) {
 
 // HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bHandled
 BOOL CColumnHeaders::apiSetHeight(
-    HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+    HWND, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
 
     (void)bHandled;
     (void)wParam;
     LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
     RECT* pRect = pHL->prc;
     WINDOWPOS* pWPos = pHL->pwpos;
-    BOOL r = m_plv->hdrCallDefWndProc(hWnd, uMsg, 0, lParam);
+    BOOL r = CMyContainer::m_hdr.DefWindowProc(uMsg, 0, lParam);
     if (r != FALSE) {
         int h = pWPos->cy;
         if (m_heightInPixels > 0) {
@@ -111,7 +111,7 @@ STDMETHODIMP CColumnHeaders::Add(VARIANT* Index, VARIANT* Key, VARIANT* Text,
     //(void)Alignment;
     //(void)Width;
 
-	this->Fire_ColumnClick(NULL);
+    this->Fire_ColumnClick(NULL);
     int vbindex = 0;
     HRESULT hr = my::VariantToInt(Index, vbindex, true);
     if (FAILED(hr)) return hr;

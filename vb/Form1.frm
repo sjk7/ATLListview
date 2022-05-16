@@ -756,6 +756,3 @@ Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     lvw.Sorted = True
 End Sub
 
-Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.IColumnHeader)
-
-End Sub

@@ -25,8 +25,6 @@ class CAppModule :
 // Added fake code ends here, below is regular ATL project stuff
 #endif
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CListControl
 CListControl::CListControl()
@@ -48,7 +46,6 @@ CListControl::CListControl()
     , m_virtualMode(FALSE)
     , m_hWndVBHostSite(0)
     , m_viewItemCount(0)
-    , m_phdrSubclass(0)
     , m_hdrWnd(0)
     , m_scaleUnitsEnum(my::win32::pixelUnits)
     , m_bMultiSelect(FALSE)
@@ -74,8 +71,6 @@ CListControl::CListControl()
     ASSERT(m_hdr);
     if (m_hdr) {
         m_hdr->AddRef();
-        m_hdr->m_plv = this; // NOT addrefed to avoid circularity#
-        m_hdr->m_scaleUnits = m_scaleUnitsEnum;
     }
 }
 
