@@ -241,9 +241,10 @@ class ATL_NO_VTABLE CListControl
         return ret;
     }
 
-    LRESULT OnKeyUp(UINT, WPARAM wp, LPARAM, BOOL& bHandled) {
+    LRESULT OnKeyUp(UINT, WPARAM wParam, LPARAM, BOOL& bHandled) {
         vbShiftConstants shift = my::win32::getVBKeyStates();
-        Fire_KeyUp((short)wp, (short)shift);
+        Fire_KeyUp((short)wParam, (short)shift);
+
         bHandled = FALSE;
         return 0;
     }
@@ -526,7 +527,9 @@ class ATL_NO_VTABLE CListControl
             m_lvw.SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return TRUE;
         }
-        // TODO: Add your additional accelerator handling code here
+
+        my::lvHandleKeyPressFromPreTranslate(this, pMsg);
+
         return FALSE;
     }
 

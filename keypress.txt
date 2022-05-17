@@ -1,0 +1,21 @@
+        WORD vkCode = LOWORD(wParam);
+        WORD keyFlags = HIWORD(lParam);
+        WORD scanCode = LOBYTE(keyFlags); // scan code
+        BOOL isExtendedKey = (keyFlags & KF_EXTENDED)
+            == KF_EXTENDED; // extended-key flag, 1 if scancode has 0xE0 prefix
+
+        if (isExtendedKey) scanCode = MAKEWORD(scanCode, 0xE0);
+        BYTE keystate[256];
+        memset(keystate, 0, 256);
+        char chars[2];
+        memset(chars, 0, 2);
+        int nchars = ToAscii(vkCode, 0, keystate, (WORD*)&chars, 0);
+        if (nchars == 1) {
+            short keyascii = *((short*)chars);
+            short mine = keyascii;
+            Fire_KeyPress(&keyascii);
+            if (mine != keyascii) {
+                bHandled = TRUE;
+                return 1;
+            }
+        }

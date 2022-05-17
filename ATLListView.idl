@@ -160,7 +160,7 @@ library ATLLISTVIEWLib
 		[id(15)] HRESULT DblClick();
         [id(16)] HRESULT KeyDown(SHORT KeyCode, SHORT Shift);
         [id(17)] HRESULT KeyUp(SHORT KeyCode, SHORT Shift);
-        // [id(16)] HRESULT GotFocus();
+        [id(18)] HRESULT KeyPress([in, out]SHORT* KeyAscii);
 
 		
 	};

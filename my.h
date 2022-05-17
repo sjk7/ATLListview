@@ -764,6 +764,52 @@ template <typename T>
 static __inline void lvHandleMouse(T* pControl, NMHDR* phdr) {}
 
 template <typename T>
+static __inline BOOL lvHandleKeyPressFromPreTranslate(T* pControl, LPMSG pMsg) {
+    // handle 'KeyPress' for VBClient:
+    WPARAM wParam = pMsg->wParam;
+    WORD wpHigh = HIWORD(wParam);
+    WPARAM wpOrig = pMsg->wParam;
+    LPARAM lParam = pMsg->lParam;
+    WORD vkCode = LOWORD(wParam);
+    WORD keyFlags = HIWORD(lParam);
+    WORD scanCode = LOBYTE(keyFlags); // scan code
+    BOOL isExtendedKey = (keyFlags & KF_EXTENDED)
+        == KF_EXTENDED; // extended-key flag, 1 if scancode has 0xE0 prefix
+
+    if (isExtendedKey) scanCode = MAKEWORD(scanCode, 0xE0);
+    BYTE keystate[256];
+    memset(keystate, 0, 256);
+    char chars[2];
+    memset(chars, 0, 2);
+    int nchars = ToAscii(vkCode, 0, keystate, (WORD*)&chars, 0);
+    ASSERT(nchars >= 1);
+    if (nchars == 1) {
+        short keyascii = *((short*)chars);
+        const short origKey = keyascii;
+        short virtKey = VkKeyScanA((CHAR)keyascii);
+        WPARAM newWParam = MAKEWPARAM(virtKey, wpHigh);
+        if (newWParam
+            == wpOrig) { // check symmetry: it's not always the case, and we
+                         // are only interested in ASCII characters, anyway!
+            pControl->Fire_KeyPress(&keyascii);
+            if (origKey != keyascii) {
+                short newvirtKey = VkKeyScanA((CHAR)keyascii);
+                if (keyascii == 0) {
+                    newvirtKey = 0;
+                }
+                newWParam = MAKEWPARAM(newvirtKey, wpHigh);
+                pMsg->wParam = newWParam;
+                if (keyascii == 0) {
+                    return TRUE;
+                }
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+template <typename T>
 static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
     BOOL isVirtual, const idispatch_collection& items, NMHDR* pnmhdr,
     BOOL& bHandled) {

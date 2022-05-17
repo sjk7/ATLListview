@@ -205,7 +205,6 @@ Begin VB.Form Form1
       _ExtentX        =   7117
       _ExtentY        =   3201
       View            =   3
-      LabelEdit       =   1
       LabelWrap       =   -1  'True
       HideSelection   =   0   'False
       FullRowSelect   =   -1  'True
@@ -720,6 +719,14 @@ Private Sub lv_KeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     
 End Sub
 
+Private Sub lv_KeyPress(KeyAscii As Integer)
+    Dim s As String
+    s = "KeyPress on ListControl: " & Chr$(KeyAscii)
+    Loginfo s
+    PrintShiftKeys 0, s
+    KeyAscii = 0
+End Sub
+
 Private Sub lv_KeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer)
     Dim s As String
     s = "Key up on Listcontrol: " & Chr$(KeyCode)
@@ -789,7 +796,22 @@ End Sub
 
 Private Sub lvw_KeyDown(KeyCode As Integer, Shift As Integer)
     Dim s As String
-    s = "Key pressed on MS Listview: " & Chr$(KeyCode)
+    s = "KeyDown on MS Listview: " & Chr$(KeyCode)
+    Loginfo s
+    PrintShiftKeys Shift, s
+End Sub
+
+Private Sub lvw_KeyPress(KeyAscii As Integer)
+    Dim s As String
+    s = "KeyPress on MS Listview: " & Chr$(KeyAscii)
+    Loginfo s
+    PrintShiftKeys 0, s
+    KeyAscii = 0
+End Sub
+
+Private Sub lvw_KeyUp(KeyCode As Integer, Shift As Integer)
+    Dim s As String
+    s = "KeyUp on MS Listview: " & Chr$(KeyCode)
     Loginfo s
     PrintShiftKeys Shift, s
 End Sub
@@ -815,4 +837,26 @@ Private Sub m_ColumnHeaders_MouseMove(ByVal Button As Integer, ByVal Shift As In
     Else
         Debug.Print "ColumnHeader hitTest: " & chdr.Index
     End If
+End Sub
+
+Private Sub txt_KeyDown(KeyCode As Integer, Shift As Integer)
+    Dim s As String
+    s = "Key down on Text " & Chr$(KeyCode)
+    Loginfo s
+    PrintShiftKeys Shift, s
+End Sub
+
+Private Sub txt_KeyPress(KeyAscii As Integer)
+    Dim s As String
+    s = "KeyPress on ListControl: " & Chr$(KeyAscii)
+    Loginfo s
+    PrintShiftKeys 0, s
+    'KeyAscii = 0
+End Sub
+
+Private Sub txt_KeyUp(KeyCode As Integer, Shift As Integer)
+    Dim s As String
+    s = "Key up on Text: " & Chr$(KeyCode)
+    Loginfo s
+    PrintShiftKeys Shift, s
 End Sub
