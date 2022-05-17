@@ -4,11 +4,11 @@ template <class T>
 class CProxy_IListControlEvents
     : public IConnectionPointImpl<T, &__uuidof(_IListControlEvents)> {
     public:
-    /*/
-    HRESULT Fire_GotFocus() {
+    HRESULT Fire_KeyDown(SHORT Key, SHORT Shift) {
         CComVariant varResult;
         T* pT = static_cast<T*>(this);
         int nConnectionIndex;
+        CComVariant* pvars = new CComVariant[2];
         int nConnections = m_vec.GetSize();
 
         for (nConnectionIndex = 0; nConnectionIndex < nConnections;
@@ -19,14 +19,16 @@ class CProxy_IListControlEvents
             IDispatch* pDispatch = reinterpret_cast<IDispatch*>(sp.p);
             if (pDispatch != NULL) {
                 VariantClear(&varResult);
-                DISPPARAMS disp = {NULL, NULL, 0, 0};
+                pvars[1] = Key;
+                pvars[0] = Shift;
+                DISPPARAMS disp = {pvars, NULL, 2, 0};
                 pDispatch->Invoke(16, IID_NULL, LOCALE_USER_DEFAULT,
                     DISPATCH_METHOD, &disp, &varResult, NULL, NULL);
             }
         }
+        delete[] pvars;
         return varResult.scode;
     }
-    /*/
 
     HRESULT Fire_DblClick() {
         CComVariant varResult;

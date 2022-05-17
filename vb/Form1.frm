@@ -712,6 +712,14 @@ Private Sub checkItemCount()
     Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
 End Sub
 
+Private Sub lv_KeyDown(ByVal Key As Integer, ByVal Shift As Integer)
+    Dim s As String
+    s = "Key pressed on Listcontrol: " & Chr$(Key)
+    Loginfo s
+    PrintShiftKeys Shift, s
+    
+End Sub
+
 Private Sub lv_LostFocus()
     Loginfo "ListControl " & lv.Name & " Lost focus."
 End Sub
@@ -724,17 +732,21 @@ Private Sub lv_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal 
    PrintMouse Button, "MouseMove", Shift, x, y
 End Sub
 
-Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, x As Single, y As Single)
-   Debug.Print action & ": " & x & ":" & y
+Private Sub PrintShiftKeys(Shift As Integer, action As String)
     If (Shift And vbShiftMask) Then
-        Debug.Print "SHIFT KEY IS DOWN WHEN " & action
+        Loginfo "SHIFT KEY IS DOWN WHEN " & action
     End If
     If (Shift And vbAltMask) Then
-        Debug.Print "ALT KEY IS DOWN WHEN " & action
+        Loginfo "ALT KEY IS DOWN WHEN " & action
     End If
     If (Shift And vbCtrlMask) Then
-        Debug.Print "CTRL KEY IS DOWN WHEN " & action
+        Loginfo "CTRL KEY IS DOWN WHEN " & action
     End If
+End Sub
+
+Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, x As Single, y As Single)
+   Debug.Print action & ": " & x & ":" & y
+    PrintShiftKeys Shift, action
     'Debug.Assert action <> "MouseUp"
     If Button And vbRightButton Then
         Debug.Print "RIGHT MOUSE DOWN WHEN " & action
@@ -765,6 +777,13 @@ Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     lvw.SortOrder = ord
     lvw.SortKey = 0
     lvw.Sorted = True
+End Sub
+
+Private Sub lvw_KeyDown(KeyCode As Integer, Shift As Integer)
+    Dim s As String
+    s = "Key pressed on MS Listview: " & Chr$(KeyCode)
+    Loginfo s
+    PrintShiftKeys Shift, s
 End Sub
 
 Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.IColumnHeader)

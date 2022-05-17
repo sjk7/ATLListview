@@ -574,7 +574,10 @@ static __inline int lvGetItemCount(HWND hWnd) {
 typedef interface_collection<IDispatch> idispatch_collection;
 
 static __inline LRESULT lvHandleDispInfo(
-    const idispatch_collection& items, NMHDR* pnmhdr) {
+    WPARAM wp, LPARAM lp, const idispatch_collection& items, NMHDR* pnmhdr) {
+
+    (void)lp;
+    (void)wp;
 
     NMLVDISPINFO* plvdi = (NMLVDISPINFO*)pnmhdr;
 
@@ -761,14 +764,15 @@ template <typename T>
 static __inline void lvHandleMouse(T* pControl, NMHDR* phdr) {}
 
 template <typename T>
-static __inline LRESULT lvHandleNotify(T* pControl, BOOL isVirtual,
-    const idispatch_collection& items, NMHDR* pnmhdr, BOOL& bHandled) {
+static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
+    BOOL isVirtual, const idispatch_collection& items, NMHDR* pnmhdr,
+    BOOL& bHandled) {
 
     LRESULT lrt = 0;
-    (void)bHandled;
+    bHandled = FALSE;
     switch (pnmhdr->code) {
         case LVN_GETDISPINFO: {
-            if (isVirtual) return lvHandleDispInfo(items, pnmhdr);
+            if (isVirtual) return lvHandleDispInfo(wp, lp, items, pnmhdr);
             break;
         }
 
@@ -781,22 +785,40 @@ static __inline LRESULT lvHandleNotify(T* pControl, BOOL isVirtual,
             break;
         }
 
+        case LVN_KEYDOWN: {
+            LPNMLVKEYDOWN pnkd = (LPNMLVKEYDOWN)lp;
+            vbShiftConstants shift = my::win32::getVBKeyStates();
+            pControl->Fire_KeyDown((SHORT)pnkd->wVKey, (SHORT)shift);
+            break;
+        }
+            /*/
+            case LVN_KEYUP: {
+                LPNMLVKEYDOWN pnkd = (LPNMLVKEYDOWN)lp;
+                vbShiftConstants shift = my::win32::getVBKeyStates();
+                // pControl->Fire_KeyUp((SHORT)pnkd->wVKey, (SHORT)shift);
+                break;
+            }
+            /*/
+
         case LVN_ODSTATECHANGED: {
             LPNMLVODSTATECHANGE p = (LPNMLVODSTATECHANGE)pnmhdr;
             // range selected
+
             int n = p->iTo - p->iFrom;
-            ASSERT(n > 0);
-            for (int i = 0; i < n; i++) {
+            if (n > 0 && n < items.isize()) {
 
-                if ((p->uOldState & LVIS_SELECTED)
-                    && !(p->uNewState & LVIS_SELECTED)) {
-                    CListItem* pitem = (CListItem*)items.at(i);
-                    pitem->setSelected(FALSE);
-                }
+                for (int i = 0; i < n; i++) {
 
-                if ((p->uNewState & LVIS_SELECTED)) {
-                    CListItem* pitem = (CListItem*)items.at(i);
-                    pitem->setSelected(TRUE);
+                    if ((p->uOldState & LVIS_SELECTED)
+                        && !(p->uNewState & LVIS_SELECTED)) {
+                        CListItem* pitem = (CListItem*)items.at(i);
+                        pitem->setSelected(FALSE);
+                    }
+
+                    if ((p->uNewState & LVIS_SELECTED)) {
+                        CListItem* pitem = (CListItem*)items.at(i);
+                        pitem->setSelected(TRUE);
+                    }
                 }
             }
             break;

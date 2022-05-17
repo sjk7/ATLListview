@@ -117,7 +117,7 @@ class ATL_NO_VTABLE CListControl
     // CHAIN_MSG_MAP(CComControl<CMyCtl>)
     MESSAGE_HANDLER(WM_NOTIFY, OnNotify)
     MESSAGE_HANDLER(WM_LBUTTONDBLCLK, OnDblClick);
-    MESSAGE_HANDLER(LVN_KEYDOWN, MyOnKeyDown);
+    // MESSAGE_HANDLER(WM_KEYUP, OnKeyUp);
 
     ALT_MSG_MAP(1)
     // Replace this with message map entries for superclassed Edit
@@ -136,7 +136,8 @@ class ATL_NO_VTABLE CListControl
     // MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
     MESSAGE_HANDLER(WM_DESTROY, OnLvClose)
     MESSAGE_HANDLER(WM_LBUTTONDBLCLK, OnDblClick);
-    MESSAGE_HANDLER(LVN_KEYDOWN, MyOnKeyDown);
+    MESSAGE_HANDLER(WM_KEYUP, OnKeyUp);
+
     END_MSG_MAP()
 
     BOOL m_bRedrawEnabled;
@@ -240,9 +241,10 @@ class ATL_NO_VTABLE CListControl
         return ret;
     }
 
-    LRESULT MyOnKeyDown(UINT, WPARAM, LPARAM, BOOL& bHandled) {
+    LRESULT OnKeyUp(UINT, WPARAM wp, LPARAM lp, BOOL& bHandled) {
+        vbShiftConstants shift = my::win32::getVBKeyStates();
+        Fire_KeyDown((short)wp, (short)shift);
         bHandled = FALSE;
-
         return 0;
     }
 
@@ -451,8 +453,8 @@ class ATL_NO_VTABLE CListControl
         (void)uMsg;
 
         if (hWnd == m_lvw.m_hWnd) {
-            LRESULT retval = my::lvHandleNotify(
-                this, m_virtualMode, m_litems->m_items, pnmhdr, bHandled);
+            LRESULT retval = my::lvHandleNotify(wParam, lParam, this,
+                m_virtualMode, m_litems->m_items, pnmhdr, bHandled);
             return retval;
 
         } else if (pnmhdr->hwndFrom == m_hdrWnd) {
