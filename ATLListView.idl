@@ -127,6 +127,8 @@ library ATLLISTVIEWLib
 		[propput, id(16)] HRESULT MultiSelect([in] VARIANT_BOOL newVal);
 		[propget, id(17)] HRESULT SelectedItems([out, retval] ISelItemCollection** pVal);
 		[propget, id(18)] HRESULT SelectedItemCount([out, retval] LONG* pVal);
+		[propget, id(19), helpstring("property LabelEdit")] HRESULT LabelEdit([out, retval] ListLabelEditConstants *pVal);
+		[propput, id(19), helpstring("property LabelEdit")] HRESULT LabelEdit([in] ListLabelEditConstants newVal);
 	};
 	
 	

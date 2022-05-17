@@ -26,19 +26,28 @@ Begin VB.Form Form1
    ScaleHeight     =   6450
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
+   Begin Project1.UserControl1 UserControl11 
+      Height          =   2115
+      Left            =   9360
+      TabIndex        =   18
+      Top             =   3420
+      Width           =   4035
+      _ExtentX        =   7117
+      _ExtentY        =   3731
+   End
    Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1455
-      Left            =   390
+      Height          =   1815
+      Left            =   570
       OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   13
-      Top             =   600
-      Width           =   3855
+      TabIndex        =   9
+      Top             =   390
+      Width           =   4035
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Show Sel"
       Height          =   285
       Left            =   4890
-      TabIndex        =   18
+      TabIndex        =   13
       Top             =   30
       Width           =   1125
    End
@@ -99,15 +108,6 @@ Begin VB.Form Form1
       TabIndex        =   10
       Top             =   5880
       Width           =   1605
-   End
-   Begin Project1.UserControl1 UserControl11 
-      Height          =   1815
-      Left            =   9240
-      TabIndex        =   9
-      Top             =   3510
-      Width           =   4035
-      _ExtentX        =   7117
-      _ExtentY        =   3201
    End
    Begin VB.CommandButton cmdEnum 
       Caption         =   "Enum"
@@ -500,7 +500,7 @@ Private Sub Command1_Click(Index As Integer)
     End If
     
     
-    lvActions UserControl11.ListView()
+    lvActions UserControl11.ListView
     Exit Sub
 
 End Sub

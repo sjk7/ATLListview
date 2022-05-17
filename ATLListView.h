@@ -246,6 +246,13 @@ extern "C"{
 
 
 #pragma once
+typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("EE9CB4F0-8118-4772-8B91-B9C448DC8A04") 
+enum ListLabelEditConstants
+    {
+        lvwAutomatic	= 0,
+        lvwManual	= ( lvwAutomatic + 1 ) 
+    } 	ListLabelEditConstants;
+
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("985ECCDF-A665-489D-887B-2BF1E5C8156B") 
 enum BorderStyleConstants
     {
@@ -630,6 +637,12 @@ EXTERN_C const IID IID_IListControl;
         virtual /* [id][propget] */ HRESULT STDMETHODCALLTYPE get_SelectedItemCount( 
             /* [retval][out] */ LONG *pVal) = 0;
         
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_LabelEdit( 
+            /* [retval][out] */ ListLabelEditConstants *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_LabelEdit( 
+            /* [in] */ ListLabelEditConstants newVal) = 0;
+        
     };
     
     
@@ -841,6 +854,14 @@ EXTERN_C const IID IID_IListControl;
             IListControl * This,
             /* [retval][out] */ LONG *pVal);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_LabelEdit )( 
+            IListControl * This,
+            /* [retval][out] */ ListLabelEditConstants *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_LabelEdit )( 
+            IListControl * This,
+            /* [in] */ ListLabelEditConstants newVal);
+        
         END_INTERFACE
     } IListControlVtbl;
 
@@ -993,6 +1014,12 @@ EXTERN_C const IID IID_IListControl;
 
 #define IListControl_get_SelectedItemCount(This,pVal)	\
     ( (This)->lpVtbl -> get_SelectedItemCount(This,pVal) ) 
+
+#define IListControl_get_LabelEdit(This,pVal)	\
+    ( (This)->lpVtbl -> get_LabelEdit(This,pVal) ) 
+
+#define IListControl_put_LabelEdit(This,newVal)	\
+    ( (This)->lpVtbl -> put_LabelEdit(This,newVal) ) 
 
 #endif /* COBJMACROS */
 

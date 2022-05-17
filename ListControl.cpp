@@ -50,6 +50,7 @@ CListControl::CListControl()
     , m_scaleUnitsEnum(my::win32::pixelUnits)
     , m_bMultiSelect(FALSE)
     , m_lastSelItemIndex(-1)
+	, m_labelEdit(lvwManual)
 
 {
     // ::_CrtSetBreakAlloc(413);
@@ -294,4 +295,21 @@ STDMETHODIMP CListControl::put_VirtualMode(VARIANT_BOOL newVal) {
     this->Refresh();
 
     return S_OK;
+}
+
+STDMETHODIMP CListControl::get_LabelEdit(ListLabelEditConstants *pVal)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+
+	*pVal = m_labelEdit;
+
+	return S_OK;
+}
+
+STDMETHODIMP CListControl::put_LabelEdit(ListLabelEditConstants newVal)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+
+	m_labelEdit = newVal;
+	return S_OK;
 }

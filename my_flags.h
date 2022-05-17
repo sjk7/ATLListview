@@ -2,6 +2,13 @@
 #ifndef __MY_FLAGS_H_INCLUDED
 #define __MY_FLAGS_H_INCLUDED
 
+
+[uuid(EE9CB4F0-8118-4772-8B91-B9C448DC8A04), v1_enum]
+typedef enum ListLabelEditConstants{
+	lvwAutomatic,
+		lvwManual
+} ListLabelEditConstants;
+
 [uuid(985ECCDF-A665-489D-887B-2BF1E5C8156B), v1_enum]
 typedef enum BorderStyleConstants {
 	ccNone = 0,

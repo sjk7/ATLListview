@@ -211,8 +211,12 @@ static __inline VARIANT_BOOL BoolToVB(const BOOL b) {
     return VARIANT_FALSE;
 }
 
-template <typename T> static __inline T cpp_max(const T& a, const T& b) {
+template <typename T> static __inline const T& cpp_max(const T& a, const T& b) {
     return (a < b) ? b : a;
+}
+
+template <typename T> static __inline const T& cpp_min(const T& a, const T& b) {
+    return (b < a) ? b : a;
 }
 
 static bool inline InlineIsEqualGUID(const GUID a, const GUID b) { //-V801
@@ -782,7 +786,7 @@ static __inline BOOL lvHandleKeyPressFromPreTranslate(T* pControl, LPMSG pMsg) {
     char chars[2];
     memset(chars, 0, 2);
     int nchars = ToAscii(vkCode, 0, keystate, (WORD*)&chars, 0);
-    ASSERT(nchars >= 1);
+    ASSERT(nchars >= 0);
     if (nchars == 1) {
         short keyascii = *((short*)chars);
         const short origKey = keyascii;
@@ -828,6 +832,21 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
             }
             return lvHandleStateChange(
                 pControl, pnmhdr->hwndFrom, (LPNMLISTVIEW)pnmhdr, items);
+            break;
+        }
+
+        case LVN_BEGINLABELEDIT: {
+
+            // NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
+            break;
+        }
+
+        case LVN_ENDLABELEDIT: {
+            NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
+            if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
+                CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
+                ptr->m_listItemInfo.text = pdi->item.pszText;
+            }
             break;
         }
 

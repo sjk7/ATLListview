@@ -96,6 +96,7 @@ class ATL_NO_VTABLE CListControl
     PROP_DATA_ENTRY("Appearance", m_nAppearance, VT_I2)
     PROP_ENTRY("ForeColor", DISPID_FORECOLOR, CLSID_StockColorPage)
     PROP_ENTRY("TabStop", DISPID_TABSTOP, CLSID_NULL)
+    PROP_DATA_ENTRY("LabelEdit", m_labelEdit, VT_I4)
     // PROP_PAGE(CLSID_StockColorPage)
     END_PROP_MAP()
 
@@ -117,7 +118,7 @@ class ATL_NO_VTABLE CListControl
     // CHAIN_MSG_MAP(CComControl<CMyCtl>)
     MESSAGE_HANDLER(WM_NOTIFY, OnNotify)
     MESSAGE_HANDLER(WM_LBUTTONDBLCLK, OnDblClick);
-    // MESSAGE_HANDLER(WM_KEYUP, OnKeyUp);
+    MESSAGE_HANDLER(LVN_BEGINLABELEDIT, OnLabelEdit);
 
     ALT_MSG_MAP(1)
     // Replace this with message map entries for superclassed Edit
@@ -158,6 +159,7 @@ class ATL_NO_VTABLE CListControl
 
     typedef CComControl<CListControl> ControlBaseType;
     CContainedWindow m_lvw;
+    ListLabelEditConstants m_labelEdit;
     CContainedWindow* listview() { return &m_lvw; }
 
     HWND lvhWnd() const { return m_lvw.m_hWnd; }
@@ -239,6 +241,11 @@ class ATL_NO_VTABLE CListControl
             m_viewItemCount = newCount;
         }
         return ret;
+    }
+
+    LRESULT OnLabelEdit(UINT, WPARAM, LPARAM, BOOL&) {
+        TRACE(_T("LabelEdit\n"));
+        return 0;
     }
 
     LRESULT OnKeyUp(UINT, WPARAM wParam, LPARAM, BOOL& bHandled) {
@@ -626,9 +633,34 @@ class ATL_NO_VTABLE CListControl
             ModifyStyleEx(WS_EX_CLIENTEDGE, 0, SWP_DRAWFRAME);
         }
 
+        setLabelEdit(m_labelEdit);
+
         setScaleUnits();
 
         Refresh();
+    }
+
+    void setLabelEdit(ListLabelEditConstants newMode) {
+        LONG style = ::GetWindowLong(lvhWnd(), GWL_STYLE);
+        if (newMode == lvwAutomatic) {
+            style |= LVS_EDITLABELS;
+
+        } else {
+            style &= ~LVS_EDITLABELS;
+        }
+
+        ::SetWindowLong(lvhWnd(), GWL_STYLE, style);
+        m_labelEdit = newMode;
+        ASSERT(labelEditAPI() == newMode);
+    }
+
+    ListLabelEditConstants labelEditAPI() const {
+        LONG style = ::GetWindowLong(lvhWnd(), GWL_STYLE);
+        if ((style & LVS_EDITLABELS) == LVS_EDITLABELS) {
+            return lvwAutomatic;
+        } else {
+            return lvwManual;
+        }
     }
 
     long getItemCountAPI() const {
@@ -990,6 +1022,8 @@ class ATL_NO_VTABLE CListControl
     }
 
     public:
+    STDMETHOD(get_LabelEdit)(/*[out, retval]*/ ListLabelEditConstants* pVal);
+    STDMETHOD(put_LabelEdit)(/*[in]*/ ListLabelEditConstants newVal);
 };
 
 #endif //__LISTCONTROL_H_
