@@ -241,9 +241,9 @@ class ATL_NO_VTABLE CListControl
         return ret;
     }
 
-    LRESULT OnKeyUp(UINT, WPARAM wp, LPARAM lp, BOOL& bHandled) {
+    LRESULT OnKeyUp(UINT, WPARAM wp, LPARAM, BOOL& bHandled) {
         vbShiftConstants shift = my::win32::getVBKeyStates();
-        Fire_KeyDown((short)wp, (short)shift);
+        Fire_KeyUp((short)wp, (short)shift);
         bHandled = FALSE;
         return 0;
     }

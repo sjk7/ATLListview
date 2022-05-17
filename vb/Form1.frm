@@ -712,9 +712,17 @@ Private Sub checkItemCount()
     Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
 End Sub
 
-Private Sub lv_KeyDown(ByVal Key As Integer, ByVal Shift As Integer)
+Private Sub lv_KeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     Dim s As String
-    s = "Key pressed on Listcontrol: " & Chr$(Key)
+    s = "Key down on Listcontrol: " & Chr$(KeyCode)
+    Loginfo s
+    PrintShiftKeys Shift, s
+    
+End Sub
+
+Private Sub lv_KeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer)
+    Dim s As String
+    s = "Key up on Listcontrol: " & Chr$(KeyCode)
     Loginfo s
     PrintShiftKeys Shift, s
     

@@ -4,6 +4,32 @@ template <class T>
 class CProxy_IListControlEvents
     : public IConnectionPointImpl<T, &__uuidof(_IListControlEvents)> {
     public:
+    HRESULT Fire_KeyUp(SHORT Key, SHORT Shift) {
+        CComVariant varResult;
+        T* pT = static_cast<T*>(this);
+        int nConnectionIndex;
+        CComVariant* pvars = new CComVariant[2];
+        int nConnections = m_vec.GetSize();
+
+        for (nConnectionIndex = 0; nConnectionIndex < nConnections;
+             nConnectionIndex++) {
+            pT->Lock();
+            CComPtr<IUnknown> sp = m_vec.GetAt(nConnectionIndex);
+            pT->Unlock();
+            IDispatch* pDispatch = reinterpret_cast<IDispatch*>(sp.p);
+            if (pDispatch != NULL) {
+                VariantClear(&varResult);
+                pvars[1] = Key;
+                pvars[0] = Shift;
+                DISPPARAMS disp = {pvars, NULL, 2, 0};
+                pDispatch->Invoke(17, IID_NULL, LOCALE_USER_DEFAULT,
+                    DISPATCH_METHOD, &disp, &varResult, NULL, NULL);
+            }
+        }
+        delete[] pvars;
+        return varResult.scode;
+    }
+
     HRESULT Fire_KeyDown(SHORT Key, SHORT Shift) {
         CComVariant varResult;
         T* pT = static_cast<T*>(this);
