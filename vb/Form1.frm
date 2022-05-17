@@ -650,18 +650,26 @@ End Sub
 '                               (DoDefault As Boolean, Shift As Integer, x As Single, y As Single, ColumnHeader As ListViewAPI.ColumnHeader)
 
 
-Private Sub lv_ColumnRightClick(DoDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
 
     If ObjPtr(ColumnHeader) Then
-        Debug.Assert (DoDefault = True)
+        Debug.Assert (doDefault = True)
         Debug.Print "Right click on columnheader: " & ColumnHeader.Text & ", at index: " & ColumnHeader.Index
     
         If ColumnHeader.Index Mod 2 = 0 Then
-            DoDefault = False
+            doDefault = False
         End If
     Else
         Loginfo "Clicked on the header, but not on any column (probably no columns to show)"
     End If
+End Sub
+
+Private Sub lv_DblClick()
+    Loginfo "ListControl " & lv.Name & " double clicked."
+End Sub
+
+Private Sub lv_GotFocus()
+    Loginfo "ListControl " & lv.Name & " Got focus."
 End Sub
 
 Private Sub lv_ItemClick(ByVal Item As ATLLISTVIEWLibCtl.ListItem)
@@ -702,6 +710,10 @@ End Sub
 Private Sub checkItemCount()
     Debug.Assert lv.SelectedItemCount = lv.SelectedItems.Count
     Debug.Assert lv.SelectedItems.Count = lv.SelectedItemCount
+End Sub
+
+Private Sub lv_LostFocus()
+    Loginfo "ListControl " & lv.Name & " Lost focus."
 End Sub
 
 Private Sub lv_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
@@ -761,9 +773,9 @@ Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.I
     End If
 End Sub
 
-Private Sub m_ColumnHeaders_MouseEvent(ByVal iMsg As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, DoDefault As Boolean)
+Private Sub m_ColumnHeaders_MouseEvent(ByVal iMsg As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, doDefault As Boolean)
     Debug.Print iMsg
-    Debug.Print DoDefault
+    Debug.Print doDefault
     
 End Sub
 

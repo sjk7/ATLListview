@@ -116,6 +116,9 @@ class ATL_NO_VTABLE CListControl
     // comment out the following line to disable the message chain
     // CHAIN_MSG_MAP(CComControl<CMyCtl>)
     MESSAGE_HANDLER(WM_NOTIFY, OnNotify)
+    MESSAGE_HANDLER(WM_LBUTTONDBLCLK, OnDblClick);
+    MESSAGE_HANDLER(LVN_KEYDOWN, MyOnKeyDown);
+
     ALT_MSG_MAP(1)
     // Replace this with message map entries for superclassed Edit
     // if the focus is set to the Edit control we call OnSetFocus
@@ -132,6 +135,8 @@ class ATL_NO_VTABLE CListControl
     // MESSAGE_HANDLER(WM_CLOSE, OnLvwClose)
     // MESSAGE_HANDLER(WM_NOTIFY, OnNotifyLvw)
     MESSAGE_HANDLER(WM_DESTROY, OnLvClose)
+    MESSAGE_HANDLER(WM_LBUTTONDBLCLK, OnDblClick);
+    MESSAGE_HANDLER(LVN_KEYDOWN, MyOnKeyDown);
     END_MSG_MAP()
 
     BOOL m_bRedrawEnabled;
@@ -233,6 +238,18 @@ class ATL_NO_VTABLE CListControl
             m_viewItemCount = newCount;
         }
         return ret;
+    }
+
+    LRESULT MyOnKeyDown(UINT, WPARAM, LPARAM, BOOL& bHandled) {
+        bHandled = FALSE;
+
+        return 0;
+    }
+
+    LRESULT OnDblClick(UINT, WPARAM, LPARAM, BOOL& bHandled) {
+        bHandled = FALSE;
+        Fire_DblClick();
+        return 0;
     }
 
     LRESULT OnMouseUp(UINT, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
@@ -472,6 +489,7 @@ class ATL_NO_VTABLE CListControl
             OnSetFocus(uMsg, wParam, lParam, bHandled);
         }
         m_bMouseActivate = FALSE;
+        // Fire_GotFocus();
         return 0;
     }
 #if _MSC_VER > 1200

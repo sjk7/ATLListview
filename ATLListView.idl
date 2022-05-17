@@ -157,6 +157,9 @@ library ATLLISTVIEWLib
 		[id(12)] HRESULT MouseMove(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
 		[id(13)] HRESULT MouseDown(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
 		[id(14)] HRESULT MouseUp(SHORT button, SHORT Shift, FLOAT x, FLOAT y);
+		[id(15)] HRESULT DblClick();
+        // [id(16)] HRESULT GotFocus();
+
 		
 	};
 
