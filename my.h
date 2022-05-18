@@ -569,6 +569,25 @@ static __inline HRESULT bounds_check(const INT_T index, const COLLECTION& c) {
     return S_OK;
 }
 
+static __inline bool isListviewHeader(HWND hWnd) {
+    static const char* HEADER_CLASSNAME = "SysHeader32";
+    CString className = my::win32::getClassName(hWnd);
+    ASSERT(className == HEADER_CLASSNAME);
+    if (className == HEADER_CLASSNAME) return true;
+    return false;
+}
+
+static __inline bool isListView(HWND hWnd) {
+    static TCHAR buf[255];
+    ::GetClassName(hWnd, buf, 255);
+    const CString classname = buf;
+    if (classname != "ATL:SysListView32") {
+        assert("Not a listview window" == 0);
+        return false;
+    }
+    return true;
+}
+
 static __inline void lvHeaderHitTest(const HWND& hWndHdr, POINT& pointHdr,
     HDHITTESTINFO& hdhti, bool use_screen_coords = true) {
 
@@ -822,6 +841,12 @@ static __inline BOOL lvHandleKeyPressFromPreTranslate(T* pControl, LPMSG pMsg) {
     return FALSE;
 }
 
+static __inline int lvGetSelectedIndex(HWND myhWnd, int item_after = -1) {
+    ASSERT(isListView(myhWnd));
+    int item = ListView_GetNextItem(myhWnd, item_after, LVNI_SELECTED);
+    return item;
+}
+
 template <typename T>
 static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
     BOOL isVirtual, const idispatch_collection& items, NMHDR* pnmhdr,
@@ -845,17 +870,40 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
         }
 
         case LVN_BEGINLABELEDIT: {
-
-            // NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
+            NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
+            if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
+                CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
+                // save this so we can put it back if the user cancels
+                pControl->m_editTextOrig = ptr->m_listItemInfo.text;
+                pControl->m_editLabelIndex = ptr->m_listItemInfo.apiIndex;
+            }
             break;
         }
 
         case LVN_ENDLABELEDIT: {
+
             NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
-            if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
-                CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
-                ptr->m_listItemInfo.text = pdi->item.pszText;
+            // check sel item. If different from editLabelIndex,
+            // it's all off!
+            int selItemNow = lvGetSelectedIndex(pnmhdr->hwndFrom);
+            bool keyWasReturnKey = pControl->m_keyWasReturnKey;
+
+            if (pdi->item.iItem || selItemNow != pControl->m_editLabelIndex
+                || !keyWasReturnKey) {
+                TRACE(_T("Treating label edit as cancelled\n"));
+                if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
+                    CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
+                    ptr->m_listItemInfo.text = pControl->m_editTextOrig;
+                }
+
+            } else {
+
+                if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
+                    CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
+                    ptr->m_listItemInfo.text = pdi->item.pszText;
+                }
             }
+            pControl->myEditModeCancel(); // all done
             break;
         }
 
@@ -911,9 +959,10 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
 
             // pnmfi = (LPNMLVFINDITEM)pnmhdr;
 
-            // Call a user-defined function that finds the index according to
-            // LVFINDINFO (which is embedded in the LPNMLVFINDITEM structure).
-            // If nothing is found, then set the return value to -1.
+            // Call a user-defined function that finds the index according
+            // to LVFINDINFO (which is embedded in the LPNMLVFINDITEM
+            // structure). If nothing is found, then set the return value to
+            // -1.
 
             break;
         }
@@ -932,25 +981,6 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
     } // End Switch block.
 
     return (lrt);
-}
-
-static __inline bool isListviewHeader(HWND hWnd) {
-    static const char* HEADER_CLASSNAME = "SysHeader32";
-    CString className = my::win32::getClassName(hWnd);
-    ASSERT(className == HEADER_CLASSNAME);
-    if (className == HEADER_CLASSNAME) return true;
-    return false;
-}
-
-static __inline bool isListView(HWND hWnd) {
-    static TCHAR buf[255];
-    ::GetClassName(hWnd, buf, 255);
-    const CString classname = buf;
-    if (classname != "ATL:SysListView32") {
-        assert("Not a listview window" == 0);
-        return false;
-    }
-    return true;
 }
 
 static __inline BOOL lvHasExtendedStyle(HWND myhWnd, const DWORD styleEx) {
@@ -1045,16 +1075,6 @@ static __inline int lvInsertTextColumn(HWND hWnd, const CString& txt,
     return ret;
 }
 
-/*/
-Public Function ListView_SetSelectedItem(hWndLv As Long, i As Long,
-iSelect As Long) As Boolean Dim Flags As LVITEM_state Dim mask
-As LVITEM_state mask = LVIS_FOCUSED Or LVIS_SELECTED If iSelect
-Then Flags = LVIS_FOCUSED Or LVIS_SELECTED Else Flags = 0 End If
-
-  ListView_SetSelectedItem = ListView_SetItemState(
-  hWndLv, i, Flags, mask) End Function
-/*/
-
 static __inline int lvSetSelectedItem(HWND hWnd, long index) {
 
     DWORD data = LVIS_SELECTED;
@@ -1072,26 +1092,27 @@ struct lv_insert_info {
 };
 
 // NOTE: YOU are responsible for setting the number of items
-// (my::lvSetItemCount) because only you, as the caller, know how many items you
-// actually want to insert.
+// (my::lvSetItemCount) because only you, as the caller, know how many items
+// you actually want to insert.
 
 static __inline void check_index_performance(const lv_insert_info& info) {
     if (info.index % 1000 == 0) {
         if (info.isVirtual) {
             if (info.index >= info.viewItemCount) {
-                ASSERT(
-                    "Internal Error: When inserting into a virtual listview."
-                    "\nYou should always be inserting *inside* the view.\n"
-                    "You forgot to call lvSetItemCount to the correct value, "
-                    "and this spoils performance.\n"
+                ASSERT("Internal Error: When inserting into a virtual "
+                       "listview."
+                       "\nYou should always be inserting *inside* the view.\n"
+                       "You forgot to call lvSetItemCount to the correct "
+                       "value, "
+                       "and this spoils performance.\n"
                     == 0);
             }
 
         } else {
             if (info.viewItemCount <= 0) {
-                ASSERT(
-                    "Internal error: always send the view count when inserting "
-                    "(adding) a listitem."
+                ASSERT("Internal error: always send the view count when "
+                       "inserting "
+                       "(adding) a listitem."
                     == 0);
             }
             TRACE(_T("Added %ld items so far ...\n"), info.viewItemCount);

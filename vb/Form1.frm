@@ -27,22 +27,22 @@ Begin VB.Form Form1
    ScaleHeight     =   7065
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
+   Begin ATLLISTVIEWLibCtl.ListControl lv 
+      Height          =   1815
+      Left            =   540
+      OleObjectBlob   =   "Form1.frx":0000
+      TabIndex        =   17
+      Top             =   390
+      Width           =   4035
+   End
    Begin Project1.UserControl1 UserControl11 
-      Height          =   1665
+      Height          =   1725
       Left            =   9210
       TabIndex        =   8
       Top             =   2400
       Width           =   4035
       _ExtentX        =   7117
-      _ExtentY        =   2937
-   End
-   Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1815
-      Left            =   480
-      OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   17
-      Top             =   390
-      Width           =   4035
+      _ExtentY        =   3043
    End
    Begin VB.TextBox txt 
       Appearance      =   0  'Flat
@@ -600,6 +600,12 @@ End Sub
 
 
 
+Private Sub Command2_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Button = vbRightButton Then
+        lv.StartLabelEdit
+    End If
+End Sub
+
 Private Sub Form_Load()
     Debug.Assert lv.VirtualMode = False
     lv.VirtualMode = True
@@ -641,8 +647,8 @@ Private Sub lv_Click()
     Loginfo "ListControl Click"
 End Sub
 
-Private Sub lv_ClickEx(ByVal x As Long, ByVal y As Long)
-Loginfo "ListControl ClickEx, with x and y: " & x & "," & y
+Private Sub lv_ClickEx(ByVal X As Long, ByVal Y As Long)
+Loginfo "ListControl ClickEx, with x and y: " & X & "," & Y
 End Sub
 
 Private Sub lv_ColumnClick(ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
@@ -676,7 +682,7 @@ End Sub
 '                               (DoDefault As Boolean, Shift As Integer, x As Single, y As Single, ColumnHeader As ListViewAPI.ColumnHeader)
 
 
-Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+Private Sub lv_ColumnRightClick(doDefault As Boolean, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single, ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
 
     If ObjPtr(ColumnHeader) Then
         Debug.Assert (doDefault = True)
@@ -751,7 +757,7 @@ Private Sub lv_KeyPress(KeyAscii As Integer)
     s = "KeyPress on ListControl: " & Chr$(KeyAscii)
     Loginfo s
     PrintShiftKeys 0, s
-    KeyAscii = 0
+    ' KeyAscii = 0
 End Sub
 
 Private Sub lv_KeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer)
@@ -766,20 +772,20 @@ Private Sub lv_LostFocus()
     Loginfo "ListControl " & lv.Name & " Lost focus."
 End Sub
 
-Private Sub lv_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
-    PrintMouse Button, "MouseDown", Shift, x, y
+Private Sub lv_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PrintMouse Button, "MouseDown", Shift, X, Y
 End Sub
 
-Private Sub lv_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
-   PrintMouse Button, "MouseMove", Shift, x, y
+Private Sub lv_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+   PrintMouse Button, "MouseMove", Shift, X, Y
    
    Dim li As ATLLISTVIEWLibCtl.ListItem
    Dim liEx As ATLLISTVIEWLibCtl.ListItem
    
     Dim SubItemIndex As Long
     If Button = vbLeftButton Then
-        Set li = lv.HitTest(x, y)
-        Set liEx = lv.HitTestEx(x, y, SubItemIndex)
+        Set li = lv.HitTest(X, Y)
+        Set liEx = lv.HitTestEx(X, Y, SubItemIndex)
         If ObjPtr(li) Then
             Loginfo "HitTest: ListItem Index: " & li.Index
             Debug.Assert ObjPtr(liEx)
@@ -802,8 +808,8 @@ Private Sub PrintShiftKeys(Shift As Integer, action As String)
     End If
 End Sub
 
-Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, x As Single, y As Single)
-   Debug.Print action & ": " & x & ":" & y
+Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, X As Single, Y As Single)
+   Debug.Print action & ": " & X & ":" & Y
     PrintShiftKeys Shift, action
     'Debug.Assert action <> "MouseUp"
     If Button And vbRightButton Then
@@ -816,8 +822,8 @@ Private Sub PrintMouse(Button As Integer, action As String, Shift As Integer, x 
 End Sub
 
 
-Private Sub lv_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
-    PrintMouse Button, "MouseUp", Shift, x, y
+Private Sub lv_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PrintMouse Button, "MouseUp", Shift, X, Y
 
 End Sub
 
@@ -867,21 +873,21 @@ Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.I
 End Sub
 
 Private Sub m_ColumnHeaders_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, _
-                                        ByVal x As Single, ByVal y As Single)
-    Loginfo "ColumnHeaders_MouseDown: " & Button & ":" & Shift & ":" & x & ":" & y
+                                        ByVal X As Single, ByVal Y As Single)
+    Loginfo "ColumnHeaders_MouseDown: " & Button & ":" & Shift & ":" & X & ":" & Y
 End Sub
 
-Private Sub m_ColumnHeaders_MouseEvent(ByVal iMsg As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, doDefault As Boolean)
+Private Sub m_ColumnHeaders_MouseEvent(ByVal iMsg As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single, doDefault As Boolean)
     Debug.Print iMsg
     Debug.Print doDefault
     
 End Sub
 
-Private Sub m_ColumnHeaders_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+Private Sub m_ColumnHeaders_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     
-    Loginfo "Columnheaders mousemove " & x & ":" & y
+    Loginfo "Columnheaders mousemove " & X & ":" & Y
     Dim chdr As ColumnHeader
-    Set chdr = m_ColumnHeaders.HitTest(x, y)
+    Set chdr = m_ColumnHeaders.HitTest(X, Y)
     If ObjPtr(chdr) = 0 Then
     Else
         Loginfo "ColumnHeader hitTest: " & chdr.Index

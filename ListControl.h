@@ -115,12 +115,11 @@ class ATL_NO_VTABLE CListControl
     MESSAGE_HANDLER(WM_SETFOCUS, OnSetCtlFocus) //-V1048
     // because we disable the message chain, we should
     // put our own message handler for WM_KILLFOCUS
-    MESSAGE_HANDLER(WM_KILLFOCUS, OnKillFocus)
+    MESSAGE_HANDLER(WM_KILLFOCUS, myOnKillFocus)
     // comment out the following line to disable the message chain
     // CHAIN_MSG_MAP(CComControl<CMyCtl>)
     MESSAGE_HANDLER(WM_NOTIFY, OnNotify)
     MESSAGE_HANDLER(WM_LBUTTONDBLCLK, OnDblClick);
-    MESSAGE_HANDLER(LVN_BEGINLABELEDIT, OnLabelEdit);
 
     ALT_MSG_MAP(1)
     // Replace this with message map entries for superclassed Edit
@@ -143,6 +142,7 @@ class ATL_NO_VTABLE CListControl
 
     END_MSG_MAP()
 
+    // I checked in vc6, we never see this :-( damn differences!
     // yuk. In non vc6, you get each saved property notified like this:
     virtual void OnBackColorChanged() {
         ListView_SetBkColor(lvhWnd(), TranslateColor(m_clrBackColor));
@@ -165,6 +165,9 @@ class ATL_NO_VTABLE CListControl
     typedef AppearanceConstants AppearanceType;
     CComBSTR m_name;
     CString m_scaleUnits;
+    CString m_editTextOrig; // enables cancellation of label edit, so we can
+                            // restore the orig text
+    int m_editLabelIndex; // -1 if we are not editing anything
     my::win32::ScaleUnits m_scaleUnitsEnum;
 
     typedef CComControl<CListControl> ControlBaseType;
@@ -239,6 +242,12 @@ class ATL_NO_VTABLE CListControl
 
     HRESULT hitTest(
         FLOAT x, FLOAT y, IListItem** retVal, LONG* SubItemIndex = 0) {
+
+        if (retVal == 0) {
+            return reportError(
+                L"Unexpected null target in hitTest()", E_INVALIDARG);
+        }
+
         POINT pt = my::win32::VBToPt(x, y, m_scaleUnitsEnum);
         LVHITTESTINFO hti = my::lvHitTest(lvhWnd(), pt);
         const int index = hti.iItem;
@@ -246,6 +255,7 @@ class ATL_NO_VTABLE CListControl
             (*retVal)->Release();
             *retVal = 0;
         }
+
         if (index >= 0 && index < m_litems->m_items.isize()) {
             IDispatch* pi = m_litems->m_items[index];
             if (pi) {
@@ -294,9 +304,13 @@ class ATL_NO_VTABLE CListControl
         return ret;
     }
 
-    LRESULT OnLabelEdit(UINT, WPARAM, LPARAM, BOOL&) {
-        TRACE(_T("LabelEdit\n"));
-        return 0;
+    LRESULT myOnKillFocus(UINT msg, WPARAM wp, LPARAM lp, BOOL& bHandled) {
+        bHandled = FALSE;
+        LRESULT ret = this->OnKillFocus(msg, wp, lp, bHandled);
+        if (m_editLabelIndex >= 0) {
+            myEditModeCancel();
+        }
+        return ret;
     }
 
     LRESULT OnKeyUp(UINT, WPARAM wParam, LPARAM, BOOL& bHandled) {
@@ -574,6 +588,12 @@ class ATL_NO_VTABLE CListControl
 #pragma warning(default : 6387)
 #endif
 
+    inline void myEditModeCancel() {
+        m_editLabelIndex = -1;
+        m_editTextOrig = CString();
+        m_keyWasReturnKey = false;
+    }
+    bool m_keyWasReturnKey;
     // This is better than many claimed 'fixes' for tab issues,
     // as it works even if the control is sited in a VB Usercontrol.
     BOOL PreTranslateAccelerator(LPMSG pMsg, HRESULT& hRet) {
@@ -582,8 +602,23 @@ class ATL_NO_VTABLE CListControl
             && (pMsg->wParam == VK_LEFT || pMsg->wParam == VK_RIGHT
                 || pMsg->wParam == VK_UP || pMsg->wParam == VK_DOWN)) {
             hRet = S_OK;
+            m_keyWasReturnKey = false;
             m_lvw.SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
             return TRUE;
+        }
+
+        if (pMsg->message == WM_KEYDOWN) {
+            if (m_editLabelIndex >= 0) {
+
+                if (pMsg->wParam == VK_ESCAPE) {
+                    myEditModeCancel();
+                }
+                if (pMsg->wParam == VK_RETURN) {
+                    m_keyWasReturnKey = true;
+                } else {
+                    m_keyWasReturnKey = false;
+                }
+            }
         }
 
         my::lvHandleKeyPressFromPreTranslate(this, pMsg);
@@ -628,13 +663,14 @@ class ATL_NO_VTABLE CListControl
     // Called when a property is set on the HOST control in the client.
     // Allows us to 'inherit' changes made on the container form.
     // Note, from Steve: to get this event you need to copy n paste
-    // the code in IMPLEMENT_STOCKPROP in atlctl.h from the VB6 one, to the one
-    // we are using.
+    // the code in IMPLEMENT_STOCKPROP in atlctl.h from the VB6 one, to the
+    // one we are using.
     STDMETHOD(OnAmbientPropertyChange)(DISPID dispid);
 
     HRESULT FireOnChanged(DISPID dispID) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
-        // saved (stock) property changed either in runtime or in design mode.
+        // saved (stock) property changed either in runtime or in design
+        // mode.
         if (dispID == DISPID_APPEARANCE || dispID == DISPID_BORDERSTYLE
             || dispID == DISPID_BACKCOLOR) {
         }
@@ -775,7 +811,8 @@ class ATL_NO_VTABLE CListControl
             ASSERT(SUCCEEDED(hr));
             if (FAILED(hr)) {
                 return AtlReportError(CLSID_ListControl,
-                    L"Listview creation: unable to create internal listitems",
+                    L"Listview creation: unable to create internal "
+                    L"listitems",
                     IID_IListControl, E_OUTOFMEMORY);
             }
             m_litems->AddRef();
@@ -788,7 +825,8 @@ class ATL_NO_VTABLE CListControl
             ASSERT(SUCCEEDED(hr));
             if (FAILED(hr)) {
                 return AtlReportError(CLSID_ListControl,
-                    L"Listview creation: unable to create internal (selected) "
+                    L"Listview creation: unable to create internal "
+                    L"(selected) "
                     L"listitems",
                     IID_IListControl, E_OUTOFMEMORY);
             }
@@ -797,12 +835,14 @@ class ATL_NO_VTABLE CListControl
             ASSERT(SUCCEEDED(hr));
             if (FAILED(hr)) {
                 return AtlReportError(CLSID_ListControl,
-                    L"Listview creation: unable to create internal listitems",
+                    L"Listview creation: unable to create internal "
+                    L"listitems",
                     IID_IListControl, E_OUTOFMEMORY);
             }
 
             CListItems* items = m_litems;
-            if (!m_virtualMode) { // not in virtualMode because SetItemCount is
+            if (!m_virtualMode) { // not in virtualMode because SetItemCount
+                                  // is
                 // interpreted differently: you actually "see"
                 // the rows!
                 const BOOL b = ListView_SetItemCount(myhWnd, 50000);
@@ -845,7 +885,8 @@ class ATL_NO_VTABLE CListControl
         }
         if (!hWnd) {
             AtlReportError(CLSID_ListControl,
-                L"Could not create listview window. Out of memory or bad flags",
+                L"Could not create listview window. Out of memory or bad "
+                L"flags",
                 IID_IListControl, E_OUTOFMEMORY);
             return 0;
         }
@@ -1043,7 +1084,8 @@ class ATL_NO_VTABLE CListControl
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
         // ASSERT(m_phdrSubclass == 0);
         m_hdrWnd = hWnd;
-        // m_phdrSubclass = new my::win32::Subclasser<CListControl>(this, hWnd);
+        // m_phdrSubclass = new my::win32::Subclasser<CListControl>(this,
+        // hWnd);
         this->m_hdr->setup(this, lvhWnd(), m_scaleUnitsEnum);
     }
 
@@ -1061,7 +1103,8 @@ class ATL_NO_VTABLE CListControl
         switch (msg) {
             case HDM_LAYOUT:
                 if (m_hdr) {
-                    // LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
+                    // LPHDLAYOUT pHL =
+                    // reinterpret_cast<LPHDLAYOUT>(lParam);
                     if (m_hdr->apiSetHeight(
                             hWnd, msg, wParam, lParam, bHandled)) {
                         this->Refresh();
@@ -1083,7 +1126,8 @@ class ATL_NO_VTABLE CListControl
     STDMETHOD(get_DoubleBuffered)(/*[out, retval]*/ VARIANT_BOOL* pVal);
     STDMETHOD(put_DoubleBuffered)(/*[in]*/ VARIANT_BOOL newVal);
     STDMETHOD(StartLabelEdit)();
-    STDMETHOD(get_LabelEdit)(/*[out, retval]*/ ListLabelEditConstants* pVal);
+    STDMETHOD(get_LabelEdit)
+    (/*[out, retval]*/ ListLabelEditConstants* pVal);
     STDMETHOD(put_LabelEdit)(/*[in]*/ ListLabelEditConstants newVal);
 };
 

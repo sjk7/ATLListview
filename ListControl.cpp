@@ -39,8 +39,9 @@ CListControl::CListControl()
     , m_clrForeColor(0)
     , m_nMousePointer(0)
     , m_bTabStop(0)
-    , m_nBorderStyle(ccNone)
-    , m_nAppearance(cc3D)
+    , m_nBorderStyle(ccFixedSingle)
+    , m_nAppearance(ccFlat)
+    , m_editLabelIndex(-1)
     , m_sid("Listview Control")
     , m_bMouseActivate(FALSE)
     , m_bRedrawEnabled(TRUE)
@@ -52,6 +53,7 @@ CListControl::CListControl()
     , m_bMultiSelect(FALSE)
     , m_lastSelItemIndex(-1)
     , m_labelEdit(lvwManual)
+    , m_keyWasReturnKey(false)
 
 {
     // ::_CrtSetBreakAlloc(413);
@@ -315,7 +317,15 @@ STDMETHODIMP CListControl::put_LabelEdit(ListLabelEditConstants newVal) {
 
 STDMETHODIMP CListControl::StartLabelEdit() {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
-    // force a label edit situation:
+
+    int item = ListView_GetNextItem(lvhWnd(), -1, LVNI_SELECTED);
+    if (item < 0) item = 0;
+
+    if (item >= 0 && item < m_litems->m_items.isize()) {
+        this->SetFocus();
+        this->m_lvw.SetFocus();
+        ListView_EditLabel(lvhWnd(), item);
+    }
 
     return S_OK;
 }

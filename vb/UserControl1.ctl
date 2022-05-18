@@ -8,12 +8,12 @@ Begin VB.UserControl UserControl1
    ScaleHeight     =   3000
    ScaleWidth      =   4800
    Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   2565
+      Height          =   2715
       Left            =   150
       OleObjectBlob   =   "UserControl1.ctx":0000
-      TabIndex        =   1
-      Top             =   150
-      Width           =   4485
+      TabIndex        =   0
+      Top             =   120
+      Width           =   4425
    End
 End
 Attribute VB_Name = "UserControl1"
