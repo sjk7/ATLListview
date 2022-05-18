@@ -643,6 +643,10 @@ End Function
 
 
 
+Private Sub lv_BeforeLabelEdit(Cancel As Integer)
+    Cancel = True
+End Sub
+
 Private Sub lv_Click()
     Loginfo "ListControl Click"
 End Sub

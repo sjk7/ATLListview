@@ -847,6 +847,11 @@ static __inline int lvGetSelectedIndex(HWND myhWnd, int item_after = -1) {
     return item;
 }
 
+static __inline void lvEditLabelCancel(HWND myhWnd){
+	 ASSERT(isListView(myhWnd));
+	ListView_CancelEditLabel(myhWnd);
+}
+
 template <typename T>
 static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
     BOOL isVirtual, const idispatch_collection& items, NMHDR* pnmhdr,
@@ -870,6 +875,17 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
         }
 
         case LVN_BEGINLABELEDIT: {
+			SHORT cancel = 0;
+			pControl->Fire_BeforeLabelEdit(&cancel);
+			if (cancel != 0){
+				lvEditLabelCancel(pnmhdr->hwndFrom);
+				lrt =1;
+				bHandled = TRUE;
+				TRACE(_T("edit mode cancelled"));
+				pControl->myEditModeCancel();
+				return lrt;
+			}
+
             NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
             if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
                 CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
