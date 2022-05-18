@@ -656,6 +656,12 @@ EXTERN_C const IID IID_IListControl;
             /* [out] */ LONG *SubItemIndex,
             /* [retval][out] */ IListItem **ListItem) = 0;
         
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_DoubleBuffered( 
+            /* [retval][out] */ VARIANT_BOOL *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_DoubleBuffered( 
+            /* [in] */ VARIANT_BOOL newVal) = 0;
+        
     };
     
     
@@ -891,6 +897,14 @@ EXTERN_C const IID IID_IListControl;
             /* [out] */ LONG *SubItemIndex,
             /* [retval][out] */ IListItem **ListItem);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_DoubleBuffered )( 
+            IListControl * This,
+            /* [retval][out] */ VARIANT_BOOL *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_DoubleBuffered )( 
+            IListControl * This,
+            /* [in] */ VARIANT_BOOL newVal);
+        
         END_INTERFACE
     } IListControlVtbl;
 
@@ -1058,6 +1072,12 @@ EXTERN_C const IID IID_IListControl;
 
 #define IListControl_HitTestEx(This,x,y,SubItemIndex,ListItem)	\
     ( (This)->lpVtbl -> HitTestEx(This,x,y,SubItemIndex,ListItem) ) 
+
+#define IListControl_get_DoubleBuffered(This,pVal)	\
+    ( (This)->lpVtbl -> get_DoubleBuffered(This,pVal) ) 
+
+#define IListControl_put_DoubleBuffered(This,newVal)	\
+    ( (This)->lpVtbl -> put_DoubleBuffered(This,newVal) ) 
 
 #endif /* COBJMACROS */
 

@@ -953,6 +953,31 @@ static __inline bool isListView(HWND hWnd) {
     return true;
 }
 
+static __inline BOOL lvHasExtendedStyle(HWND myhWnd, const DWORD styleEx) {
+    ASSERT(isListView(myhWnd));
+    DWORD existingStyleEx = ListView_GetExtendedListViewStyle(myhWnd);
+    return (existingStyleEx & styleEx) == styleEx;
+}
+
+static __inline BOOL lvExtendedStyleAdd(HWND myhWnd, const DWORD newStyleEx) {
+    ASSERT(isListView(myhWnd));
+    DWORD existingStyleEx = ListView_GetExtendedListViewStyle(myhWnd);
+    existingStyleEx &= newStyleEx;
+    ListView_SetExtendedListViewStyleEx(myhWnd, newStyleEx, newStyleEx);
+    return lvHasExtendedStyle(myhWnd, newStyleEx);
+}
+
+static __inline BOOL lvExtendedStyleRemove(
+    HWND myhWnd, const DWORD newStyleEx) {
+    ASSERT(isListView(myhWnd));
+    const DWORD existingStyleEx = ListView_GetExtendedListViewStyle(myhWnd);
+    const DWORD newStyles = (existingStyleEx & ~newStyleEx);
+    ListView_SetExtendedListViewStyleEx(myhWnd, newStyleEx, newStyles);
+    BOOL ret = !lvHasExtendedStyle(myhWnd, newStyleEx);
+    ASSERT(ret);
+    return ret;
+}
+
 static __inline BOOL lvSetItemCount(HWND myhWnd, size_t how_many) {
     // ASSERT(how_many >= 20000);
     ASSERT(isListView(myhWnd));

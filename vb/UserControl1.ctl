@@ -8,12 +8,12 @@ Begin VB.UserControl UserControl1
    ScaleHeight     =   3000
    ScaleWidth      =   4800
    Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   2775
+      Height          =   2565
       Left            =   150
       OleObjectBlob   =   "UserControl1.ctx":0000
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   150
-      Width           =   4575
+      Width           =   4485
    End
 End
 Attribute VB_Name = "UserControl1"
@@ -22,6 +22,10 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
+
+Private Sub ListControl1_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.IColumnHeader)
+
+End Sub
 
 Private Sub UserControl_GotFocus()
     lv.SetFocus

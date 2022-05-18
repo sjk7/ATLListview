@@ -2,12 +2,13 @@ VERSION 5.00
 Object = "{C73B7301-0087-43FF-97F1-456B1090BF45}#1.0#0"; "ATLListView.dll"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Object = "{57FBBA6B-40B6-443A-96CF-305EBC7C3802}#184.1#0"; "listviewapi.ocx"
+Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.5#0"; "COMCTL32.OCX"
 Begin VB.Form Form1 
    Appearance      =   0  'Flat
    BackColor       =   &H80000005&
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Form1"
-   ClientHeight    =   6450
+   ClientHeight    =   7065
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   13680
@@ -23,31 +24,58 @@ Begin VB.Form Form1
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   6450
+   ScaleHeight     =   7065
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
    Begin Project1.UserControl1 UserControl11 
-      Height          =   2115
-      Left            =   9360
-      TabIndex        =   18
-      Top             =   3420
+      Height          =   1665
+      Left            =   9210
+      TabIndex        =   8
+      Top             =   2400
       Width           =   4035
       _ExtentX        =   7117
-      _ExtentY        =   3731
+      _ExtentY        =   2937
    End
    Begin ATLLISTVIEWLibCtl.ListControl lv 
       Height          =   1815
-      Left            =   570
+      Left            =   480
       OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   9
+      TabIndex        =   17
       Top             =   390
       Width           =   4035
+   End
+   Begin VB.TextBox txt 
+      Appearance      =   0  'Flat
+      Height          =   2925
+      Left            =   390
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
+      TabIndex        =   19
+      Top             =   3300
+      Width           =   8505
+   End
+   Begin ComctlLib.ListView lvMS 
+      Height          =   1965
+      Left            =   9180
+      TabIndex        =   18
+      Top             =   4290
+      Width           =   4065
+      _ExtentX        =   7170
+      _ExtentY        =   3466
+      View            =   3
+      LabelWrap       =   -1  'True
+      HideSelection   =   -1  'True
+      _Version        =   327682
+      ForeColor       =   -2147483640
+      BackColor       =   16761024
+      Appearance      =   0
+      NumItems        =   0
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Show Sel"
       Height          =   285
       Left            =   4890
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   30
       Width           =   1125
    End
@@ -55,7 +83,7 @@ Begin VB.Form Form1
       Caption         =   "Show Sel"
       Height          =   285
       Left            =   3420
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   30
       Width           =   1125
    End
@@ -63,7 +91,7 @@ Begin VB.Form Form1
       Caption         =   "Clear"
       Height          =   285
       Left            =   3210
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   2340
       Width           =   1125
    End
@@ -71,7 +99,7 @@ Begin VB.Form Form1
       Caption         =   "MultiSelect"
       Height          =   315
       Left            =   1770
-      TabIndex        =   15
+      TabIndex        =   14
       Top             =   0
       Width           =   1575
    End
@@ -79,7 +107,7 @@ Begin VB.Form Form1
       Caption         =   "Collate Sort"
       Height          =   315
       Left            =   90
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   0
       Value           =   1  'Checked
       Width           =   1575
@@ -88,14 +116,14 @@ Begin VB.Form Form1
       Caption         =   "me only"
       Height          =   285
       Left            =   330
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   2340
       Width           =   1125
    End
    Begin ListViewAPI.ListView lvapi 
       Height          =   1815
       Left            =   9180
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   390
       Width           =   4035
       _ExtentX        =   7117
@@ -105,16 +133,16 @@ Begin VB.Form Form1
       Caption         =   "Add Range"
       Height          =   375
       Left            =   2670
-      TabIndex        =   10
-      Top             =   5880
+      TabIndex        =   9
+      Top             =   6480
       Width           =   1605
    End
    Begin VB.CommandButton cmdEnum 
       Caption         =   "Enum"
       Height          =   375
       Left            =   420
-      TabIndex        =   8
-      Top             =   5880
+      TabIndex        =   7
+      Top             =   6480
       Width           =   1605
    End
    Begin VB.CommandButton Command1 
@@ -142,15 +170,6 @@ Begin VB.Form Form1
       TabIndex        =   4
       Top             =   2310
       Width           =   1875
-   End
-   Begin VB.TextBox txt 
-      Height          =   2175
-      Left            =   420
-      MultiLine       =   -1  'True
-      ScrollBars      =   3  'Both
-      TabIndex        =   7
-      Top             =   3450
-      Width           =   8415
    End
    Begin VB.CommandButton cmdAddSome 
       Caption         =   "AddSome"
@@ -235,8 +254,8 @@ Begin VB.Form Form1
    Begin VB.Line Line1 
       X1              =   480
       X2              =   22080
-      Y1              =   5790
-      Y2              =   5790
+      Y1              =   6390
+      Y2              =   6390
    End
    Begin VB.Label Label1 
       BackStyle       =   0  'Transparent
@@ -262,6 +281,9 @@ Private Const SB_BOTTOM = 7
 Private Const EM_SCROLL As Integer = &HB5
 Private WithEvents m_ColumnHeaders As ATLLISTVIEWLibCtl.ColumnHeaders
 Attribute m_ColumnHeaders.VB_VarHelpID = -1
+
+
+
 
 
 Private Sub CheckIndexes(lv As Object, litems As Variant)
@@ -497,6 +519,7 @@ Private Sub Command1_Click(Index As Integer)
     Else
         lvActions lvw
         lvActions lvapi
+        lvActions lvMS
     End If
     
     
@@ -565,6 +588,8 @@ Private Sub CmdAddSome_Click()
     Call AddLitemsEx(howMany, lvapi)
     
     Loginfo vbNullString
+    
+    Call AddLitemsEx(howMany, lvMS)
     Set lck = Nothing
 End Sub
 
@@ -572,6 +597,8 @@ Private Sub Command2_Click()
     ShowSelLvw
     ShowSelLvwApi
 End Sub
+
+
 
 Private Sub Form_Load()
     Debug.Assert lv.VirtualMode = False

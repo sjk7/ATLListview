@@ -97,6 +97,8 @@ class ATL_NO_VTABLE CListControl
     PROP_ENTRY("ForeColor", DISPID_FORECOLOR, CLSID_StockColorPage)
     PROP_ENTRY("TabStop", DISPID_TABSTOP, CLSID_NULL)
     PROP_DATA_ENTRY("LabelEdit", m_labelEdit, VT_I4)
+    PROP_DATA_ENTRY("DoubleBuffered", m_doubleBuffered, VT_I2)
+    PROP_DATA_ENTRY("VirtualMode", m_virtualMode, VT_I4)
     // PROP_PAGE(CLSID_StockColorPage)
     END_PROP_MAP()
 
@@ -141,6 +143,14 @@ class ATL_NO_VTABLE CListControl
 
     END_MSG_MAP()
 
+    // yuk. In non vc6, you get each saved property notified like this:
+    virtual void OnBackColorChanged() {
+        ListView_SetBkColor(lvhWnd(), TranslateColor(m_clrBackColor));
+        ListView_SetTextBkColor(lvhWnd(), TranslateColor(m_clrBackColor));
+        Refresh();
+    }
+
+    short m_doubleBuffered;
     BOOL m_bRedrawEnabled;
     OLE_COLOR m_clrBackColor;
     OLE_COLOR m_clrBorderColor;
@@ -234,6 +244,7 @@ class ATL_NO_VTABLE CListControl
         const int index = hti.iItem;
         if (retVal && *retVal) {
             (*retVal)->Release();
+            *retVal = 0;
         }
         if (index >= 0 && index < m_litems->m_items.isize()) {
             IDispatch* pi = m_litems->m_items[index];
@@ -247,7 +258,6 @@ class ATL_NO_VTABLE CListControl
                 return hr;
             }
         } else {
-            *retVal = 0;
             return S_FALSE;
         }
 
@@ -677,6 +687,8 @@ class ATL_NO_VTABLE CListControl
         setLabelEdit(m_labelEdit);
 
         setScaleUnits();
+        VARIANT_BOOL db = m_doubleBuffered != 0 ? VARIANT_TRUE : VARIANT_FALSE;
+        this->put_DoubleBuffered(db);
 
         Refresh();
     }
@@ -748,6 +760,11 @@ class ATL_NO_VTABLE CListControl
             SendMessage(myhWnd, LVM_SETEXTENDEDLISTVIEWSTYLE,
                 LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES,
                 LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+
+            SendMessage(myhWnd, LVM_SETEXTENDEDLISTVIEWSTYLE,
+                LVS_EX_DOUBLEBUFFER | LVS_EX_DOUBLEBUFFER,
+                LVS_EX_DOUBLEBUFFER | LVS_EX_DOUBLEBUFFER);
+
             sizeToFit();
             CComObject<CListItems> litems;
             if (m_litems) {
@@ -1063,6 +1080,8 @@ class ATL_NO_VTABLE CListControl
     }
 
     public:
+    STDMETHOD(get_DoubleBuffered)(/*[out, retval]*/ VARIANT_BOOL* pVal);
+    STDMETHOD(put_DoubleBuffered)(/*[in]*/ VARIANT_BOOL newVal);
     STDMETHOD(StartLabelEdit)();
     STDMETHOD(get_LabelEdit)(/*[out, retval]*/ ListLabelEditConstants* pVal);
     STDMETHOD(put_LabelEdit)(/*[in]*/ ListLabelEditConstants newVal);

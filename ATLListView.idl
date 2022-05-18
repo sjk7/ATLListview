@@ -131,9 +131,11 @@ library ATLLISTVIEWLib
 		[propput, id(19), helpstring("property LabelEdit")] HRESULT LabelEdit([in] ListLabelEditConstants newVal);
 		[id(20), helpstring("method StartLabelEdit")] HRESULT StartLabelEdit();
 		[id(21), helpstring("method HitTest")] HRESULT HitTest(FLOAT x, FLOAT y, [out, retval] IListItem** ListItem);
-        [id(22), helpstring("method HitTestEx") ] HRESULT HitTestEx(FLOAT x,
-            FLOAT y, [out] LONG * SubItemIndex,
-            [ out, retval ] IListItem * *ListItem);
+        [id(22), helpstring("method HitTestEx") ] 
+		HRESULT HitTestEx(FLOAT x, FLOAT y, [out] LONG * SubItemIndex, [ out, retval ] IListItem * *ListItem);
+		[propget, id(23), helpstring("property DoubleBuffered")] HRESULT DoubleBuffered([out, retval] VARIANT_BOOL *pVal);
+		[propput, id(23), helpstring("property DoubleBuffered")] HRESULT DoubleBuffered([in] VARIANT_BOOL newVal);
+
 
 
 	};
