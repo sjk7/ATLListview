@@ -313,3 +313,11 @@ STDMETHODIMP CListControl::put_LabelEdit(ListLabelEditConstants newVal)
 	m_labelEdit = newVal;
 	return S_OK;
 }
+
+STDMETHODIMP CListControl::StartLabelEdit()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+	
+
+	return S_OK;
+}

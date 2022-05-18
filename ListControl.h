@@ -227,6 +227,47 @@ class ATL_NO_VTABLE CListControl
         return IPersistStreamInitImpl<CListControl>::InitNew();
     }
 
+    HRESULT hitTest(
+        FLOAT x, FLOAT y, IListItem** retVal, LONG* SubItemIndex = 0) {
+        POINT pt = my::win32::VBToPt(x, y, m_scaleUnitsEnum);
+        LVHITTESTINFO hti = my::lvHitTest(lvhWnd(), pt);
+        const int index = hti.iItem;
+        if (retVal && *retVal) {
+            (*retVal)->Release();
+        }
+        if (index >= 0 && index < m_litems->m_items.isize()) {
+            IDispatch* pi = m_litems->m_items[index];
+            if (pi) {
+                HRESULT hr = pi->QueryInterface(IID_IListItem, (void**)retVal);
+                if (hr == S_OK) {
+                    if (SubItemIndex) {
+                        *SubItemIndex = hti.iSubItem;
+                    }
+                }
+                return hr;
+            }
+        } else {
+            *retVal = 0;
+            return S_FALSE;
+        }
+
+        return S_OK;
+    }
+
+    STDMETHOD(HitTest)(FLOAT x, FLOAT y, IListItem** retVal) {
+        return hitTest(x, y, retVal);
+    }
+
+    STDMETHOD(HitTestEx)
+    (FLOAT x, FLOAT y, LONG* SubItemIndex, IListItem** retVal) {
+        ASSERT(SubItemIndex);
+        HRESULT hr = hitTest(x, y, retVal, SubItemIndex);
+        if (hr == S_OK) {
+            *SubItemIndex = (*SubItemIndex) + 1;
+        }
+        return hr;
+    }
+
     int m_viewItemCount;
 
     inline BOOL viewItemCountSet(int newCount, BOOL ForceToExactSize = FALSE) {
@@ -1022,6 +1063,7 @@ class ATL_NO_VTABLE CListControl
     }
 
     public:
+    STDMETHOD(StartLabelEdit)();
     STDMETHOD(get_LabelEdit)(/*[out, retval]*/ ListLabelEditConstants* pVal);
     STDMETHOD(put_LabelEdit)(/*[in]*/ ListLabelEditConstants newVal);
 };

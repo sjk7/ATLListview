@@ -129,6 +129,13 @@ library ATLLISTVIEWLib
 		[propget, id(18)] HRESULT SelectedItemCount([out, retval] LONG* pVal);
 		[propget, id(19), helpstring("property LabelEdit")] HRESULT LabelEdit([out, retval] ListLabelEditConstants *pVal);
 		[propput, id(19), helpstring("property LabelEdit")] HRESULT LabelEdit([in] ListLabelEditConstants newVal);
+		[id(20), helpstring("method StartLabelEdit")] HRESULT StartLabelEdit();
+		[id(21), helpstring("method HitTest")] HRESULT HitTest(FLOAT x, FLOAT y, [out, retval] IListItem** ListItem);
+        [id(22), helpstring("method HitTestEx") ] HRESULT HitTestEx(FLOAT x,
+            FLOAT y, [out] LONG * SubItemIndex,
+            [ out, retval ] IListItem * *ListItem);
+
+
 	};
 	
 	

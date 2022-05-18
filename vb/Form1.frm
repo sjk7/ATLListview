@@ -745,6 +745,22 @@ End Sub
 
 Private Sub lv_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
    PrintMouse Button, "MouseMove", Shift, x, y
+   
+   Dim li As ATLLISTVIEWLibCtl.ListItem
+   Dim liEx As ATLLISTVIEWLibCtl.ListItem
+   
+    Dim SubItemIndex As Long
+    If Button = vbLeftButton Then
+        Set li = lv.HitTest(x, y)
+        Set liEx = lv.HitTestEx(x, y, SubItemIndex)
+        If ObjPtr(li) Then
+            Loginfo "HitTest: ListItem Index: " & li.Index
+            Debug.Assert ObjPtr(liEx)
+            Loginfo "HitTestEx: Listitem Index: " & li.Index & " subitem: " & SubItemIndex
+        Else
+            Debug.Assert liEx Is Nothing
+        End If
+    End If
 End Sub
 
 Private Sub PrintShiftKeys(Shift As Integer, action As String)
@@ -775,6 +791,7 @@ End Sub
 
 Private Sub lv_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
     PrintMouse Button, "MouseUp", Shift, x, y
+
 End Sub
 
 Private Sub lvw_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
@@ -822,6 +839,11 @@ Private Sub m_ColumnHeaders_ColumnClick(ByVal whichHeader As ATLLISTVIEWLibCtl.I
     End If
 End Sub
 
+Private Sub m_ColumnHeaders_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, _
+                                        ByVal x As Single, ByVal y As Single)
+    Loginfo "ColumnHeaders_MouseDown: " & Button & ":" & Shift & ":" & x & ":" & y
+End Sub
+
 Private Sub m_ColumnHeaders_MouseEvent(ByVal iMsg As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single, doDefault As Boolean)
     Debug.Print iMsg
     Debug.Print doDefault
@@ -830,12 +852,12 @@ End Sub
 
 Private Sub m_ColumnHeaders_MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
     
-    Debug.Print "Columnheaders mousemove " & x & ":" & y
+    Loginfo "Columnheaders mousemove " & x & ":" & y
     Dim chdr As ColumnHeader
     Set chdr = m_ColumnHeaders.HitTest(x, y)
     If ObjPtr(chdr) = 0 Then
     Else
-        Debug.Print "ColumnHeader hitTest: " & chdr.Index
+        Loginfo "ColumnHeader hitTest: " & chdr.Index
     End If
 End Sub
 

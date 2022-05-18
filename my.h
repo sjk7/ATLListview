@@ -112,8 +112,17 @@ namespace win32 {
         HWND hWnd = ::GetDesktopWindow();
         HDC hDC = ::GetDC(hWnd);
         const int logPix = ::GetDeviceCaps(hDC, direction);
+        ASSERT(logPix
+            > 0); // I have only ever seen this when programming error somewhere
+                  // else. (My case was HitTestEx, where I was adding one to the
+                  // SubItemIndex *pointer*, instead of the *value*
+        if (logPix == 0) {
+            ::ReleaseDC(hWnd, hDC);
+            return 0;
+        }
+        int ret = 1440 / logPix;
         ::ReleaseDC(hWnd, hDC);
-        return 1440 / logPix;
+        return ret;
     }
 
     static __inline POINT VBToPt(float vbx, float vby, ScaleUnits scale) {
@@ -764,8 +773,8 @@ static __inline void lvHandleClick(
     pControl->handleClick(code, myinfo);
 }
 
-template <typename T>
-static __inline void lvHandleMouse(T* pControl, NMHDR* phdr) {}
+// template <typename T>
+// static __inline void lvHandleMouse(T* pControl, NMHDR* phdr) {}
 
 template <typename T>
 static __inline BOOL lvHandleKeyPressFromPreTranslate(T* pControl, LPMSG pMsg) {
@@ -943,12 +952,22 @@ static __inline bool isListView(HWND hWnd) {
     }
     return true;
 }
+
 static __inline BOOL lvSetItemCount(HWND myhWnd, size_t how_many) {
     // ASSERT(how_many >= 20000);
     ASSERT(isListView(myhWnd));
     const BOOL b = ListView_SetItemCount(myhWnd, how_many);
     return b;
 }
+
+static __inline LVHITTESTINFO lvHitTest(HWND hWnd, POINT pt) {
+    ASSERT(isListView(hWnd));
+    LVHITTESTINFO hti = {0};
+    hti.pt = pt;
+    ListView_SubItemHitTest(hWnd, &hti);
+    return hti;
+}
+
 static __inline int lvGetColumnCount(HWND hWnd) {
     const HWND hWndHdr = reinterpret_cast<const HWND>(
         ::SendMessage(hWnd, LVM_GETHEADER, 0, 0));

@@ -4,7 +4,9 @@ template <class T>
 class CProxy_IListControlEvents
     : public IConnectionPointImpl<T, &__uuidof(_IListControlEvents)> {
     public:
-    HRESULT Fire_KeyPress(SHORT* KeyAscii) {
+    
+		
+		HRESULT Fire_KeyPress(SHORT* KeyAscii) {
         CComVariant varResult;
         T* pT = static_cast<T*>(this);
         int nConnectionIndex;

@@ -643,6 +643,19 @@ EXTERN_C const IID IID_IListControl;
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_LabelEdit( 
             /* [in] */ ListLabelEditConstants newVal) = 0;
         
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE StartLabelEdit( void) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE HitTest( 
+            FLOAT x,
+            FLOAT y,
+            /* [retval][out] */ IListItem **ListItem) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE HitTestEx( 
+            FLOAT x,
+            FLOAT y,
+            /* [out] */ LONG *SubItemIndex,
+            /* [retval][out] */ IListItem **ListItem) = 0;
+        
     };
     
     
@@ -862,6 +875,22 @@ EXTERN_C const IID IID_IListControl;
             IListControl * This,
             /* [in] */ ListLabelEditConstants newVal);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *StartLabelEdit )( 
+            IListControl * This);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *HitTest )( 
+            IListControl * This,
+            FLOAT x,
+            FLOAT y,
+            /* [retval][out] */ IListItem **ListItem);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *HitTestEx )( 
+            IListControl * This,
+            FLOAT x,
+            FLOAT y,
+            /* [out] */ LONG *SubItemIndex,
+            /* [retval][out] */ IListItem **ListItem);
+        
         END_INTERFACE
     } IListControlVtbl;
 
@@ -1020,6 +1049,15 @@ EXTERN_C const IID IID_IListControl;
 
 #define IListControl_put_LabelEdit(This,newVal)	\
     ( (This)->lpVtbl -> put_LabelEdit(This,newVal) ) 
+
+#define IListControl_StartLabelEdit(This)	\
+    ( (This)->lpVtbl -> StartLabelEdit(This) ) 
+
+#define IListControl_HitTest(This,x,y,ListItem)	\
+    ( (This)->lpVtbl -> HitTest(This,x,y,ListItem) ) 
+
+#define IListControl_HitTestEx(This,x,y,SubItemIndex,ListItem)	\
+    ( (This)->lpVtbl -> HitTestEx(This,x,y,SubItemIndex,ListItem) ) 
 
 #endif /* COBJMACROS */
 
