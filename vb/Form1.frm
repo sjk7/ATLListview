@@ -643,8 +643,16 @@ End Function
 
 
 
+Private Sub lv_AfterLabelEdit(Cancel As Boolean, NewString As String)
+    Loginfo "AfterLabedEdit(): Cancel is " & Cancel & ", NewString is: " & NewString
+    If CLng(Timer) Mod 2 = 0 Then
+        Cancel = True
+    End If
+End Sub
+
 Private Sub lv_BeforeLabelEdit(Cancel As Integer)
-    Cancel = True
+    'Cancel = True
+    Loginfo "BeforeLabelEdit: Cancel = " & Cancel
 End Sub
 
 Private Sub lv_Click()

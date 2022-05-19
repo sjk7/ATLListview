@@ -847,9 +847,9 @@ static __inline int lvGetSelectedIndex(HWND myhWnd, int item_after = -1) {
     return item;
 }
 
-static __inline void lvEditLabelCancel(HWND myhWnd){
-	 ASSERT(isListView(myhWnd));
-	ListView_CancelEditLabel(myhWnd);
+static __inline void lvEditLabelCancel(HWND myhWnd) {
+    ASSERT(isListView(myhWnd));
+    ListView_CancelEditLabel(myhWnd);
 }
 
 template <typename T>
@@ -875,22 +875,24 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
         }
 
         case LVN_BEGINLABELEDIT: {
-			SHORT cancel = 0;
-			pControl->Fire_BeforeLabelEdit(&cancel);
-			if (cancel != 0){
-				lvEditLabelCancel(pnmhdr->hwndFrom);
-				lrt =1;
-				bHandled = TRUE;
-				TRACE(_T("edit mode cancelled"));
-				pControl->myEditModeCancel();
-				return lrt;
-			}
+            SHORT cancel = 0;
+            pControl->Fire_BeforeLabelEdit(&cancel);
+            if (cancel != 0) {
+                lvEditLabelCancel(pnmhdr->hwndFrom);
+                lrt = 1;
+                bHandled = TRUE;
+                TRACE(_T("edit mode cancelled by user\n"));
+                pControl->myEditModeCancel();
+                return lrt;
+            }
 
             NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
             if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
                 CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
                 // save this so we can put it back if the user cancels
                 pControl->m_editTextOrig = ptr->m_listItemInfo.text;
+                TRACE(_T("BeginLabelEdit: editTextOrig is: %s\n"),
+                    (LPCTSTR)pControl->m_editTextOrig);
                 pControl->m_editLabelIndex = ptr->m_listItemInfo.apiIndex;
             }
             break;
@@ -914,9 +916,18 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
 
             } else {
 
-                if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
-                    CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
-                    ptr->m_listItemInfo.text = pdi->item.pszText;
+                VARIANT_BOOL VBCancel = VARIANT_FALSE;
+                CComBSTR bs(pdi->item.pszText);
+                pControl->Fire_AfterLabelEdit(&VBCancel, &bs.m_str);
+
+                if (VBCancel == VARIANT_FALSE) {
+                    if (pdi->item.iItem >= 0
+                        && pdi->item.iItem < items.isize()) {
+                        CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
+                        ptr->m_listItemInfo.text = bs;
+                    }
+                } else {
+                    TRACE(_T("Client cancelled in EndLabelEdit.\n"));
                 }
             }
             pControl->myEditModeCancel(); // all done

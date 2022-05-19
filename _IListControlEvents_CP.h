@@ -4,6 +4,40 @@ class CProxy_IListControlEvents :
 	public IConnectionPointImpl<T, &__uuidof(_IListControlEvents)>
 {
 public:
+
+	// [id(20)] HRESULT AfterLabelEdit([in,out] VARIANT_BOOL* Cancel, [in,out] BSTR* NewString);
+	HRESULT Fire_AfterLabelEdit(VARIANT_BOOL * Cancel, BSTR* NewString)
+	{
+		HRESULT hr = S_OK;
+		T * pThis = static_cast<T *>(this);
+		int cConnections = m_vec.GetSize();
+
+		for (int iConnection = 0; iConnection < cConnections; iConnection++)
+		{
+			pThis->Lock();
+			CComPtr<IUnknown> punkConnection = m_vec.GetAt(iConnection);
+			pThis->Unlock();
+
+			IDispatch * pConnection = static_cast<IDispatch *>(punkConnection.p);
+
+			if (pConnection)
+			{
+				
+				CComVariant avarParams[2];
+				avarParams[1].byref = Cancel;
+				avarParams[1.vt = VT_BOOL|VT_BYREF;
+
+				avarParams[0].byref = NewString;
+				avarParams[0].vt = VT_BSTR|VT_BYREF;
+				CComVariant varResult;
+
+				DISPPARAMS params = { avarParams, NULL, 2, 0 };
+				hr = pConnection->Invoke(20, IID_NULL, LOCALE_USER_DEFAULT, DISPATCH_METHOD, &params, &varResult, NULL, NULL);
+			}
+		}
+		return hr;
+	}
+
 	HRESULT Fire_ColumnClick(IColumnHeader * whichHeader)
 	{
 		HRESULT hr = S_OK;

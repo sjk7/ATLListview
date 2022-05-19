@@ -173,8 +173,7 @@ library ATLLISTVIEWLib
         [id(17)] HRESULT KeyUp(SHORT KeyCode, SHORT Shift);
         [id(18)] HRESULT KeyPress([in, out]SHORT* KeyAscii);
 		[id(19), helpstring("method BeforeLabelEdit")] HRESULT BeforeLabelEdit(SHORT* Cancel);
-
-		
+		[id(20)] HRESULT AfterLabelEdit([in,out] VARIANT_BOOL* Cancel, [in,out] BSTR* NewString);
 	};
 
 

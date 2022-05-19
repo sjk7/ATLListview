@@ -589,8 +589,9 @@ class ATL_NO_VTABLE CListControl
 #endif
 
     inline void myEditModeCancel() {
+        TRACE(_T("myEditModeCancel wipes m_editTextOrig\n"));
         m_editLabelIndex = -1;
-        m_editTextOrig = CString();
+        // m_editTextOrig = CString(); <-- DO NOT wipe this here, else it will not restore!
         m_keyWasReturnKey = false;
     }
     bool m_keyWasReturnKey;
