@@ -27,33 +27,6 @@ Begin VB.Form Form1
    ScaleHeight     =   7065
    ScaleWidth      =   13680
    StartUpPosition =   3  'Windows Default
-   Begin ATLLISTVIEWLibCtl.ListControl lv 
-      Height          =   1815
-      Left            =   540
-      OleObjectBlob   =   "Form1.frx":0000
-      TabIndex        =   17
-      Top             =   390
-      Width           =   4035
-   End
-   Begin Project1.UserControl1 UserControl11 
-      Height          =   1725
-      Left            =   9210
-      TabIndex        =   8
-      Top             =   2400
-      Width           =   4035
-      _ExtentX        =   7117
-      _ExtentY        =   3043
-   End
-   Begin VB.TextBox txt 
-      Appearance      =   0  'Flat
-      Height          =   2925
-      Left            =   390
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
-      TabIndex        =   19
-      Top             =   3300
-      Width           =   8505
-   End
    Begin ComctlLib.ListView lvMS 
       Height          =   1965
       Left            =   9180
@@ -68,8 +41,36 @@ Begin VB.Form Form1
       _Version        =   327682
       ForeColor       =   -2147483640
       BackColor       =   16761024
+      BorderStyle     =   1
       Appearance      =   0
       NumItems        =   0
+   End
+   Begin ATLLISTVIEWLibCtl.ListControl lv 
+      Height          =   1815
+      Left            =   540
+      OleObjectBlob   =   "Form1.frx":0000
+      TabIndex        =   17
+      Top             =   390
+      Width           =   4035
+   End
+   Begin Project1.UserControl1 UserControl11 
+      Height          =   1725
+      Left            =   9210
+      TabIndex        =   8
+      Top             =   2400
+      Width           =   4035
+      _extentx        =   7117
+      _extenty        =   3043
+   End
+   Begin VB.TextBox txt 
+      Appearance      =   0  'Flat
+      Height          =   2925
+      Left            =   390
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
+      TabIndex        =   19
+      Top             =   3300
+      Width           =   8505
    End
    Begin VB.CommandButton Command2 
       Caption         =   "Show Sel"
@@ -241,13 +242,8 @@ Begin VB.Form Form1
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      NumItems        =   2
+      NumItems        =   1
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         Text            =   "1440 wide"
-         Object.Width           =   2540
-      EndProperty
-      BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         SubItemIndex    =   1
          Object.Width           =   2540
       EndProperty
    End
@@ -281,9 +277,6 @@ Private Const SB_BOTTOM = 7
 Private Const EM_SCROLL As Integer = &HB5
 Private WithEvents m_ColumnHeaders As ATLLISTVIEWLibCtl.ColumnHeaders
 Attribute m_ColumnHeaders.VB_VarHelpID = -1
-
-
-
 
 
 Private Sub CheckIndexes(lv As Object, litems As Variant)
@@ -556,22 +549,38 @@ Private Sub AddLitemsEx(howMany As Long, lv As Object)
     End If
     Dim isListControl As Boolean
     isListControl = TypeName(lv) = "ListControl"
+    Dim ctr As Long
+    ctr = litems.Count
+    Dim colCount As Long
+    colCount = lv.ColumnHeaders.Count
+    'Debug.Assert ObjPtr(lv) <> ObjPtr(lvMS)
     
     With litems
         For i = 0 To howMany
             Set li = .Add(, , "Hello Listitem! @ " & i + 1)
             If (isListControl) Then
-                Dim cnt As Long
-                cnt = lv.ColumnHeaders.Count - 1
-                If (cnt > 1) Then
-                    Debug.Assert 0
-                End If
+                
+                Dim myCtr As Long
+                myCtr = 1
+                Do While (myCtr < colCount)
+                    Dim lsub As ATLLISTVIEWLibCtl.ListSubItem
+                    Set lsub = li.ListSubItems(myCtr)
+                    lsub.Text = "Subitem " & myCtr & ",for item:" & ctr
+                    myCtr = myCtr + 1
+                Loop
+             Else
+                myCtr = 1
+                Do While (myCtr < colCount)
+                    li.SubItems(myCtr) = "Subitem " & myCtr & ",for item:" & ctr
+                    myCtr = myCtr + 1
+                Loop
             End If
             
             If t - c.Now > 250 Then
                 t = c.Now
                 DoEvents
             End If
+            ctr = ctr + 1
         Next i
     End With
 
@@ -627,6 +636,8 @@ Private Sub Form_Load()
     Debug.Assert lv.VirtualMode = False
     lv.VirtualMode = True
     lvapi.ColumnHeaders(1).Width = 1440
+    Call lvMS.ColumnHeaders.Add(, , "Compare against me!")
+    lvapi.BorderStyle = 1
 End Sub
 
 Friend Sub Loginfo(s As String)

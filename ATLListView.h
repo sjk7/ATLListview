@@ -265,6 +265,7 @@ extern "C"{
 
 
 
+
 #pragma once
 typedef /* [v1_enum][uuid] */  DECLSPEC_UUID("EE9CB4F0-8118-4772-8B91-B9C448DC8A04") 
 enum ListLabelEditConstants
@@ -1947,6 +1948,15 @@ EXTERN_C const IID IID_IListSubItem;
     IListSubItem : public IDispatch
     {
     public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Text( 
+            /* [retval][out] */ BSTR *pVal) = 0;
+        
+        virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_Text( 
+            /* [in] */ BSTR newVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Index( 
+            /* [retval][out] */ LONG *pVal) = 0;
+        
     };
     
     
@@ -2005,6 +2015,18 @@ EXTERN_C const IID IID_IListSubItem;
             /* [annotation][out] */ 
             _Out_opt_  UINT *puArgErr);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Text )( 
+            IListSubItem * This,
+            /* [retval][out] */ BSTR *pVal);
+        
+        /* [helpstring][id][propput] */ HRESULT ( STDMETHODCALLTYPE *put_Text )( 
+            IListSubItem * This,
+            /* [in] */ BSTR newVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Index )( 
+            IListSubItem * This,
+            /* [retval][out] */ LONG *pVal);
+        
         END_INTERFACE
     } IListSubItemVtbl;
 
@@ -2041,6 +2063,15 @@ EXTERN_C const IID IID_IListSubItem;
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
 
+#define IListSubItem_get_Text(This,pVal)	\
+    ( (This)->lpVtbl -> get_Text(This,pVal) ) 
+
+#define IListSubItem_put_Text(This,newVal)	\
+    ( (This)->lpVtbl -> put_Text(This,newVal) ) 
+
+#define IListSubItem_get_Index(This,pVal)	\
+    ( (This)->lpVtbl -> get_Index(This,pVal) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -2075,6 +2106,9 @@ EXTERN_C const IID IID_IListItem;
         
         virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Index( 
             /* [retval][out] */ LONG *pVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ListSubItems( 
+            /* [retval][out] */ IListSubItems **pVal) = 0;
         
     };
     
@@ -2146,6 +2180,10 @@ EXTERN_C const IID IID_IListItem;
             IListItem * This,
             /* [retval][out] */ LONG *pVal);
         
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ListSubItems )( 
+            IListItem * This,
+            /* [retval][out] */ IListSubItems **pVal);
+        
         END_INTERFACE
     } IListItemVtbl;
 
@@ -2190,6 +2228,9 @@ EXTERN_C const IID IID_IListItem;
 
 #define IListItem_get_Index(This,pVal)	\
     ( (This)->lpVtbl -> get_Index(This,pVal) ) 
+
+#define IListItem_get_ListSubItems(This,pVal)	\
+    ( (This)->lpVtbl -> get_ListSubItems(This,pVal) ) 
 
 #endif /* COBJMACROS */
 

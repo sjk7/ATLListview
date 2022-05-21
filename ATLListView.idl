@@ -19,6 +19,7 @@ interface ColumnHeader;
 interface ISelItemCollection;
 interface ListItem;
 interface IListSubItem;
+interface IListSubItems;
 			#include "my_flags.h"
 		#include "my_disp_ids.h"
 
@@ -286,6 +287,12 @@ library ATLLISTVIEWLib
 	]
 	interface IListSubItem : IDispatch
 	{
+        [ propget, id(DISPID_VALUE), helpstring("property Text") ] HRESULT Text(
+            [ out, retval ] BSTR * pVal);
+        [ propput, id(DISPID_VALUE), helpstring("property Text") ] HRESULT
+        Text([in] BSTR newVal);
+        [ propget, id(2), helpstring("property Index") ] HRESULT Index(
+            [ out, retval ] LONG * pVal);
 
 	};
 	[
@@ -301,6 +308,9 @@ library ATLLISTVIEWLib
 		[propget, id(1), helpstring("property Text")] HRESULT Text([out, retval] BSTR *pVal);
 		[propput, id(1), helpstring("property Text")] HRESULT Text([in] BSTR newVal);
 		[propget, id(2), helpstring("property Index")] HRESULT Index([out, retval] LONG *pVal);
+
+        [ propget, id(3), helpstring("Get Subitems") ] HRESULT ListSubItems(
+            [ out, retval ] IListSubItems * *pVal);
 	};
 	[
 		object,
@@ -325,13 +335,14 @@ library ATLLISTVIEWLib
 		[propget, id(DISPID_VALUE) , helpstring("property Item")] HRESULT Item([in] LONG index, [out, retval] IListItem* *pVal);
 		[propget, id(DISPID_NEWENUM), helpstring("Method _NewEnum")] 
 		 HRESULT _NewEnum([out, retval] IUnknown ** ppUnk);
+        [id(6)] HRESULT Remove([in] LONG Index);
 		
 		//[id(5), helpstring("method AddRange")] HRESULT AddRange([in] LONG howMany, [in, optional] VARIANT* Index, [out, retval] IInterfaceCollection** out);
        
 
 
 
-		 [id(6)] HRESULT Remove([in] LONG Index);
+		 
 	};
 
 
@@ -378,10 +389,7 @@ library ATLLISTVIEWLib
 	]
 	interface IListSubItems : IDispatch
 	{
-	[
-            propget,
-            id(1), helpstring("Returns the number of members in a collection")
-        ] HRESULT Count([ out, retval ] long* pRetVal);
+		[propget,id(1), helpstring("Returns the number of members in a collection")] HRESULT Count([ out, retval ] long* pRetVal);
 		[propget, id(2), helpstring("property ItemByKey")] HRESULT ItemByKey([in]BSTR Key, [out, retval] IListItem* *pVal);
 	
 

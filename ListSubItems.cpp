@@ -18,9 +18,9 @@ HRESULT CListSubItems::mySubItemInit(
     return S_OK;
 }
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 #define FILL_SUBITEM_TEXT_AUTO
-#endif
+//#endif
 
 HRESULT CListSubItems::myResize(
     CListItem* plitem, CListControl* pControl, CColumnHeaders* pColHeaders) {
@@ -43,9 +43,9 @@ HRESULT CListSubItems::myResize(
             if (FAILED(hr)) return hr;
             hr = ptr->QueryInterface(IID_IDispatch, (void**)&p);
             if (FAILED(hr)) return hr;
-            LPSTR ptxt = 0;
+            LPTSTR ptxt = 0;
 #ifdef FILL_SUBITEM_TEXT_AUTO
-            CString cs = my::to_string(i, "ListSubItem: ");
+            CString cs = my::to_string(i, _T("ListSubItem: "));
             ptxt = cs.GetBuffer(cs.GetLength());
 #endif
             hr = ptr->SubItemInit(

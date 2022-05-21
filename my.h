@@ -41,14 +41,21 @@ class CListSubItems;
 
 namespace my {
 
-static __inline CString to_string(int what, LPSTR prefix = 0) {
+static __inline LPTSTR toString(CString& text) {
+
+    const int len = text.GetLength();
+    return text.GetBuffer(len);
+}
+
+static __inline CString to_string(int what, LPTSTR prefix = 0) {
     CString str;
 
     if (prefix) {
-        str.Format("%s %ld", prefix, what);
+        str.Format(_T("%s %ld"), prefix, what);
     } else {
-        str.Format("%ld", what);
+        str.Format(_T("%ld"), what);
     }
+
     return str;
 }
 

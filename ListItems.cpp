@@ -224,6 +224,8 @@ HRESULT CListItems::addItems(SAFEARRAY* sa) {
     return SafeArrayUnaccessData(sa);
 }
 
+
+
 STDMETHODIMP CListItems::AddRangeEx(SAFEARRAY** arItemTexts) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     addItems(*arItemTexts);

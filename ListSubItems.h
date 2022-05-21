@@ -96,9 +96,9 @@ class ATL_NO_VTABLE CListSubItems
         if (pVal && *pVal) {
             (*pVal)->Release();
         }
-        CComPtr<IDispatch> pi;
-        HRESULT hr = m_subItems->get_Item(index, &pi);
-        if (FAILED(hr)) return hr;
+        index--;
+        CComPtr<IDispatch> pi = m_subItems->subitemAt(index);
+        HRESULT hr = S_OK;
         if (pi) {
             hr = pi->QueryInterface(__uuidof(IListSubItem), (void**)pVal);
             ASSERT(SUCCEEDED(hr));

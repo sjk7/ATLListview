@@ -140,6 +140,7 @@ class ATL_NO_VTABLE
     STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
     HRESULT addItems(SAFEARRAY* sa);
 
+
     // IListItems
     public:
     STDMETHOD(AddRange)

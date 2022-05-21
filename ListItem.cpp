@@ -51,7 +51,7 @@ HRESULT CListItem::resizeSubItems(
     return hr;
 }
 
-LPSTR CListItem::getSubItemText(int isubItem) const {
+LPTSTR CListItem::getSubItemText(int isubItem) const {
     CListSubItems* plsis = m_subItems;
     ASSERT(plsis->m_pColumnHeaders
         && plsis->m_pControl); // init() was not called on the subitems.
@@ -81,6 +81,12 @@ STDMETHODIMP CListItem::put_Text(BSTR newVal) {
 
     return S_OK;
 }
+STDMETHODIMP_(HRESULT __stdcall)
+CListItem::get_ListSubItems(IListSubItems** ppVal) {
+    HRESULT hr
+        = this->m_subItems->QueryInterface(IID_IListSubItems, (void**)ppVal);
+    return hr;
+}
 void CListItem::setSelected(BOOL selected) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     m_listItemInfo.selected = selected;
@@ -98,12 +104,13 @@ void CListItem::setSelected(BOOL selected) {
     notifySelChanged(selected);
     // this->m_listItemInfo.m_pLv->selItemChanged(this);
 }
-void CListItem::setListItemInfo(const ListItemInfo& info) noexcept {
+HRESULT CListItem::setListItemInfo(const ListItemInfo& info) noexcept {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     m_listItemInfo = info;
     ASSERT(m_subItems);
     ASSERT(info.m_pLv && info.pcolHeaders);
-    m_subItems->myResize(this, info.m_pLv, info.pcolHeaders);
+    HRESULT hr = m_subItems->myResize(this, info.m_pLv, info.pcolHeaders);
+    return hr;
 }
 STDMETHODIMP CListItem::get_Index(LONG* pVal) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())

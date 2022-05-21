@@ -11,6 +11,7 @@
 #pragma comment(lib, "winmm") // timeGetTime
 #include "resource.h" // main symbols
 #include "VCUE_Copy.h"
+#include "my.h"
 
 typedef std::vector<IDispatch*> ContainerType;
 
@@ -60,6 +61,15 @@ class ATL_NO_VTABLE CInterfaceCollection
     }
 
     int isize() const { return static_cast<int>(this->m_coll.size()); }
+
+    IDispatch* subitemAt(int index) {
+        HRESULT hr = my::bounds_check(index, m_coll);
+        if (FAILED(hr)) {
+            my::atlReportError(CLSID_InterfaceCollection,
+                __uuidof(InterfaceCollection), L"No subitem at this index", hr);
+        }
+        return m_coll[index];
+    }
 
     void setVectorData(const ContainerType& v) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())

@@ -8,7 +8,7 @@
 #define __LISTITEM_H_
 
 #include "resource.h" // main symbols
-
+#include "ListItem.h"
 class CColumnHeaders;
 class CListControl;
 class CListSubItems;
@@ -67,6 +67,7 @@ class ATL_NO_VTABLE CListItem
     STDMETHOD(get_Index)(/*[out, retval]*/ LONG* pVal);
     STDMETHOD(get_Text)(/*[out, retval]*/ BSTR* pVal);
     STDMETHOD(put_Text)(/*[in]*/ BSTR newVal);
+    STDMETHOD(get_ListSubItems)(IListSubItems** ppVal);
     // std::vector<CString> m_subitems;
     CString m_sKey;
 
@@ -74,12 +75,12 @@ class ATL_NO_VTABLE CListItem
 
     HRESULT resizeSubItems(CListItem* parent, CListControl* pControl = 0,
         CColumnHeaders* pcolHeaders = 0);
-    LPSTR getSubItemText(int isubItem) const;
+    LPTSTR getSubItemText(int isubItem) const;
 
     // int addItem(const CString& txt);
     ListItemInfo m_listItemInfo;
     void setSelected(BOOL selected);
-    void setListItemInfo(const ListItemInfo& info) noexcept;
+    HRESULT setListItemInfo(const ListItemInfo& info) noexcept;
 
     int VBIndex() const noexcept { return m_listItemInfo.apiIndex + 1; }
     int apiIndex() const noexcept { return m_listItemInfo.apiIndex; }

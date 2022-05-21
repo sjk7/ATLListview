@@ -17,7 +17,7 @@ class CColumnHeaders;
 
 struct SubItemInfo_t {
     SubItemInfo_t(int api_idx, CListControl* plc, CColumnHeaders* pch,
-        CListSubItems* plis, CListItem* pli, LPSTR txt = 0, LPSTR Key = 0)
+        CListSubItems* plis, CListItem* pli, LPTSTR txt = 0, LPTSTR Key = 0)
         : apiIndex(api_idx)
         , pControl(plc)
         , pColHeaders(pch)
@@ -55,7 +55,7 @@ class ATL_NO_VTABLE CListSubItem
 
     HRESULT SubItemInit(CListSubItems* psubItems, CListItem* pItem,
         CListControl* pControl, CColumnHeaders* pColumnHeaders, int apiIndex,
-        LPSTR text = 0, LPSTR key = 0) {
+        LPTSTR text = 0, LPTSTR key = 0) {
         SubItemInfo_t inf(
             apiIndex, pControl, pColumnHeaders, psubItems, pItem, text, key);
         m_info = inf;
@@ -82,6 +82,19 @@ class ATL_NO_VTABLE CListSubItem
 
     // IListSubItem
     public:
+    STDMETHOD(get_Index)(/*[out, retval]*/ LONG* pVal) {
+        *pVal = m_info.apiIndex + 1;
+        return S_OK;
+    }
+    STDMETHOD(get_Text)(/*[out, retval]*/ BSTR* pVal) {
+        *pVal = m_info.text.AllocSysString();
+        return S_OK;
+    }
+    STDMETHOD(put_Text)(/*[in]*/ BSTR newVal) {
+        m_info.text = newVal;
+        return S_OK;
+    }
+
     public:
     BEGIN_CONNECTION_POINT_MAP(CListSubItem)
     // CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
