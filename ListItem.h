@@ -11,6 +11,7 @@
 
 class CColumnHeaders;
 class CListControl;
+class CListSubItems;
 
 struct ListItemInfo {
     ListItemInfo(const CString& txt, int APIIndex,
@@ -42,8 +43,11 @@ class ATL_NO_VTABLE CListItem
       public ISupportErrorInfo,
       public IDispatchImpl<IListItem, &IID_IListItem, &LIBID_ATLLISTVIEWLib> {
     public:
-    CListItem() {}
+    CListItem();
     virtual ~CListItem() {}
+
+    CComPtr<IListSubItems> m_IsubItems;
+    CListSubItems* m_subItems;
 
     DECLARE_REGISTRY_RESOURCEID(IDR_LISTITEM)
 
@@ -63,10 +67,14 @@ class ATL_NO_VTABLE CListItem
     STDMETHOD(get_Index)(/*[out, retval]*/ LONG* pVal);
     STDMETHOD(get_Text)(/*[out, retval]*/ BSTR* pVal);
     STDMETHOD(put_Text)(/*[in]*/ BSTR newVal);
-    std::vector<CString> m_subitems;
+    // std::vector<CString> m_subitems;
     CString m_sKey;
 
     void notifySelChanged(BOOL selected);
+
+    HRESULT resizeSubItems(CListItem* parent, CListControl* pControl = 0,
+        CColumnHeaders* pcolHeaders = 0);
+    LPSTR getSubItemText(int isubItem) const;
 
     // int addItem(const CString& txt);
     ListItemInfo m_listItemInfo;

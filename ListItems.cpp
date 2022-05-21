@@ -38,6 +38,17 @@ static inline HRESULT getVariantIndex(
     return S_OK;
 }
 
+HRESULT CListItems::resizeAllSubItems(
+    CListControl* pControl, CColumnHeaders* pcolHeaders) {
+    const int isize = pControl->m_litems->m_items.isize();
+    for (int i = 0; i < isize; ++i) {
+        CListItem* p = (CListItem*)m_items[i];
+        HRESULT hr = p->resizeSubItems(p, pControl, pcolHeaders);
+        if (FAILED(hr)) return hr;
+    }
+    return S_OK;
+}
+
 STDMETHODIMP CListItems::InterfaceSupportsErrorInfo(REFIID riid) {
     static const IID* arr[] = {&IID_IListItems};
     for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++) { //-V1008

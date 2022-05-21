@@ -321,6 +321,10 @@ SOURCE=.\ListSubItem.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ListSubItems.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\RedrawLock.cpp
 # End Source File
 # Begin Source File
@@ -371,6 +375,10 @@ SOURCE=.\ListItems.h
 # Begin Source File
 
 SOURCE=.\ListSubItem.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ListSubItems.h
 # End Source File
 # Begin Source File
 
@@ -451,6 +459,10 @@ SOURCE=.\ListItems.rgs
 # Begin Source File
 
 SOURCE=.\ListSubItem.rgs
+# End Source File
+# Begin Source File
+
+SOURCE=.\ListSubItems.rgs
 # End Source File
 # Begin Source File
 

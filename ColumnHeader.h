@@ -11,6 +11,7 @@
 #include "my.h"
 class CColumnHeaders;
 class CListControl;
+class CListSubItems;
 #define DEFAULT_WIDTH 1440
 /////////////////////////////////////////////////////////////////////////////
 // ColumnHeader
@@ -20,8 +21,8 @@ class ATL_NO_VTABLE ColumnHeader
       public ISupportErrorInfo,
       public IDispatchImpl<IColumnHeader, &IID_IColumnHeader>,
       public IConnectionPointContainerImpl<ColumnHeader>,
-		public IProvideClassInfo2Impl<&CLSID_ListControl,
-		&DIID__IListControlEvents, &LIBID_ATLLISTVIEWLib>
+      public IProvideClassInfo2Impl<&CLSID_ListControl,
+          &DIID__IListControlEvents, &LIBID_ATLLISTVIEWLib>
 
 {
     public:
@@ -65,11 +66,10 @@ class ATL_NO_VTABLE ColumnHeader
         m_hWnd = hWnd;
     }
 
-	public :
-
-	BEGIN_CONNECTION_POINT_MAP(ColumnHeader)
-	// CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
-	END_CONNECTION_POINT_MAP()
+    public:
+    BEGIN_CONNECTION_POINT_MAP(ColumnHeader)
+    // CONNECTION_POINT_ENTRY(DIID__IColumnHeaderEvents)
+    END_CONNECTION_POINT_MAP()
     CString m_name;
     int m_VBIndex;
     CColumnHeaders* m_hdrs;
@@ -120,8 +120,6 @@ class ATL_NO_VTABLE ColumnHeader
 
     inline ListColumnResizeMode resizeMode() const noexcept {
         return m_resizeMode;
-
-
     }
 
     inline void resizeModeSet(ListColumnResizeMode newMode) {

@@ -10,8 +10,20 @@
 #include "ListItem.h"
 #include "my.h"
 #include "ListControl.h"
+#include "ListSubItems.h"
 /////////////////////////////////////////////////////////////////////////////
 // CListItem
+
+CListItem::CListItem() {
+
+    CComObject<CListSubItems>* p;
+    HRESULT hr = CComObject<CListSubItems>::CreateInstance(&p);
+    ASSERT(SUCCEEDED(hr));
+    hr = p->QueryInterface(&m_IsubItems);
+
+    ASSERT(SUCCEEDED(hr));
+    m_subItems = p;
+}
 
 STDMETHODIMP CListItem::InterfaceSupportsErrorInfo(REFIID riid) {
     static const IID* arr[] = {&IID_IListItem};
@@ -30,6 +42,29 @@ void CListItem::notifySelChanged(BOOL selected) {
         m_listItemInfo.m_pLv->Fire_ItemSelectionChanged(
             this, my::BoolToVB(selected));
     }
+}
+
+HRESULT CListItem::resizeSubItems(
+    CListItem* pli, CListControl* pControl, CColumnHeaders* pcolHeaders) {
+
+    HRESULT hr = m_subItems->myResize(pli, pControl, pcolHeaders);
+    return hr;
+}
+
+LPSTR CListItem::getSubItemText(int isubItem) const {
+    CListSubItems* plsis = m_subItems;
+    ASSERT(plsis->m_pColumnHeaders
+        && plsis->m_pControl); // init() was not called on the subitems.
+    const std::vector<IDispatch*>& v = plsis->subItemCollection();
+    ASSERT(isubItem >= 0 && isubItem < (int)v.size());
+
+    CListSubItem* plsi = (CListSubItem*)v[isubItem];
+    ASSERT(plsi);
+    if (!plsi) return NULL;
+
+    CString& text = plsi->m_info.text;
+    const int len = text.GetLength();
+    return text.GetBuffer(len);
 }
 
 STDMETHODIMP CListItem::get_Text(BSTR* pVal) {
@@ -66,6 +101,9 @@ void CListItem::setSelected(BOOL selected) {
 void CListItem::setListItemInfo(const ListItemInfo& info) noexcept {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())
     m_listItemInfo = info;
+    ASSERT(m_subItems);
+    ASSERT(info.m_pLv && info.pcolHeaders);
+    m_subItems->myResize(this, info.m_pLv, info.pcolHeaders);
 }
 STDMETHODIMP CListItem::get_Index(LONG* pVal) {
     AFX_MANAGE_STATE(AfxGetStaticModuleState())

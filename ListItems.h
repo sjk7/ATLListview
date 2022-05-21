@@ -105,6 +105,7 @@ class ATL_NO_VTABLE
 
         HRESULT hr = CComObject<CInterfaceCollection>::CreateInstance(
             &m_col_interface);
+        ASSERT(SUCCEEDED(hr));
         m_col_interface->AddRef();
         ASSERT(SUCCEEDED(hr));
         m_col_interface->setVectorData(m_items.vec_data());
@@ -119,6 +120,9 @@ class ATL_NO_VTABLE
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
         return my::atlReportError(CLSID_ListItems, IID_IListItems, what, hr);
     }
+
+    HRESULT resizeAllSubItems(
+        CListControl* pControl, CColumnHeaders* pcolHeaders);
 
     CComObject<CInterfaceCollection>* m_col_interface;
 
@@ -176,12 +180,11 @@ class ATL_NO_VTABLE
     public:
     STDMETHOD(Remove)(LONG Index);
     size_t size() const { return m_items.size(); }
-public :
 
-//BEGIN_CONNECTION_POINT_MAP(CListItems)
-//	CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
-//END_CONNECTION_POINT_MAP()
-
+    public:
+    // BEGIN_CONNECTION_POINT_MAP(CListItems)
+    //	CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+    // END_CONNECTION_POINT_MAP()
 };
 
 #endif //__LISTITEMS_H_

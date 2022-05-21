@@ -48,6 +48,9 @@
     <ClCompile Include="SelItemCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ListSubItems.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ATLListView.idl">
@@ -133,6 +136,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="_IColumnHeaderEvents_CP.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListSubItems.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

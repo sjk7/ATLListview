@@ -512,6 +512,12 @@ Private Sub cmdsel_Click()
     ShowSel
 End Sub
 
+Private Sub cmdsel_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If Button = vbRightButton Then
+        lv.StartLabelEditEx 0, 1
+    End If
+End Sub
+
 Private Sub Command1_Click(Index As Integer)
     If Index = 0 Then
 
@@ -548,9 +554,20 @@ Private Sub AddLitemsEx(howMany As Long, lv As Object)
     If lv.Name = "lvapi" Then
         lv.SuspendLayout
     End If
+    Dim isListControl As Boolean
+    isListControl = TypeName(lv) = "ListControl"
+    
     With litems
         For i = 0 To howMany
             Set li = .Add(, , "Hello Listitem! @ " & i + 1)
+            If (isListControl) Then
+                Dim cnt As Long
+                cnt = lv.ColumnHeaders.Count - 1
+                If (cnt > 1) Then
+                    Debug.Assert 0
+                End If
+            End If
+            
             If t - c.Now > 250 Then
                 t = c.Now
                 DoEvents
@@ -660,7 +677,7 @@ Private Sub lv_Click()
 End Sub
 
 Private Sub lv_ClickEx(ByVal X As Long, ByVal Y As Long)
-Loginfo "ListControl ClickEx, with x and y: " & X & "," & Y
+    Loginfo "ListControl ClickEx, with x and y: " & X & "," & Y
 End Sub
 
 Private Sub lv_ColumnClick(ByVal ColumnHeader As ATLLISTVIEWLibCtl.IColumnHeader)
@@ -710,6 +727,8 @@ End Sub
 
 Private Sub lv_DblClick()
     Loginfo "ListControl " & lv.Name & " double clicked."
+
+ 
 End Sub
 
 Private Sub lv_GotFocus()
@@ -725,11 +744,14 @@ Private Sub lv_ItemClicked(ByVal Item As ATLLISTVIEWLibCtl.ListItem, ByVal Butto
 End Sub
 
 Private Sub lv_ItemClickEx(ByVal Item As ATLLISTVIEWLibCtl.ListItem, ByVal SubItemIndex As Integer)
-Loginfo "Item " & Item.Index & " clicked(Ex) " & "Subitem Index is: " & SubItemIndex
+    Loginfo "Item " & Item.Index & " clicked(Ex) " & "Subitem Index is: " & SubItemIndex
+   
 End Sub
 
 Private Sub lv_ItemClickRight(ByVal Item As ATLLISTVIEWLibCtl.ListItem, ByVal SubItemIndex As Integer)
-Loginfo "Item " & Item.Index & " RIGHT clicked(Ex) " & "Subitem Index is: " & SubItemIndex
+    Loginfo "Item " & Item.Index & " RIGHT clicked(Ex) " & "Subitem Index is: " & SubItemIndex
+        
+    lv.StartLabelEditEx Item.Index, SubItemIndex
 End Sub
 
 Private Sub lv_ItemSelectionChanged(ByVal Item As ATLLISTVIEWLibCtl.IListItem, ByVal SelState As Boolean)

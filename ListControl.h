@@ -168,6 +168,8 @@ class ATL_NO_VTABLE CListControl
     CString m_editTextOrig; // enables cancellation of label edit, so we can
                             // restore the orig text
     int m_editLabelIndex; // -1 if we are not editing anything
+    int m_editLabelSubitemIndex;
+    CEdit m_LVEdit;
     my::win32::ScaleUnits m_scaleUnitsEnum;
 
     typedef CComControl<CListControl> ControlBaseType;
@@ -192,6 +194,7 @@ class ATL_NO_VTABLE CListControl
         if (m_litems) m_litems->Release();
         if (m_selItems) m_selItems->Release();
     }
+    CListItems* getListItems() const { return m_litems; }
 
     SCROLLINFO hScrollInfo() {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
@@ -230,6 +233,8 @@ class ATL_NO_VTABLE CListControl
         m_lvw.SetWindowPos(NULL, 0, 0, rc.right - rc.left - subtract,
             rc.bottom - rc.top - subtract, SWP_NOZORDER | SWP_NOACTIVATE);
     }
+
+    int columnHeaderLeft(const int columnIndex);
 
     // called when control dropped onto a form in GUI Design Mode. Like
     // InitProperties in VB6 user control. Note: hWnds are null here :-(
@@ -591,7 +596,12 @@ class ATL_NO_VTABLE CListControl
     inline void myEditModeCancel() {
         TRACE(_T("myEditModeCancel wipes m_editTextOrig\n"));
         m_editLabelIndex = -1;
-        // m_editTextOrig = CString(); <-- DO NOT wipe this here, else it will not restore!
+        // m_editTextOrig = CString(); <-- DO NOT wipe this here, else it will
+        // not restore!
+        if (::IsWindow(m_LVEdit.m_hWnd)) {
+            m_LVEdit.UnsubclassWindow();
+            m_LVEdit.Detach();
+        }
         m_keyWasReturnKey = false;
     }
     bool m_keyWasReturnKey;
@@ -1087,7 +1097,7 @@ class ATL_NO_VTABLE CListControl
         m_hdrWnd = hWnd;
         // m_phdrSubclass = new my::win32::Subclasser<CListControl>(this,
         // hWnd);
-        this->m_hdr->setup(this, lvhWnd(), m_scaleUnitsEnum);
+        this->m_hdr->setup(this->m_litems, this, lvhWnd(), m_scaleUnitsEnum);
     }
 
     public:
@@ -1124,6 +1134,7 @@ class ATL_NO_VTABLE CListControl
     }
 
     public:
+    STDMETHOD(StartLabelEditEx)(LONG ItemIndex, LONG SubitemIndex);
     STDMETHOD(get_DoubleBuffered)(/*[out, retval]*/ VARIANT_BOOL* pVal);
     STDMETHOD(put_DoubleBuffered)(/*[in]*/ VARIANT_BOOL newVal);
     STDMETHOD(StartLabelEdit)();

@@ -10,6 +10,8 @@
 #include "ColumnHeaders.h"
 #include "ListControl.h"
 #include "my.h"
+#include "ListItems.h"
+#include "ListSubItems.h"
 /////////////////////////////////////////////////////////////////////////////
 // CColumnHeaders
 
@@ -19,7 +21,8 @@ CColumnHeaders::CColumnHeaders()
     , m_scaleUnits(my::win32::pixelUnits)
     , m_hWnd(0)
     , m_heightInPixels(-1)
-    , m_hWndLv(0) {
+    , m_hWndLv(0)
+    , m_listItems(0) {
 
     HRESULT hr
         = CComObject<CInterfaceCollection>::CreateInstance(&m_col_interface);
@@ -100,6 +103,9 @@ int CColumnHeaders::addColumn(const CString& txt, int width, VARIANT* key) {
     ptr->m_VBsubItemIndex = (short)idx; // the first column is NOT a subitem, so
                                         // gets 0 here (rem: VBIndex,right?)
 
+    ASSERT(m_listItems);
+
+    m_listItems->resizeAllSubItems(m_plv, this);
     return my::lvInsertTextColumn(m_plv->lvhWnd(), txt);
 }
 

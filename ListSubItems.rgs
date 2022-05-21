@@ -1,0 +1,26 @@
+HKCR
+{
+	ATLListView.ListSubItems.1 = s 'ListSubItems Class'
+	{
+		CLSID = s '{13C018A8-72BD-4F5B-A00A-1EDF06D3060D}'
+	}
+	ATLListView.ListSubItems = s 'ListSubItems Class'
+	{
+		CLSID = s '{13C018A8-72BD-4F5B-A00A-1EDF06D3060D}'
+		CurVer = s 'ATLListView.ListSubItems.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {13C018A8-72BD-4F5B-A00A-1EDF06D3060D} = s 'ListSubItems Class'
+		{
+			ProgID = s 'ATLListView.ListSubItems.1'
+			VersionIndependentProgID = s 'ATLListView.ListSubItems'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{C73B7301-0087-43FF-97F1-456B1090BF45}'
+		}
+	}
+}

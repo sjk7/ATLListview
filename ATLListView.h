@@ -141,6 +141,13 @@ typedef interface ISelItemCollection ISelItemCollection;
 #endif 	/* __ISelItemCollection_FWD_DEFINED__ */
 
 
+#ifndef __IListSubItems_FWD_DEFINED__
+#define __IListSubItems_FWD_DEFINED__
+typedef interface IListSubItems IListSubItems;
+
+#endif 	/* __IListSubItems_FWD_DEFINED__ */
+
+
 #ifndef __ColumnHeader_FWD_DEFINED__
 #define __ColumnHeader_FWD_DEFINED__
 
@@ -225,6 +232,18 @@ typedef struct SelItemCollection SelItemCollection;
 #endif 	/* __SelItemCollection_FWD_DEFINED__ */
 
 
+#ifndef __ListSubItems_FWD_DEFINED__
+#define __ListSubItems_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class ListSubItems ListSubItems;
+#else
+typedef struct ListSubItems ListSubItems;
+#endif /* __cplusplus */
+
+#endif 	/* __ListSubItems_FWD_DEFINED__ */
+
+
 /* header files for imported files */
 #include "oaidl.h"
 #include "ocidl.h"
@@ -236,6 +255,7 @@ extern "C"{
 
 /* interface __MIDL_itf_ATLListView_0000_0000 */
 /* [local] */ 
+
 
 
 
@@ -662,6 +682,10 @@ EXTERN_C const IID IID_IListControl;
         virtual /* [helpstring][id][propput] */ HRESULT STDMETHODCALLTYPE put_DoubleBuffered( 
             /* [in] */ VARIANT_BOOL newVal) = 0;
         
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE StartLabelEditEx( 
+            LONG ItemIndex,
+            LONG SubitemIndex) = 0;
+        
     };
     
     
@@ -905,6 +929,11 @@ EXTERN_C const IID IID_IListControl;
             IListControl * This,
             /* [in] */ VARIANT_BOOL newVal);
         
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *StartLabelEditEx )( 
+            IListControl * This,
+            LONG ItemIndex,
+            LONG SubitemIndex);
+        
         END_INTERFACE
     } IListControlVtbl;
 
@@ -1078,6 +1107,9 @@ EXTERN_C const IID IID_IListControl;
 
 #define IListControl_put_DoubleBuffered(This,newVal)	\
     ( (This)->lpVtbl -> put_DoubleBuffered(This,newVal) ) 
+
+#define IListControl_StartLabelEditEx(This,ItemIndex,SubitemIndex)	\
+    ( (This)->lpVtbl -> StartLabelEditEx(This,ItemIndex,SubitemIndex) ) 
 
 #endif /* COBJMACROS */
 
@@ -2676,6 +2708,190 @@ EXTERN_C const IID IID_ISelItemCollection;
 #endif 	/* __ISelItemCollection_INTERFACE_DEFINED__ */
 
 
+#ifndef __IListSubItems_INTERFACE_DEFINED__
+#define __IListSubItems_INTERFACE_DEFINED__
+
+/* interface IListSubItems */
+/* [unique][helpstring][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IListSubItems;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("AC523DA1-BD1D-4B54-A930-832C3A609791")
+    IListSubItems : public IDispatch
+    {
+    public:
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Count( 
+            /* [retval][out] */ long *pRetVal) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_ItemByKey( 
+            /* [in] */ BSTR Key,
+            /* [retval][out] */ IListItem **pVal) = 0;
+        
+        virtual /* [helpstring][id] */ HRESULT STDMETHODCALLTYPE Add( 
+            /* [optional][in] */ VARIANT *Index,
+            /* [optional][in] */ VARIANT *Key,
+            /* [optional][in] */ VARIANT *Text,
+            /* [optional][in] */ VARIANT *ReportIcon,
+            /* [optional][in] */ VARIANT *ToolTipText,
+            /* [retval][out] */ IListSubItem **out) = 0;
+        
+        virtual /* [helpstring][id][propget] */ HRESULT STDMETHODCALLTYPE get_Item( 
+            /* [in] */ LONG vIndex,
+            /* [retval][out] */ IListSubItem **pvItem) = 0;
+        
+        virtual /* [helpstring][id][restricted][propget] */ HRESULT STDMETHODCALLTYPE get__NewEnum( 
+            /* [retval][out] */ IUnknown **ppUnk) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IListSubItemsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IListSubItems * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IListSubItems * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IListSubItems * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            IListSubItems * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            IListSubItems * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            IListSubItems * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            IListSubItems * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Count )( 
+            IListSubItems * This,
+            /* [retval][out] */ long *pRetVal);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_ItemByKey )( 
+            IListSubItems * This,
+            /* [in] */ BSTR Key,
+            /* [retval][out] */ IListItem **pVal);
+        
+        /* [helpstring][id] */ HRESULT ( STDMETHODCALLTYPE *Add )( 
+            IListSubItems * This,
+            /* [optional][in] */ VARIANT *Index,
+            /* [optional][in] */ VARIANT *Key,
+            /* [optional][in] */ VARIANT *Text,
+            /* [optional][in] */ VARIANT *ReportIcon,
+            /* [optional][in] */ VARIANT *ToolTipText,
+            /* [retval][out] */ IListSubItem **out);
+        
+        /* [helpstring][id][propget] */ HRESULT ( STDMETHODCALLTYPE *get_Item )( 
+            IListSubItems * This,
+            /* [in] */ LONG vIndex,
+            /* [retval][out] */ IListSubItem **pvItem);
+        
+        /* [helpstring][id][restricted][propget] */ HRESULT ( STDMETHODCALLTYPE *get__NewEnum )( 
+            IListSubItems * This,
+            /* [retval][out] */ IUnknown **ppUnk);
+        
+        END_INTERFACE
+    } IListSubItemsVtbl;
+
+    interface IListSubItems
+    {
+        CONST_VTBL struct IListSubItemsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IListSubItems_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IListSubItems_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IListSubItems_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IListSubItems_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define IListSubItems_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define IListSubItems_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define IListSubItems_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#define IListSubItems_get_Count(This,pRetVal)	\
+    ( (This)->lpVtbl -> get_Count(This,pRetVal) ) 
+
+#define IListSubItems_get_ItemByKey(This,Key,pVal)	\
+    ( (This)->lpVtbl -> get_ItemByKey(This,Key,pVal) ) 
+
+#define IListSubItems_Add(This,Index,Key,Text,ReportIcon,ToolTipText,out)	\
+    ( (This)->lpVtbl -> Add(This,Index,Key,Text,ReportIcon,ToolTipText,out) ) 
+
+#define IListSubItems_get_Item(This,vIndex,pvItem)	\
+    ( (This)->lpVtbl -> get_Item(This,vIndex,pvItem) ) 
+
+#define IListSubItems_get__NewEnum(This,ppUnk)	\
+    ( (This)->lpVtbl -> get__NewEnum(This,ppUnk) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IListSubItems_INTERFACE_DEFINED__ */
+
+
 EXTERN_C const CLSID CLSID_ColumnHeader;
 
 #ifdef __cplusplus
@@ -2730,6 +2946,14 @@ EXTERN_C const CLSID CLSID_SelItemCollection;
 
 class DECLSPEC_UUID("03B45990-66CA-4EF9-BF2B-28544DFCDE25")
 SelItemCollection;
+#endif
+
+EXTERN_C const CLSID CLSID_ListSubItems;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("13C018A8-72BD-4F5B-A00A-1EDF06D3060D")
+ListSubItems;
 #endif
 #endif /* __ATLLISTVIEWLib_LIBRARY_DEFINED__ */
 

@@ -18,6 +18,7 @@ interface IListItems;
 interface ColumnHeader;
 interface ISelItemCollection;
 interface ListItem;
+interface IListSubItem;
 			#include "my_flags.h"
 		#include "my_disp_ids.h"
 
@@ -135,6 +136,7 @@ library ATLLISTVIEWLib
 		HRESULT HitTestEx(FLOAT x, FLOAT y, [out] LONG * SubItemIndex, [ out, retval ] IListItem * *ListItem);
 		[propget, id(23), helpstring("property DoubleBuffered")] HRESULT DoubleBuffered([out, retval] VARIANT_BOOL *pVal);
 		[propput, id(23), helpstring("property DoubleBuffered")] HRESULT DoubleBuffered([in] VARIANT_BOOL newVal);
+		[id(24), helpstring("method StartLabelEditEx")] HRESULT StartLabelEditEx(LONG ItemIndex, LONG SubitemIndex);
 
 
 
@@ -207,10 +209,7 @@ library ATLLISTVIEWLib
 	{
 		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] LONG *pVal);
 		[propget, id(DISPID_VALUE), helpstring("property Item")] HRESULT Item(LONG index, [out, retval] IColumnHeader* *pVal);
-		[id(3), helpstring("method Add")] HRESULT Add( [in, optional] VARIANT* Index, 
-			[in, optional] VARIANT* Key, [in, optional] VARIANT* Text,
-			[in, optional] VARIANT* Width,[in, optional] VARIANT* Alignment,
-			[in, optional] VARIANT* Icon, [out, retval] IColumnHeader** out);
+		[id(3), helpstring("method Add")] HRESULT Add( [in, optional] VARIANT* Index, [in, optional] VARIANT* Key, [in, optional] VARIANT* Text, [in, optional] VARIANT* Width,[in, optional] VARIANT* Alignment, [in, optional] VARIANT* Icon, [out, retval] IColumnHeader** out);
 		[propget, id(DISPID_NEWENUM), helpstring("property _NewEnum")] HRESULT _NewEnum([out, retval] IUnknown* *pVal);
 		[propget, id(4)] HRESULT HeightInPixels([out, retval] long* pVal);
 		[propput, id(4)] HRESULT HeightInPixels([in] long newVal);
@@ -370,6 +369,35 @@ library ATLLISTVIEWLib
 		[propget, id(DISPID_NEWENUM), helpstring("Method _NewEnum")] 
 		HRESULT _NewEnum([out, retval] IUnknown ** ppUnk);
 	};
+	[
+		object,
+		uuid(AC523DA1-BD1D-4B54-A930-832C3A609791),
+		dual,
+		helpstring("IListSubItems Interface"),
+		pointer_default(unique)
+	]
+	interface IListSubItems : IDispatch
+	{
+	[
+            propget,
+            id(1), helpstring("Returns the number of members in a collection")
+        ] HRESULT Count([ out, retval ] long* pRetVal);
+		[propget, id(2), helpstring("property ItemByKey")] HRESULT ItemByKey([in]BSTR Key, [out, retval] IListItem* *pVal);
+	
+
+
+		[id(3), helpstring("method Add")] HRESULT Add([in, optional] VARIANT* Index, [in, optional] VARIANT* Key, [in, optional] VARIANT* Text, [in, optional] VARIANT* ReportIcon,[in, optional] VARIANT* ToolTipText,  [out, retval] IListSubItem** out);
+        [
+            propget, id(DISPID_VALUE),
+            helpstring("Returns a specific member of a collection")
+        ] HRESULT
+        Item([in] LONG vIndex, [ out, retval ] IListSubItem * *pvItem);
+
+        [
+            propget, restricted, id(DISPID_NEWENUM),
+            helpstring("Method _NewEnum")
+        ] HRESULT _NewEnum([ out, retval ] IUnknown * *ppUnk);
+	};
 
 
 	[
@@ -435,5 +463,13 @@ library ATLLISTVIEWLib
 	coclass SelItemCollection
 	{
 		[default] interface ISelItemCollection;
+	};
+	[
+		uuid(13C018A8-72BD-4F5B-A00A-1EDF06D3060D),
+		helpstring("ListSubItems Class")
+	]
+	coclass ListSubItems
+	{
+		[default] interface IListSubItems;
 	};
 };

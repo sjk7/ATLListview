@@ -42,6 +42,7 @@ CListControl::CListControl()
     , m_nBorderStyle(ccFixedSingle)
     , m_nAppearance(ccFlat)
     , m_editLabelIndex(-1)
+    , m_editLabelSubitemIndex(-1)
     , m_sid("Listview Control")
     , m_bMouseActivate(FALSE)
     , m_bRedrawEnabled(TRUE)
@@ -76,6 +77,15 @@ CListControl::CListControl()
     if (m_hdr) {
         m_hdr->AddRef();
     }
+}
+
+int CListControl::columnHeaderLeft(const int columnIndex) {
+    if (columnIndex >= 0 && columnIndex < m_hdr->m_cols.isize()) {
+        ColumnHeader* pch = (ColumnHeader*)this->m_hdr->m_cols[columnIndex];
+        return pch->left_in_pixels();
+    }
+
+    return 0;
 }
 
 // called when user changes property in HOST (not us)
@@ -347,6 +357,27 @@ STDMETHODIMP CListControl::put_DoubleBuffered(VARIANT_BOOL newVal) {
         my::lvExtendedStyleAdd(lvhWnd(), LVS_EX_DOUBLEBUFFER);
     } else {
         my::lvExtendedStyleRemove(lvhWnd(), LVS_EX_DOUBLEBUFFER);
+    }
+
+    return S_OK;
+}
+
+STDMETHODIMP CListControl::StartLabelEditEx(LONG ItemIndex, LONG SubitemIndex) {
+    AFX_MANAGE_STATE(AfxGetStaticModuleState())
+
+    int item = ItemIndex - 1;
+
+    // int item = ListView_GetNextItem(lvhWnd(), -1, LVNI_SELECTED);
+    if (item < 0) item = 0;
+
+    if (item >= 0 && item < m_litems->m_items.isize()) {
+        this->SetFocus();
+        this->m_lvw.SetFocus();
+        m_editLabelIndex = item;
+        m_editLabelSubitemIndex = SubitemIndex;
+        ListView_EditLabel(lvhWnd(), item);
+    } else {
+        return DISP_E_BADINDEX;
     }
 
     return S_OK;

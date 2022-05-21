@@ -18,7 +18,9 @@
 #include <strsafe.h> // StringCchCopy
 // #include <atlstr.h> // to help intellisense: doesn't exist in VC6
 #include "ListItem.h"
+
 class CListItems;
+class CListSubItems;
 #define MAX_TXT_LEN 512
 
 #if _MSC_VER > VC6_VERSION
@@ -38,6 +40,17 @@ class CListItems;
 #endif
 
 namespace my {
+
+static __inline CString to_string(int what, LPSTR prefix = 0) {
+    CString str;
+
+    if (prefix) {
+        str.Format("%s %ld", prefix, what);
+    } else {
+        str.Format("%ld", what);
+    }
+    return str;
+}
 
 namespace win32 {
 
@@ -605,8 +618,9 @@ static __inline int lvGetItemCount(HWND hWnd) {
 
 typedef interface_collection<IDispatch> idispatch_collection;
 
-static __inline LRESULT lvHandleDispInfo(
-    WPARAM wp, LPARAM lp, const idispatch_collection& items, NMHDR* pnmhdr) {
+template <typename T>
+static __inline LRESULT lvHandleDispInfo(T*, WPARAM wp, LPARAM lp,
+    const idispatch_collection& items, NMHDR* pnmhdr) {
 
     (void)lp;
     (void)wp;
@@ -644,16 +658,18 @@ static __inline LRESULT lvHandleDispInfo(
                 // https://docs.microsoft.com/en-us/windows/win32/api/commctrl/ns-commctrl-lvitema
                 // NOTE: iSubItem is ONE-BASED!! If its zero: if this structure
                 // refers to an item rather than a subitem. (MSDN)
-            case 1:
-                // we don't need to copy the text here as listitems should
-                // outlive the display. FIXME VC6
-                plvdi->item.pszText = item->m_listItemInfo.toString();
-
-                break;
-
-            default:
+            case 0: {
                 plvdi->item.pszText = item->m_listItemInfo.toString();
                 break;
+            }
+
+            default: {
+                ASSERT(plvdi->item.iSubItem > 0); // supposed to be ONE based
+                plvdi->item.pszText
+                    = item->getSubItemText(plvdi->item.iSubItem - 1);
+
+                break;
+            }
         }
     }
 
@@ -852,16 +868,108 @@ static __inline void lvEditLabelCancel(HWND myhWnd) {
     ListView_CancelEditLabel(myhWnd);
 }
 
+static inline BOOL setupEdit(
+    NMLVDISPINFO* pdi, NMHDR* pnmhdr, int& m_nEdit, CEdit& m_LVEdit) {
+
+    CPoint posMouse;
+    NMLVDISPINFO* pDispInfo = pdi;
+    GetCursorPos(&posMouse);
+
+    ::ScreenToClient(pnmhdr->hwndFrom, &posMouse);
+
+    LV_COLUMN lvc;
+
+    lvc.mask = LVCF_WIDTH;
+
+    CRect rcItem;
+
+    ListView_GetItemRect(
+        pnmhdr->hwndFrom, pDispInfo->item.iItem, rcItem, LVIR_LABEL);
+
+    if (rcItem.PtInRect(posMouse)) m_nEdit = 0;
+
+    int nCol = 1;
+
+    while (m_nEdit == -1 && ListView_GetColumn(pnmhdr->hwndFrom, nCol, &lvc)) {
+        rcItem.left = rcItem.right;
+        rcItem.right += lvc.cx;
+        if (rcItem.PtInRect(posMouse)) {
+            m_nEdit = nCol;
+            break;
+        }
+        nCol++;
+    }
+
+    if (m_nEdit == -1) return FALSE;
+    HWND hWnd = (HWND)::SendMessage(pnmhdr->hwndFrom, LVM_GETEDITCONTROL, 0, 0);
+    ASSERT(hWnd != NULL);
+    VERIFY(m_LVEdit.SubclassWindow(hWnd));
+    RECT rc = {0, 0, 0, 0};
+
+    // ListView_GetSubItemRect(pnmhdr->hwndFrom, pDispInfo->item.iItem,
+    //     pDispInfo->item.iItem.iSubitem LVIR_LABEL, &rc);
+    ListView_GetSubItemRect(
+        pnmhdr->hwndFrom, pdi->item.iItem, pdi->item.iSubItem, LVIR_LABEL, &rc);
+    HWND parent = ::GetParent(pnmhdr->hwndFrom);
+    MapWindowPoints(
+        pnmhdr->hwndFrom, parent, (LPPOINT)&rc, (sizeof(RECT) / sizeof(POINT)));
+    HWND hwndEdit = m_LVEdit.m_hWnd;
+    ::SetWindowPos(hwndEdit, HWND_TOP, rc.left, rc.top, rc.right - rc.left,
+        rc.bottom - rc.top, SWP_SHOWWINDOW);
+    m_LVEdit.SetWindowText(_T("test"));
+
+    return nCol != -1;
+}
+
+template <typename T>
+static inline void labelEditSetPos(T* pControl, HWND hWndLV, CEdit& edit) {
+    RECT rc = {0, 0, 0, 0};
+    ASSERT(isListView(hWndLV));
+    // ListView_GetSubItemRect(pnmhdr->hwndFrom, pDispInfo->item.iItem,
+    //     pDispInfo->item.iItem.iSubitem LVIR_LABEL, &rc);
+    BOOL b = ListView_GetSubItemRect(hWndLV, pControl->m_editLabelIndex,
+        pControl->m_editLabelSubitemIndex, LVIR_LABEL,
+        &rc); // ONE-BASED subitem index, according to MSDN?? Yep, send it zero
+              // and explode!
+    ASSERT(b);
+    // int mapped = MapWindowPoints(
+    //     edit.m_hWnd, hWndLV, (LPPOINT)&rc, (sizeof(RECT) / sizeof(POINT)));
+    TRACE(_T ("subItemRect: %ld:%ld:%ld:%ld\n"), rc.left, rc.right, rc.top,
+        rc.bottom);
+    POINT pt = {rc.left, rc.top};
+    // ::ClientToScreen(hWndLV, &pt);
+    TRACE(_T ("subItemPoint after CTS: %ld:%ld\n"), pt.x, pt.y);
+    RECT editRect;
+    edit.GetWindowRect(
+        &editRect); // 300, 337, 340, 352 in column 1 (col index 0)
+
+    HWND hwndEdit = edit.m_hWnd;
+    TRACE(_T ("EditRect: %ld:%ld\n"), editRect.left, editRect.top);
+    TRACE(
+        _T("Setting edit pos to x:%ld, y:%ld\n"), editRect.left, editRect.top);
+    b = ::SetWindowPos(
+        hwndEdit, HWND_TOP, pt.x, pt.y, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+    ASSERT(b);
+}
+
 template <typename T>
 static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
     BOOL isVirtual, const idispatch_collection& items, NMHDR* pnmhdr,
     BOOL& bHandled) {
 
+    CEdit& edit = pControl->m_LVEdit;
     LRESULT lrt = 0;
+    if (pControl->m_editLabelIndex >= 0) {
+        TRACE(_T("In edit mode\n"));
+        if (::IsWindow(edit.m_hWnd) && pControl->m_editLabelSubitemIndex >= 0) {
+            labelEditSetPos(pControl, pnmhdr->hwndFrom, pControl->m_LVEdit);
+        }
+    }
     bHandled = FALSE;
     switch (pnmhdr->code) {
         case LVN_GETDISPINFO: {
-            if (isVirtual) return lvHandleDispInfo(wp, lp, items, pnmhdr);
+            if (isVirtual)
+                return lvHandleDispInfo(pControl, wp, lp, items, pnmhdr);
             break;
         }
 
@@ -876,6 +984,7 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
 
         case LVN_BEGINLABELEDIT: {
             SHORT cancel = 0;
+            NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
             pControl->Fire_BeforeLabelEdit(&cancel);
             if (cancel != 0) {
                 lvEditLabelCancel(pnmhdr->hwndFrom);
@@ -885,8 +994,11 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
                 pControl->myEditModeCancel();
                 return lrt;
             }
+            // T* pControl, LPARAM* lp, NMLVDISPINFO* pdi, NMHDR* pnmhdr, int&
+            // m_nEdit, CEdit& m_LVEdit
+            int subindex = -1;
+            setupEdit(pdi, pnmhdr, subindex, pControl->m_LVEdit);
 
-            NMLVDISPINFO* pdi = (NMLVDISPINFO*)lp;
             if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
                 CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
                 // save this so we can put it back if the user cancels
@@ -930,7 +1042,8 @@ static __inline LRESULT lvHandleNotify(WPARAM wp, LPARAM lp, T* pControl,
                     TRACE(_T("Client cancelled in EndLabelEdit.\n"));
                 }
             }
-            pControl->myEditModeCancel(); // all done
+            pControl->myEditModeCancel(); // all done, clear cached data
+
             break;
         }
 

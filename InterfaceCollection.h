@@ -55,9 +55,11 @@ class ATL_NO_VTABLE CInterfaceCollection
 
         typedef ContainerType::iterator it_t;
         for (it_t it = v.begin(); it < v.end(); ++it) {
-            (*it)->Release();
+            if (*it) (*it)->Release();
         }
     }
+
+    int isize() const { return static_cast<int>(this->m_coll.size()); }
 
     void setVectorData(const ContainerType& v) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
@@ -68,14 +70,14 @@ class ATL_NO_VTABLE CInterfaceCollection
         m_coll = ContainerType(v);
         typedef ContainerType::iterator it_t;
         for (it_t it = m_coll.begin(); it < m_coll.end(); ++it) {
-            (*it)->AddRef();
+            if (*it) (*it)->AddRef();
         }
     }
 
     int addItem(IDispatch* p) {
         AFX_MANAGE_STATE(AfxGetStaticModuleState())
         m_coll.push_back(p);
-        p->AddRef();
+        if (p) p->AddRef();
         return static_cast<int>(m_coll.size()) - 1;
     }
 

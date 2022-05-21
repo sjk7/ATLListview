@@ -16,6 +16,7 @@
 //#include "_IColumnHeaderEvents_CP.H"
 #include "ATLListViewCP.h"
 
+class CListItems;
 class CListControl;
 struct columnheaders : my::com_vector<IDispatch*> {};
 
@@ -71,9 +72,11 @@ class ATL_NO_VTABLE CColumnHeaders
     }
 
     HWND m_hWndLv;
+    CListItems* m_listItems;
 
-    void setup(
-        CListControl* p, const HWND lvw, const my::win32::ScaleUnits scale) {
+    void setup(CListItems* listItems, CListControl* p, const HWND lvw,
+        const my::win32::ScaleUnits scale) {
+        m_listItems = listItems;
         this->m_scaleUnits = scale;
         if (m_hWnd) {
             CMyContainer::m_hdr.Detach();

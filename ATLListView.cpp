@@ -29,6 +29,7 @@
 #include "RedrawLock.h"
 #include "Stopwatch.h"
 #include "SelItemCollection.h"
+#include "ListSubItems.h"
 
 CComModule _Module;
 
@@ -45,6 +46,7 @@ OBJECT_ENTRY(CLSID_InterfaceCollection, CInterfaceCollection)
 OBJECT_ENTRY(CLSID_RedrawLock, CRedrawLock)
 
 OBJECT_ENTRY(CLSID_SelItemCollection, CSelItemCollection)
+OBJECT_ENTRY(CLSID_ListSubItems, CListSubItems)
 END_OBJECT_MAP()
 
 class CATLListViewApp : public CWinApp {

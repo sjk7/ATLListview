@@ -1,0 +1,30 @@
+  if (pControl->m_editLabelSubitemIndex >= 0) {
+                ASSERT(pdi->item.iItem == pControl->m_editLabelIndex);
+                CEdit& edit = pControl->m_LVEdit;
+                if (pdi->item.iItem >= 0 && pdi->item.iItem < items.isize()) {
+                    CListItem* ptr = (CListItem*)items.at(pdi->item.iItem);
+                    if (pControl->m_editLabelSubitemIndex >= 0) {
+                        HWND hWnd = (HWND)::SendMessage(
+                            pnmhdr->hwndFrom, LVM_GETEDITCONTROL, 0, 0);
+                        ASSERT(hWnd != NULL);
+                        BOOL sc = pControl->m_LVEdit.SubclassWindow(hWnd);
+                        ASSERT(sc);
+                        int left = pControl->columnHeaderLeft(
+                            pControl->m_editLabelSubitemIndex);
+                        CRect rcItem;
+                        ListView_GetItemRect(pnmhdr->hwndFrom, pdi->item.iItem,
+                            rcItem, LVIR_LABEL);
+                        WINDOWPLACEMENT wp1;
+                        edit.GetWindowPlacement(&wp1);
+                        edit.SetWindowPos(0, left, rcItem.right - rcItem.left,
+                            0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+
+                        WINDOWPLACEMENT wp2;
+                        edit.GetWindowPlacement(&wp2);
+
+                        edit.SetWindowText(_T("wanka"));
+                        lrt = 1;
+
+                    }
+                }
+            }

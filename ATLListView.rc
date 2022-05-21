@@ -137,6 +137,7 @@ IDR_REDRAWLOCKER        REGISTRY DISCARDABLE    "RedrawLocker.rgs"
 IDR_REDRAWLOCK          REGISTRY DISCARDABLE    "RedrawLock.rgs"
 IDR_STOPWATCH           REGISTRY DISCARDABLE    "Stopwatch.rgs"
 IDR_SELITEMCOLLECTION   REGISTRY DISCARDABLE    "SelItemCollection.rgs"
+IDR_LISTSUBITEMS        REGISTRY DISCARDABLE    "ListSubItems.rgs"
 #endif    // English (U.K.) resources
 /////////////////////////////////////////////////////////////////////////////
 

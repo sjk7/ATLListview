@@ -9,45 +9,83 @@
 #ifndef __LISTSUBITEM_H_
 #define __LISTSUBITEM_H_
 
-#include "resource.h"       // main symbols
-#include "ATLListViewCP.h"
+//#include "resource.h" // main symbols
+//#include "ATLListViewCP.h"
+#include "ListSubItems.h"
+class CListControl;
+class CColumnHeaders;
 
+struct SubItemInfo_t {
+    SubItemInfo_t(int api_idx, CListControl* plc, CColumnHeaders* pch,
+        CListSubItems* plis, CListItem* pli, LPSTR txt = 0, LPSTR Key = 0)
+        : apiIndex(api_idx)
+        , pControl(plc)
+        , pColHeaders(pch)
+        , pListSubItems(plis)
+        , pListItem(pli)
+        , text(txt)
+        , key(Key) {}
+
+    SubItemInfo_t()
+        : apiIndex(-1)
+        , pControl(0)
+        , pColHeaders(0)
+        , pListSubItems(0)
+        , pListItem(0) {}
+    int apiIndex;
+    CListControl* pControl;
+    CColumnHeaders* pColHeaders;
+    CListSubItems* pListSubItems;
+    CListItem* pListItem;
+    CString text;
+    CString key;
+};
 /////////////////////////////////////////////////////////////////////////////
 // CListSubItem
-class ATL_NO_VTABLE CListSubItem : 
-	public CComObjectRootEx<CComSingleThreadModel>,
-	public CComCoClass<CListSubItem, &CLSID_ListSubItem>,
-	public ISupportErrorInfo,
-	public IDispatchImpl<IListSubItem, &IID_IListSubItem, &LIBID_ATLLISTVIEWLib>,
-	public IConnectionPointContainerImpl<CListSubItem>
-{
-public:
-	CListSubItem()
-	{
-	}
+class ATL_NO_VTABLE CListSubItem
+    : public CComObjectRootEx<CComSingleThreadModel>,
+      public CComCoClass<CListSubItem, &CLSID_ListSubItem>,
+      public ISupportErrorInfo,
+      public IDispatchImpl<IListSubItem, &IID_IListSubItem,
+          &LIBID_ATLLISTVIEWLib>,
+      public IConnectionPointContainerImpl<CListSubItem> {
+    public:
+    CListSubItem(){};
+    SubItemInfo_t m_info;
 
-DECLARE_REGISTRY_RESOURCEID(IDR_LISTSUBITEM)
+    HRESULT SubItemInit(CListSubItems* psubItems, CListItem* pItem,
+        CListControl* pControl, CColumnHeaders* pColumnHeaders, int apiIndex,
+        LPSTR text = 0, LPSTR key = 0) {
+        SubItemInfo_t inf(
+            apiIndex, pControl, pColumnHeaders, psubItems, pItem, text, key);
+        m_info = inf;
+        return mySubItemInit(m_info);
+    }
 
-DECLARE_PROTECT_FINAL_CONSTRUCT()
+    private:
+    HRESULT mySubItemInit(const SubItemInfo_t& inf);
 
-BEGIN_COM_MAP(CListSubItem)
-	COM_INTERFACE_ENTRY(IListSubItem)
-	COM_INTERFACE_ENTRY(IDispatch)
-	COM_INTERFACE_ENTRY(ISupportErrorInfo)
-	COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
-END_COM_MAP()
+    public:
+    DECLARE_REGISTRY_RESOURCEID(IDR_LISTSUBITEM)
 
-// ISupportsErrorInfo
-	STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
+    DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-// IListSubItem
-public:
-public :
+    BEGIN_COM_MAP(CListSubItem)
+    COM_INTERFACE_ENTRY(IListSubItem)
+    COM_INTERFACE_ENTRY(IDispatch)
+    COM_INTERFACE_ENTRY(ISupportErrorInfo)
+    COM_INTERFACE_ENTRY_IMPL(IConnectionPointContainer)
+    END_COM_MAP()
 
-BEGIN_CONNECTION_POINT_MAP(CListSubItem)
-	//CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
-END_CONNECTION_POINT_MAP()
+    // ISupportsErrorInfo
+    STDMETHOD(InterfaceSupportsErrorInfo)(REFIID riid);
 
+    // IListSubItem
+    public:
+    public:
+    BEGIN_CONNECTION_POINT_MAP(CListSubItem)
+    // CONNECTION_POINT_ENTRY(DIID__IListControlEvents)
+    END_CONNECTION_POINT_MAP()
 };
 
 #endif //__LISTSUBITEM_H_
